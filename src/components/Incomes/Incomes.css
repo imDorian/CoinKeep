@@ -1,0 +1,7 @@
+.subtitle{
+    width: 100vw;
+    && span{
+        font-size: small;
+        font-weight: 500;
+    }
+}

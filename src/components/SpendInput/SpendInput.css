@@ -1,0 +1,69 @@
+.spend-input__form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    && h3{
+        margin: 0;
+        margin-top: 20px;
+    }
+}
+.spend-input__container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+.spend-input__container2{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    & .pay-method__container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+}
+.spend-input{
+    border: none;
+    border-radius: 3px;
+    border-bottom: 1px solid whitesmoke;
+    background-color: #242424;
+    height: 50px;
+    font-size: 40px;
+    width: 100px;
+    text-align: center;
+    &:focus{
+        outline: 2px solid;
+    }
+}
+.spend-input__btn{
+   display: grid;
+   place-content: center;
+   && button {
+    text-align: center;
+    color: rgb(255, 107, 107);
+   }
+}
+.input-currency__container{
+    & .currency{
+        font-size: 40px;
+    }
+}
+
+.spend-input__inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    && input{
+        border-radius: 6px;
+        border: none;
+        height: 30px;
+    }
+}
+
+.method-selected{
+    background-color: aquamarine;
+}

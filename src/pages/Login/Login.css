@@ -1,0 +1,30 @@
+.login-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    gap: 30px;
+    & h1{
+        color: aquamarine;
+        text-align: center;
+    }
+    & span{
+        text-align: center;
+    }
+}
+
+.login-another{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    & div{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-direction: row;
+    }
+}

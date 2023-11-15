@@ -1,0 +1,28 @@
+.nav-bar__container{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: rgb(73, 73, 73);
+    && ul{
+        display: flex;
+        flex-direction: row;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content:space-around;
+        font-size:smaller;
+        padding-block: 5px;
+        && a{
+            color: white;
+            &&.active{
+                color: aquamarine;
+            }
+        }
+        && li{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

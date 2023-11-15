@@ -1,0 +1,12 @@
+.subtitle{
+    && h2{
+        && span{
+            color: green;
+            font-size: small;
+        }
+    }
+    && span{
+        color: aquamarine;
+        font-size: large;
+    }
+}

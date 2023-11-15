@@ -1,0 +1,9 @@
+.edit{
+    width: 100vw;
+    box-sizing: border-box;
+    text-align: end;
+    padding: 10px 0px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}

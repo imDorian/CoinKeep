@@ -1,0 +1,11 @@
+#image-profile{
+   & img{
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        object-position: center top;
+        border-radius: 5000px;
+        border: 2px solid aquamarine;
+    }
+    
+}

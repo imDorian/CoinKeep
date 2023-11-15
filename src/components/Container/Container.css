@@ -1,0 +1,21 @@
+.container{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 55px;
+    box-sizing: border-box;
+    padding: 5px;
+    padding-top: 80px;
+    && h1{
+        margin: 0;
+        margin-block: 20px
+    }
+    && h2{
+        margin: 0;
+        margin-block: 5px
+    }
+    
+}

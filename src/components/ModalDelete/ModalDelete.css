@@ -1,0 +1,37 @@
+.modal-delete{
+    position: fixed;
+    top:50%;
+    left: 50%;
+    width: 90vw;
+    transform: translate(-50%, -50%);
+    background-color: rgb(73, 73, 73);
+    border-radius: 6px;
+    border: 1px solid aquamarine;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    gap: 20px;
+    font-size: large;
+    z-index: 999;
+    && article{
+        border-top: 1px solid white;
+        border-bottom: 1px solid white;
+        padding: 5px;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+    && div{
+        display: flex;
+        gap: 20px;
+        && .btn__accept{
+            color: green;
+        }
+        && .btn__cancel{
+            color: red
+        }
+    }
+}
