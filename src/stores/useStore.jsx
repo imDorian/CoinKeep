@@ -23,7 +23,7 @@ export const useStore = create(set => ({
   },
   isBlur: true,
   fetchLogin: async (formData) => {
-    const url = 'http://localhost:3000/users/login'
+    const url = import.meta.env.VITE_URL + '/users/login'
     const response = await window.fetch(url, {
       method: 'POST',
       body: JSON.stringify(formData),
@@ -43,7 +43,7 @@ export const useStore = create(set => ({
     return { response, json }
   },
   fetchData: async (dataId) => {
-    const urlData = `http://localhost:3000/data/get/${dataId}`
+    const urlData = import.meta.env.VITE_URL + `/data/get/${dataId}`
     try {
       const response = await window.fetch(urlData, {
         method: 'GET'

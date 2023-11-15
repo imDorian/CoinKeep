@@ -1,5 +1,5 @@
 export const putAvailablePersonalSpend = async (id, newData) => {
-  const url = `http://localhost:3000/data/putavailablepersonalspend/${id}`
+  const url = import.meta.env.VITE_URL + `/data/putavailablepersonalspend/${id}`
   const res = await window.fetch(url, {
     method: 'PUT',
     body: JSON.stringify(newData),

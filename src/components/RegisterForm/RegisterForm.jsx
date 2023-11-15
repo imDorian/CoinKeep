@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const URL = 'http://localhost:3000/users/register'
+const URL = import.meta.env.VITE_URL + '/users/register'
 
 const RegisterForm = () => {
   const [dataForm, setDataForm] = useState({
