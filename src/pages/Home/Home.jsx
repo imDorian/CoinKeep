@@ -22,7 +22,7 @@ const HomePage = () => {
   const navigate = useNavigate()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   console.log(cookies)
-  const { personal_spend: personalSpend} = useStore()
+  const { personal_spend: personalSpend } = useStore()
 
   useEffect(() => {
     const fetchDataUser = async () => {

@@ -77,7 +77,7 @@ const Input = ({ currency }) => {
     e.preventDefault()
     // Si el balance (card o efectivo) te lo permite
     // REVISAR ESTO <------------------------------->
-    const { res, json } = await putData(typeSelected, cookies.user.data, newData)
+    const { json } = await putData(typeSelected, cookies.user.data, newData)
     // IF RES === 200 ENTONCES........
     useStore.setState({
       [typeSelected]: [json, ...store[typeSelected]]

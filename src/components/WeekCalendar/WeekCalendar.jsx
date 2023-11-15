@@ -4,7 +4,7 @@ import './WeekCalendar.css'
 // import { isThisWeek } from '../../functions/timeController'
 import { useStore } from '../../stores/useStore'
 import { isThisWeek } from '../../functions/timeController'
-import { diaryLimit } from '../../functions/Limits'
+import { diaryLimit } from '../../functions/limits'
 
 const WeekCalendar = ({ currency }) => {
   const { personal_spend: personalSpend, available_personal_spend: availablePersonalSpend, isBlur } = useStore()

@@ -36,7 +36,6 @@ const Balance = ({ currency }) => {
   const refreshBalanceCash = (sumIncomeCash - sumExpenseCash - sumSavingCash - sumInvestmentCash - cash).toFixed(2)
 
   // ALL BALANCE
-  const allBalance = refreshBalanceCard + refreshBalanceCash
 
   useEffect(() => {
     useStore.setState({
