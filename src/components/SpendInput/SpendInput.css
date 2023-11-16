@@ -29,7 +29,7 @@
 }
 .spend-input{
     border: none;
-    /* border-radius: 3px; */
+    border-radius: none;
     border-bottom: 1px solid whitesmoke;
     background-color: #242424;
     height: 50px;

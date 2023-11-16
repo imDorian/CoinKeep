@@ -14,7 +14,6 @@ import Spendings from '../../components/Spendings/Spendings'
 import Edit from '../../components/Edit/Edit'
 import ModalDelete from '../../components/ModalDelete/ModalDelete'
 import WeekCalendar from '../../components/WeekCalendar/WeekCalendar'
-import { MagicMotion } from 'react-magic-motion'
 
 const HomePage = () => {
   const [editSwitch, setEditSwitch] = useState(false)
