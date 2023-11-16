@@ -102,7 +102,7 @@ const SpendInput = ({ currency }) => {
         <div className='spend-input__container2'>
           <MethodButtons />
           <div className='input-currency__container'>
-            <input required value={newData.quantity} onChange={(e) => setNewData({ ...newData, quantity: e.target.valueAsNumber ?? 0 })} className='spend-input' placeholder={currency} type='number' step='0.01' min='0' />
+            <input required value={newData.quantity} onChange={(e) => setNewData({ ...newData, quantity: e.target.valueAsNumber ?? 0 })} className='spend-input' placeholder={currency} type='number' />
             {/* <span className='currency'>{currency}</span> */}
           </div>
         </div>
