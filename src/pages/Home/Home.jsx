@@ -50,18 +50,16 @@ const HomePage = () => {
     <>
       <Container>
         <Welcome username={cookies.user.name} currency='€' />
-        <MagicMotion>
-          <h1 style={{ width: '100%', textAlign: 'start', fontSize: '30px' }}>Bienvenido a <br /> CoinKeep {cookies.user.name}</h1>
-          <WeekCalendar currency='€' />
-          <Grid>
-            <SpendingsLimit currency='€' />
-            <Spendings currency='€' />
-          </Grid>
-          <SpendInput currency='€' personalSpend={personalSpend} />
-          <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
-          <ModalDelete />
-          <ListDiary editSwitch={editSwitch} currency='€' data={personalSpend} types={TIPOS_GASTOS[3]} title='Gasto Diario' />
-        </MagicMotion>
+        <h1 style={{ width: '100%', textAlign: 'start', fontSize: '30px' }}>Bienvenido a <br /> CoinKeep {cookies.user.name}</h1>
+        <WeekCalendar currency='€' />
+        <Grid>
+          <SpendingsLimit currency='€' />
+          <Spendings currency='€' />
+        </Grid>
+        <SpendInput currency='€' personalSpend={personalSpend} />
+        <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
+        <ModalDelete />
+        <ListDiary editSwitch={editSwitch} currency='€' data={personalSpend} types={TIPOS_GASTOS[3]} title='Gasto Diario' />
       </Container>
       <NavBar />
     </>

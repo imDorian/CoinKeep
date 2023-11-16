@@ -41,11 +41,16 @@
 .white{
     background-color: white;
 }
+.grey{
+    background-color: grey;
+    scale: 0.9;
+}
 
 .today{
-    border: 2px solid white;
+    /* border: 2px solid white; */
     box-sizing: border-box;
-    color: white;
+    /* color: white; */
     display: flex;
+    scale: 1.2;
         /* background-color: aliceblue; */
 }

@@ -76,19 +76,19 @@ const Welcome = ({ username, currency }) => {
             >
               <path
                 d='M1 12.9999V10.9999H15.4853L12.2427 7.75724L13.6569 6.34303L19.3137 11.9999L13.6569 17.6567L12.2427 16.2425L15.4853 12.9999H1Z'
-                fill='currentColor'
+                fill='white'
               />
               <path
                 d='M20.2877 6V18H22.2877V6H20.2877Z'
-                fill='currentColor'
+                fill='white'
               />
             </svg>
           </button>
           {isCollapsed
             ? (
               <header style={{ width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0 }}>
-                <span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms', fontSize: '13px', fontWeight: '400', gridTemplateColumns: '1fr 1fr' }}>Balance&nbsp; <span style={{ color: totalBalance > 0 ? 'aquamarine' : 'red' }}>{totalBalance}{currency}</span></span>
-                <span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms', fontSize: '13px', fontWeight: '400', gridTemplateColumns: '1fr 1fr' }}>B. Personal&nbsp;<span style={{ color: totalBalancePersonalSpend > 0 ? 'aquamarine' : 'red' }}>{totalBalancePersonalSpend}{currency}</span></span>
+                <span style={{ fontSize: '13px', fontWeight: '400', gridTemplateColumns: '1fr 1fr' }}>Balance&nbsp; <span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms', color: totalBalance > 0 ? 'aquamarine' : 'red' }}>{totalBalance}{currency}</span></span>
+                <span style={{ fontSize: '13px', fontWeight: '400', gridTemplateColumns: '1fr 1fr' }}>B. Personal&nbsp;<span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms', color: totalBalancePersonalSpend > 0 ? 'aquamarine' : 'red' }}>{totalBalancePersonalSpend}{currency}</span></span>
               </header>
               )
             : (

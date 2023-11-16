@@ -8,6 +8,7 @@ import TrashIcon from '../../icons/TrashIcon'
 import { useStore } from '../../stores/useStore'
 import './ListDiary.css'
 import React, { useState } from 'react'
+import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 
 const ListDiary = ({ title, types, currency, editSwitch }) => {
   const { personal_spend: personalSpend, isBlur } = useStore()
@@ -77,14 +78,14 @@ const ListDiary = ({ title, types, currency, editSwitch }) => {
     <div>
       <article id={type} className={editSwitch ? 'list__container-spend editing' : 'list__container-spend'}>
         <h3>{title}</h3>
-        <section>
-          <div className='list__container__date'>
-            <button onClick={() => changeDateSelected('previous')}><HeadingIcon size='20px' color='white' /></button>
-            <span id='date'>{new Date(dateSelected).toLocaleDateString('es-ES', options)}</span>
-            <button style={{ rotate: '180deg' }} onClick={() => changeDateSelected('next')}><HeadingIcon size='20px' color='white' /></button>
-          </div>
-          <span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms' }} id='spend-today'>{subtotal.toFixed(2)}{currency}</span>
-          <MagicMotion>
+        <MagicMotion>
+          <section>
+            <div className='list__container__date'>
+              <button onClick={() => changeDateSelected('previous')}><HeadingIcon size='20px' color='white' /></button>
+              <span id='date'>{new Date(dateSelected).toLocaleDateString('es-ES', options)}</span>
+              <button style={{ rotate: '180deg' }} onClick={() => changeDateSelected('next')}><HeadingIcon size='20px' color='white' /></button>
+            </div>
+            <span id='spend-today'> <IsBlurSpan>{subtotal.toFixed(2)}{currency}</IsBlurSpan></span>
             <ul style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms' }} id='list__container--ul'>
               {filteredData.length === 0 && <span style={{ textAlign: 'center' }}>Aquí puedes ver tus gastos</span>}
               {filteredData && filteredData.map(d => {
@@ -100,10 +101,9 @@ const ListDiary = ({ title, types, currency, editSwitch }) => {
                 )
               })}
             </ul>
-
-          </MagicMotion>
-          {isModalDelete && <ModalDelete />}
-        </section>
+            {isModalDelete && <ModalDelete />}
+          </section>
+        </MagicMotion>
       </article>
     </div>
   )

@@ -62,8 +62,8 @@
             width: 100%;
             height: 50px;
             display: grid;
-            grid-template-columns: repeat(2, 1.5fr) repeat(2, 1fr);
-            grid-template-rows: 1fr 5px;
+            grid-template-columns: repeat(2, 4fr) repeat(2, 2fr);
+            grid-template-rows: 1fr;
             /* align-items: start; */
             justify-items: center;
             border: none;
@@ -83,7 +83,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                max-width: 130px;
+                max-width: 115px;
             }
         }
         && #date{

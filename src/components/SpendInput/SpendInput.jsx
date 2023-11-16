@@ -29,7 +29,7 @@ const SpendInput = ({ currency }) => {
   const [newData, setNewData] = useState({
     establishment: '',
     product: '',
-    quantity: '',
+    quantity: Number,
     currency: '€',
     description: '',
     method
@@ -67,7 +67,7 @@ const SpendInput = ({ currency }) => {
         ...newData,
         establishment: '',
         product: '',
-        quantity: ''
+        quantity: Number
       })
       console.log(useStore.getState())
     } else {

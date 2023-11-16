@@ -5,6 +5,7 @@ import RangeSpending from '../RangeSpending/RangeSpending'
 import { useStore } from '../../stores/useStore'
 import { diaryLimit, monthLimit, weekLimit } from '../../functions/limits'
 import { diarySpend, weekSpend, monthSpend } from '../../functions/spends'
+import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 
 const Spendings = ({ currency }) => {
   const { available_personal_spend: availablePersonalSpend, personal_spend: personalSpend } = useStore()
@@ -25,19 +26,19 @@ const Spendings = ({ currency }) => {
     <Article>
       <h2>Gasto Personal</h2>
       <section>
-        <h3>Hoy has gastado {diarySpendA}{currency}</h3>
+        <h3>Hoy has gastado <IsBlurSpan>{diarySpendA}{currency}</IsBlurSpan></h3>
         <RangeSpending currency='€' completed={diarySpendA} maxCompleted={diaryLimitA} customLabel={diarySpendA} />
-        {diaryLeftSpend.includes('-') ? <h3>Debes {diaryLeftSpend.slice(1)}{currency} a la banca</h3> : <h3>Te quedan {diaryLeftSpend}{currency} para gastar hoy</h3>}
+        {diaryLeftSpend.includes('-') ? <h3>Debes <IsBlurSpan>{diaryLeftSpend.slice(1)}{currency}</IsBlurSpan> a la banca</h3> : <h3>Te quedan <IsBlurSpan>{diaryLeftSpend}{currency}</IsBlurSpan> para gastar hoy</h3>}
       </section>
       <section>
-        <h3>Esta semana has gastado {weekSpendA}{currency} </h3>
+        <h3>Esta semana has gastado <IsBlurSpan>{weekSpendA}{currency}</IsBlurSpan></h3>
         <RangeSpending currency='€' completed={weekSpendA} maxCompleted={weekLimitA} customLabel={weekSpendA} />
-        <h3>Te quedan {weekLeftSpend}{currency} para gastar esta semana</h3>
+        <h3>Te quedan <IsBlurSpan>{weekLeftSpend}{currency}</IsBlurSpan> para gastar esta semana</h3>
       </section>
       <section>
-        <h3>Este mes has gastado {monthSpendA}{currency} </h3>
+        <h3>Este mes has gastado <IsBlurSpan>{monthSpendA}{currency}</IsBlurSpan></h3>
         <RangeSpending currency='€' completed={monthSpendA} maxCompleted={monthLimitA} customLabel={monthSpendA} />
-        <h3>Te quedan {monthLeftSpend}{currency} para gastar este mes</h3>
+        <h3>Te quedan <IsBlurSpan>{monthLeftSpend}{currency}</IsBlurSpan> para gastar este mes</h3>
       </section>
     </Article>
   )
