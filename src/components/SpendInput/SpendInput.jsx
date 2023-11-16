@@ -29,7 +29,7 @@ const SpendInput = ({ currency }) => {
   const [newData, setNewData] = useState({
     establishment: '',
     product: '',
-    quantity: Number,
+    quantity: '',
     currency: '€',
     description: '',
     method
@@ -67,7 +67,7 @@ const SpendInput = ({ currency }) => {
         ...newData,
         establishment: '',
         product: '',
-        quantity: Number
+        quantity: ''
       })
       console.log(useStore.getState())
     } else {
@@ -102,7 +102,7 @@ const SpendInput = ({ currency }) => {
         <div className='spend-input__container2'>
           <MethodButtons />
           <div className='input-currency__container'>
-            <input required value={newData.quantity} onChange={(e) => setNewData({ ...newData, quantity: e.target.valueAsNumber ?? 0 })} className='spend-input' placeholder={currency} type='number' />
+            <input required value={newData.quantity} onChange={(e) => setNewData({ ...newData, quantity: isNaN(e.target.valueAsNumber) ? Number : e.target.valueAsNumber })} className='spend-input' placeholder={currency} type='number' />
             {/* <span className='currency'>{currency}</span> */}
           </div>
         </div>
