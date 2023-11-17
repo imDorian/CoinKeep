@@ -4,8 +4,6 @@ import './RangeSpending.css'
 import ProgressBar from '@ramonak/react-progress-bar'
 
 const RangeSpending = ({ completed, maxCompleted, customLabel, currency }) => {
-  console.log(completed, maxCompleted)
-
   return (
     <div>
       <ProgressBar

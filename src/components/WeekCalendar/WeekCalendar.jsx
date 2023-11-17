@@ -38,9 +38,6 @@ const WeekCalendar = ({ currency }) => {
       return 'today ' + (parseFloat(expense) <= parseFloat(diaryLimitA) ? 'green' : 'red')
     }
   }
-
-  console.log(thisWeekSpend)
-
   const calculateDailySpend = () => {
     const updatedDailySpend = {
       Mon: 0,
@@ -55,10 +52,8 @@ const WeekCalendar = ({ currency }) => {
     thisWeekSpend.forEach(expense => {
       const dayOfWeek = new Date(expense.createdAt).toLocaleDateString('en-En', { weekday: 'short' })
       updatedDailySpend[dayOfWeek] += parseFloat(expense.quantity)
-      console.log(dayOfWeek)
     })
     setDailySpend(updatedDailySpend)
-    console.log(updatedDailySpend)
   }
   useEffect(() => {
     calculateDailySpend()

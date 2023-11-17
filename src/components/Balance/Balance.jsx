@@ -4,7 +4,6 @@ import { useStore } from '../../stores/useStore'
 
 const Balance = ({ currency }) => {
   const { income, expense, saving, investment, available_personal_spend: availablePersonalSpend } = useStore()
-  console.log(income)
   // INCOME
   const incomeCard = income.filter(i => i.method === 'card')
   const sumIncomeCard = incomeCard.reduce((total, i) => total + i.quantity, 0).toFixed(2)

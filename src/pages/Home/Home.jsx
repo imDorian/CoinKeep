@@ -14,13 +14,14 @@ import Spendings from '../../components/Spendings/Spendings'
 import Edit from '../../components/Edit/Edit'
 import ModalDelete from '../../components/ModalDelete/ModalDelete'
 import WeekCalendar from '../../components/WeekCalendar/WeekCalendar'
+import IsModalUpdates from '../../components/IsModalUpdates/IsModalUpdates'
 
 const HomePage = () => {
   const [editSwitch, setEditSwitch] = useState(false)
   const fetchData = useStore(state => state.fetchData)
   const navigate = useNavigate()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
-  console.log(cookies)
+  const isUpdates = JSON.parse(window.localStorage.getItem('updates'))
   const { personal_spend: personalSpend } = useStore()
 
   useEffect(() => {
@@ -43,6 +44,9 @@ const HomePage = () => {
     } else {
       navigate('/')
     }
+    if (cookies.user === null || cookies.user === undefined) {
+      navigate('/')
+    }
   }, [])
 
   return (
@@ -50,6 +54,7 @@ const HomePage = () => {
       <Container>
         <Welcome username={cookies.user.name} currency='€' />
         <h1 style={{ width: '100%', textAlign: 'start', fontSize: '30px' }}>Bienvenido a <br /> CoinKeep {cookies.user.name}</h1>
+        {isUpdates.updates === false ? <IsModalUpdates /> : ''}
         <WeekCalendar currency='€' />
         <Grid>
           <SpendingsLimit currency='€' />

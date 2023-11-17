@@ -19,7 +19,6 @@ const Welcome = ({ username, currency }) => {
     useStore.setState({
       isBlur: !isBlur
     })
-    console.log(isBlur)
   }
   useEffect(() => {
     setTimeout(() => {

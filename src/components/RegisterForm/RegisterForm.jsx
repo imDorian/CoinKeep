@@ -15,7 +15,6 @@ const RegisterForm = () => {
   const handleChangeInput = (e) => {
     const { name, value } = e.target
     setDataForm({ ...dataForm, [name]: value })
-    console.log(name, value)
   }
 
   const handleRegister = async (e) => {
@@ -29,7 +28,6 @@ const RegisterForm = () => {
         }
       })
       await response.json()
-      console.log(response)
       navigate('/')
     } else {
       console.log('La contraseña tiene que coincidir')

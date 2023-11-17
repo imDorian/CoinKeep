@@ -12,6 +12,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  box-sizing: border-box;
 }
 
 a {
@@ -53,7 +55,7 @@ button {
   justify-content: center;
 }
 button:hover {
-  border-color: aquamarine;
+  border-color: white;
 }
 button:focus,
 button:focus-visible {

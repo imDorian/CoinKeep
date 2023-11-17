@@ -28,7 +28,6 @@ const LoginForm = ({ loading, setLoading }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
-    console.log(name, value)
   }
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -40,8 +39,9 @@ const LoginForm = ({ loading, setLoading }) => {
         const { response, json } = await fetchLogin(formData)
         if (response.status === 200) {
           // Guardamos las cookies
-          window.localStorage.clear()
+          window.localStorage.removeItem('userdata')
           window.localStorage.setItem('userdata', JSON.stringify(json))
+          window.localStorage.setItem('updates', JSON.stringify({ updates: false }))
           // Seteamos el loading a false
           setLoading(false)
           // redirigir a la página de incio

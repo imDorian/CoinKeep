@@ -5,14 +5,7 @@ import './List.css'
 import React, { useContext } from 'react'
 
 const List = ({ data, title, types, currency, editSwitch }) => {
-  // useEffect(() => {
-  //   // console.log('data', data)
-  //   // console.log('income', userData.income)
-  //   console.log('filtered', filteredData)
-  // }, [])
-  // console.log(data, types)
   const type = types && types.includes('Ingreso') ? 'income' : types.includes('Gasto') ? 'expense' : types.includes('Ahorro') ? 'saving' : 'investment'
-  // const filteredData = data && types && data.filter(d => d.type.includes(types))
   const filteredData = data && types && data.filter(d => d.type.includes(types))
 
   const subtotal = filteredData && filteredData.reduce((total, da) => total + parseFloat(da.quantity), 0)
@@ -29,7 +22,7 @@ const List = ({ data, title, types, currency, editSwitch }) => {
       <section>
         <span id='subtotal'>Total {subtotal.toFixed(2)}{currency}</span>
         {filteredData && filteredData.map(d => {
-          const date = new Date(d.createdAt)
+          const date = new Date(d.date)
           return (
             <div key={d._id}>
               <span id='category'>{d.category}</span>

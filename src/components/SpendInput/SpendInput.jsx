@@ -19,9 +19,9 @@ export const METHOD = {
 const SpendInput = ({ currency }) => {
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const [method, setMethod] = useState(METHOD.CARD)
-  const { personal_spend: personalSpend, available_personal_spend: availablePersonalSpend } = useStore()
-  const monthSpendCard = personalSpend && personalSpend.filter(ex => ex && ex.method === 'card' && isThisMonth(ex.createdAt)).reduce((total, da) => total + parseFloat(da.quantity), 0).toFixed(2)
-  const monthSpendCash = personalSpend && personalSpend.filter(ex => ex && ex.method === 'cash' && isThisMonth(ex.createdAt)).reduce((total, da) => total + parseFloat(da.quantity), 0).toFixed(2)
+  const { personal_spend: personalSpend, available_personal_spend: availablePersonalSpend, dateSelected } = useStore()
+  const monthSpendCard = personalSpend && personalSpend.filter(ex => ex && ex.method === 'card' && isThisMonth(ex.date)).reduce((total, da) => total + parseFloat(da.quantity), 0).toFixed(2)
+  const monthSpendCash = personalSpend && personalSpend.filter(ex => ex && ex.method === 'cash' && isThisMonth(ex.date)).reduce((total, da) => total + parseFloat(da.quantity), 0).toFixed(2)
   const totalPersonalSpending = {
     card: availablePersonalSpend.card - monthSpendCard,
     cash: availablePersonalSpend.cash - monthSpendCash
@@ -32,7 +32,8 @@ const SpendInput = ({ currency }) => {
     quantity: Number,
     currency: '€',
     description: '',
-    method
+    method,
+    date: dateSelected
   })
 
   useEffect(() => {
@@ -49,17 +50,20 @@ const SpendInput = ({ currency }) => {
       ...newData,
       method
     })
-    console.log(newData)
   }, [method])
 
-  console.log(personalSpend)
+  useEffect(() => {
+    setNewData({
+      ...newData,
+      date: dateSelected
+    })
+  }, [dateSelected])
 
   const addToSpend = async (e) => {
     e.preventDefault()
     const PERSONAL_SPEND = 'personal_spend'
     if (newData.quantity <= totalPersonalSpending[method] && totalPersonalSpending[method] > 0 && newData.quantity !== '' && newData.quantity > 0 && newData.establishment !== '' && newData.product !== '') {
-      const { json, res } = await putData(PERSONAL_SPEND, cookies.user.data, newData)
-      console.log(json, res)
+      const { json } = await putData(PERSONAL_SPEND, cookies.user.data, newData)
       useStore.setState({
         personal_spend: [json, ...personalSpend]
       })
@@ -93,7 +97,7 @@ const SpendInput = ({ currency }) => {
   }
   return (
     <form className='spend-input__form'>
-      <h3>Introduce nuevo gasto personal</h3>
+      <h3>Introduce nuevo gasto personal <div id='info-date'>Info.<span>Puedes añadir gastos cambiado la fecha de "Gasto Diario"</span></div></h3>
       <div className='spend-input__container'>
         <div className='spend-input__inputs'>
           <input type='text' required placeholder='Establecimiento' value={newData.establishment} onChange={e => setNewData({ ...newData, establishment: capitalizeFirstLetter(e.target.value) })} />

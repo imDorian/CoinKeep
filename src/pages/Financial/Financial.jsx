@@ -47,7 +47,6 @@ const Financial = () => {
     }
   }, [])
 
-  // console.log(cookies)
   return (
     <div id='financial'>
       <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />

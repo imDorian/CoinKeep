@@ -72,3 +72,35 @@
 .method-selected{
     background-color: aquamarine;
 }
+
+#info-date {
+    position: relative;
+    display: inline-block;
+    /* border-bottom: 1px dotted black; */
+    background-color: rgb(151, 151, 151);
+    color: whitesmoke;
+    padding: 0 3px;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+    & span {
+        visibility: hidden;
+        font-size: 12px;
+        font-weight: 400;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: start;
+        padding: 5px;
+        border-radius: 6px;
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        z-index: 1;
+    }
+    &:hover span {
+        visibility: visible;
+    }
+}
+

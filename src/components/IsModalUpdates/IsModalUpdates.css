@@ -1,0 +1,17 @@
+#modal-updates {
+    & h4 {
+        text-align: center;
+    }
+    & div {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        & button {
+            font-weight: 500;
+            background-color: antiquewhite;
+            color: black;
+            padding: 2px;
+        }
+    }
+    text-align: start;
+}

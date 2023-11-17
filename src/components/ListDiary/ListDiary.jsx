@@ -10,12 +10,13 @@ import './ListDiary.css'
 import React, { useState } from 'react'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 
-const ListDiary = ({ title, types, currency, editSwitch }) => {
-  const { personal_spend: personalSpend, isBlur } = useStore()
-  const [dateSelected, setDateSelected] = useState(new Date().toDateString())
+const ListDiary = ({ title, currency, editSwitch }) => {
+  const { personal_spend: personalSpend, isBlur, dateSelected: daySelected } = useStore()
+  // const [dateSelected, setDateSelected] = useState(new Date().toDateString())
   // const filteredData = userData.personal_spend.filter(d => isToday(d.date) && d)
+  const dateSelected = daySelected.toDateString()
   const filteredData = personalSpend && personalSpend.filter(d => {
-    const dateString = new Date(d.createdAt).toDateString()
+    const dateString = new Date(d.date).toDateString()
     return dateString === dateSelected
   })
 
@@ -24,21 +25,18 @@ const ListDiary = ({ title, types, currency, editSwitch }) => {
     const newDate = new Date(dateSelected)
     if (e === 'previous') {
       newDate.setDate(newDate.getDate() - 1)
+      useStore.setState({
+        dateSelected: newDate
+      })
     } else if (e === 'next' && dateSelected !== today) {
       newDate.setDate(newDate.getDate() + 1)
+      useStore.setState({
+        dateSelected: newDate
+      })
     }
-    setDateSelected(newDate.toDateString())
   }
 
   const subtotal = filteredData && filteredData.reduce((total, da) => total + parseFloat(da.quantity), 0)
-  // const { setIsModalDelete } = useContext(userDataContext)
-  const type = types.includes('Gasto') ? 'expense' : types.includes('Ahorro') ? 'saving' : 'investment'
-
-  // const openModal = (e) => {
-  //   setIsModalDelete(true)
-  //   setSelectedData(e)
-  // }
-
   const deleteSpend = async (id) => {
     const filteredPersonalSpend = personalSpend.filter(i => i._id !== id)
     console.log(filteredPersonalSpend)
@@ -57,12 +55,25 @@ const ListDiary = ({ title, types, currency, editSwitch }) => {
     setSelectedData(data)
     setIsModalDelete(true)
   }
+
+  const closeModal = () => {
+    setIsModalDelete(false)
+    setSelectedData('')
+  }
   const ModalDelete = () => {
     return (
       <dialog open id='isModalDeleteOpen'>
-        ¿Quiéres borrar seguro?
+        <span className='delete--question'>¿Estás seguro que quieres borrar este gasto?</span>
+        <div className='delete--grid'>
+          <span className='grid-1'>{selectedData.establishment}</span>
+          <span className='grid-2'>{selectedData.product}</span>
+          <span className='grid-3'>{selectedData.quantity}{currency}</span>
+          <span className='grid-4'>{selectedData.method}</span>
+          <span className='grid-5'>{new Date(selectedData.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+        </div>
         <div>
-          <button onClick={() => deleteSpend(selectedData._id)}>yes</button>
+          <button id='cancel' onClick={() => closeModal()}>Cancelar</button>
+          <button id='accept' onClick={() => deleteSpend(selectedData._id)}>Sí, estoy seguro.</button>
         </div>
       </dialog>
     )
@@ -76,7 +87,7 @@ const ListDiary = ({ title, types, currency, editSwitch }) => {
   }
   return (
     <div>
-      <article id={type} className={editSwitch ? 'list__container-spend editing' : 'list__container-spend'}>
+      <article className={editSwitch ? 'list__container-spend editing' : 'list__container-spend'}>
         <h3>{title}</h3>
         <MagicMotion>
           <section>

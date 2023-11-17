@@ -17,8 +17,7 @@ const AvailableToSpend = ({ currency }) => {
         ...availablePersonalSpend,
         [methodSelected]: parseFloat(transferInput)
       }
-      const { json, res } = await putAvailablePersonalSpend(availablePersonalSpend._id, newData)
-      console.log(json)
+      const { res } = await putAvailablePersonalSpend(availablePersonalSpend._id, newData)
       if (res.status === 200) {
         useStore.setState({
           available_personal_spend: {
@@ -35,7 +34,6 @@ const AvailableToSpend = ({ currency }) => {
 
   const handlePayMethod = (e) => {
     setMethodSelected(e)
-    // console.log(methodSelected)
   }
 
   const MethodButtons = () => {
@@ -48,8 +46,6 @@ const AvailableToSpend = ({ currency }) => {
   }
 
   useEffect(() => {
-    // console.log('balance', balance)
-    // console.log('input', transferInput)
   }, [balance, transferInput])
 
   return (

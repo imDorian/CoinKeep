@@ -22,6 +22,7 @@ export const useStore = create(set => ({
     cash: 0
   },
   isBlur: true,
+  dateSelected: new Date(),
   fetchLogin: async (formData) => {
     const url = import.meta.env.VITE_URL + '/users/login'
     const response = await window.fetch(url, {
@@ -33,13 +34,11 @@ export const useStore = create(set => ({
     })
     // Nos devuelve una respuesta
     const json = await response.json()
-    console.log(json)
     set({
       name: json.user.name,
       email: json.user.email,
       imageUrl: json.user.imageUrl ?? 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Anuel_AA_in_2022.png'
     })
-    console.log(json)
     return { response, json }
   },
   fetchData: async (dataId) => {
@@ -49,7 +48,6 @@ export const useStore = create(set => ({
         method: 'GET'
       })
       const json = await response.json()
-      console.log(json)
       set({
         income: json.income,
         expense: json.expense,
