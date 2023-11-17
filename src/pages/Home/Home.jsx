@@ -21,7 +21,7 @@ const HomePage = () => {
   const fetchData = useStore(state => state.fetchData)
   const navigate = useNavigate()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
-  const isUpdates = JSON.parse(window.localStorage.getItem('updates'))
+  // const isUpdates = JSON.parse(window.localStorage.getItem('updates'))
   const { personal_spend: personalSpend } = useStore()
 
   useEffect(() => {
@@ -44,9 +44,9 @@ const HomePage = () => {
     } else {
       navigate('/')
     }
-    if (cookies.user === null || cookies.user === undefined) {
-      navigate('/')
-    }
+    // if (cookies.user === null || cookies.user === undefined) {
+    //   navigate('/')
+    // }
   }, [])
 
   return (
@@ -54,7 +54,7 @@ const HomePage = () => {
       <Container>
         <Welcome username={cookies.user.name} currency='€' />
         <h1 style={{ width: '100%', textAlign: 'start', fontSize: '30px' }}>Bienvenido a <br /> CoinKeep {cookies.user.name}</h1>
-        {isUpdates.updates === false ? <IsModalUpdates /> : ''}
+        <IsModalUpdates />
         <WeekCalendar currency='€' />
         <Grid>
           <SpendingsLimit currency='€' />

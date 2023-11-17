@@ -41,7 +41,6 @@ const LoginForm = ({ loading, setLoading }) => {
           // Guardamos las cookies
           window.localStorage.removeItem('userdata')
           window.localStorage.setItem('userdata', JSON.stringify(json))
-          window.localStorage.setItem('updates', JSON.stringify({ updates: false }))
           // Seteamos el loading a false
           setLoading(false)
           // redirigir a la página de incio
