@@ -69,7 +69,7 @@ const ListDiary = ({ title, currency, editSwitch }) => {
           <span className='grid-2'>{selectedData.product}</span>
           <span className='grid-3'>{selectedData.quantity}{currency}</span>
           <span className='grid-4'>{selectedData.method}</span>
-          <span className='grid-5'>{new Date(selectedData.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+          <span className='grid-5'>{new Date(selectedData.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
         </div>
         <div>
           <button id='cancel' onClick={() => closeModal()}>Cancelar</button>
