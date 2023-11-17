@@ -18,7 +18,7 @@ const WeekCalendar = ({ currency }) => {
     Sat: 0,
     Sun: 0
   })
-  const thisWeekSpend = personalSpend.filter(f => isThisWeek(f.createdAt))
+  const thisWeekSpend = personalSpend.filter(f => isThisWeek(f.date))
   const getColorClass = (expense, index) => {
     const today = new Date().toLocaleDateString('en-En', { weekday: 'short' })
     const propertyNames = Object.getOwnPropertyNames(dailySpend)
