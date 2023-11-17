@@ -50,7 +50,7 @@ const WeekCalendar = ({ currency }) => {
     }
 
     thisWeekSpend.forEach(expense => {
-      const dayOfWeek = new Date(expense.createdAt).toLocaleDateString('en-En', { weekday: 'short' })
+      const dayOfWeek = new Date(expense.date).toLocaleDateString('en-En', { weekday: 'short' })
       updatedDailySpend[dayOfWeek] += parseFloat(expense.quantity)
     })
     setDailySpend(updatedDailySpend)

@@ -84,6 +84,7 @@
     font-weight: 400;
     border-radius: 8px;
     border-bottom-left-radius: 0px;
+    margin-left: 10px;
     & span {
         visibility: hidden;
         font-size: 12px;

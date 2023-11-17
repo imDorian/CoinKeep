@@ -1,9 +1,12 @@
 .edit{
-    width: 100vw;
+    /* width: 100vw; */
     box-sizing: border-box;
     text-align: end;
     padding: 10px 0px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
+    position: absolute;
+    top: 0px;
+    right: 5px;
 }

@@ -61,7 +61,6 @@ const HomePage = () => {
           <Spendings currency='€' />
         </Grid>
         <SpendInput currency='€' personalSpend={personalSpend} />
-        <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
         <ModalDelete />
         <ListDiary editSwitch={editSwitch} currency='€' data={personalSpend} types={TIPOS_GASTOS[3]} title='Gasto Diario' />
       </Container>

@@ -65,7 +65,7 @@ const SpendInput = ({ currency }) => {
     if (newData.quantity <= totalPersonalSpending[method] && totalPersonalSpending[method] > 0 && newData.quantity !== '' && newData.quantity > 0 && newData.establishment !== '' && newData.product !== '') {
       const { json } = await putData(PERSONAL_SPEND, cookies.user.data, newData)
       useStore.setState({
-        personal_spend: [json, ...personalSpend]
+        personal_spend: [...personalSpend, json]
       })
       setNewData({
         ...newData,

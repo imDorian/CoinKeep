@@ -9,11 +9,11 @@ import { useStore } from '../../stores/useStore'
 import './ListDiary.css'
 import React, { useState } from 'react'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
+import Edit from '../Edit/Edit'
 
-const ListDiary = ({ title, currency, editSwitch }) => {
+const ListDiary = ({ title, currency }) => {
+  const [editSwitch, setEditSwitch] = useState(false)
   const { personal_spend: personalSpend, isBlur, dateSelected: daySelected } = useStore()
-  // const [dateSelected, setDateSelected] = useState(new Date().toDateString())
-  // const filteredData = userData.personal_spend.filter(d => isToday(d.date) && d)
   const dateSelected = daySelected.toDateString()
   const filteredData = personalSpend && personalSpend.filter(d => {
     const dateString = new Date(d.date).toDateString()
@@ -88,7 +88,10 @@ const ListDiary = ({ title, currency, editSwitch }) => {
   return (
     <div>
       <article className={editSwitch ? 'list__container-spend editing' : 'list__container-spend'}>
-        <h3>{title}</h3>
+        <div id='list__title'>
+          <h3>{title}</h3>
+          <Edit editSwitch={editSwitch} setEditSwitch={setEditSwitch} />
+        </div>
         <MagicMotion>
           <section>
             <div className='list__container__date'>

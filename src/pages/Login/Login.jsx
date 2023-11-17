@@ -8,14 +8,7 @@ import './Login.css'
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
-  // const [isVisible, setIsVisible] = useState(true)
 
-  // useEffect(() => {
-  //   const timeOutId = setTimeout(() => {
-  //     setIsVisible(false)
-  //   }, 5000)
-  //   return () => clearTimeout(timeOutId)
-  // }, [])
   return (
     <div className='login-page'>
       <h1>¡Inicia sesión en CoinKeeper para gestionar tus coins!</h1>

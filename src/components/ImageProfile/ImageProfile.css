@@ -2,10 +2,10 @@
    & img{
         width: 250px;
         height: 250px;
-        object-fit: cover;
+        object-fit: contain;
         object-position: center top;
         border-radius: 5000px;
-        border: 2px solid aquamarine;
+        border: 3px solid aquamarine;
     }
     
 }
