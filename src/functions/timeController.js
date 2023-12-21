@@ -31,3 +31,20 @@ export const isThisMonth = (d) => {
     date.getFullYear() === fechaActual.getFullYear()
   )
 }
+export const isThisNoMonth = (d) => {
+  const fechaActual = new Date()
+  const date = new Date(d)
+  return (
+    date.getMonth() !== fechaActual.getMonth()
+  )
+}
+export const getCurrentMonthDays = () => {
+  const currentDate = new Date()
+  const year = currentDate.getFullYear()
+  const month = currentDate.getMonth() + 1 // Los meses en JavaScript van de 0 a 11
+
+  // Obtiene el último día del mes restando 1 milisegundo al primer día del siguiente mes
+  const lastDayOfMonth = new Date(year, month, 0)
+
+  return lastDayOfMonth.getDate()
+}

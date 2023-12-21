@@ -4,7 +4,7 @@ import './AvailableToSpend.css'
 import { useStore } from '../../stores/useStore'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
-import { putAvailablePersonalSpend } from '../../functions/putAvailablePersonalSpend'
+import { putMethodSchema } from '../../functions/putMethodSchema'
 
 const AvailableToSpend = ({ currency }) => {
   const [transferInput, setTransferInput] = useState('')
@@ -17,7 +17,8 @@ const AvailableToSpend = ({ currency }) => {
         ...availablePersonalSpend,
         [methodSelected]: parseFloat(transferInput)
       }
-      const { res } = await putAvailablePersonalSpend(availablePersonalSpend._id, newData)
+      const category = 'available_personal_spend'
+      const { res } = await putMethodSchema(availablePersonalSpend._id, newData, category)
       if (res.status === 200) {
         useStore.setState({
           available_personal_spend: {

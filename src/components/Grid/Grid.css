@@ -1,5 +1,15 @@
 .grid{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-rows: repeat(2, 2fr); */
     gap: 10px;
+    align-items: stretch;
+    padding: 1px;
+    /* width: 90vw; */
+    && :first-child{
+        grid-area: 1 / 1 / 2 / 2; 
+    }
+    && :nth-child(2){
+        grid-area: 1 / 2 / 3 / 3;
+    }
 }

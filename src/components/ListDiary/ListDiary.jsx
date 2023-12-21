@@ -11,9 +11,18 @@ import React, { useState } from 'react'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 import Edit from '../Edit/Edit'
 
+export const options = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}
+
 const ListDiary = ({ title, currency }) => {
   const [editSwitch, setEditSwitch] = useState(false)
-  const { personal_spend: personalSpend, isBlur, dateSelected: daySelected } = useStore()
+  const [selectedData, setSelectedData] = useState({})
+  const [isModalDelete, setIsModalDelete] = useState(false)
+  const { personal_spend: personalSpend, isBlur, dateSelected: daySelected, balance_personal_spend: personalBalance } = useStore()
   const dateSelected = daySelected.toDateString()
   const filteredData = personalSpend && personalSpend.filter(d => {
     const dateString = new Date(d.date).toDateString()
@@ -38,18 +47,22 @@ const ListDiary = ({ title, currency }) => {
 
   const subtotal = filteredData && filteredData.reduce((total, da) => total + parseFloat(da.quantity), 0)
   const deleteSpend = async (id) => {
-    const filteredPersonalSpend = personalSpend.filter(i => i._id !== id)
-    console.log(filteredPersonalSpend)
-    useStore.setState({
-      personal_spend: filteredPersonalSpend
-    })
-    setIsModalDelete(false)
-    const { response, json } = await deletePersonalSpend(id)
-    console.log(response, json)
+    try {
+      const filteredPersonalSpend = personalSpend.filter(i => i._id !== id)
+      useStore.setState({
+        personal_spend: filteredPersonalSpend,
+        balance_personal_spend: {
+          ...personalBalance,
+          [selectedData.method]: personalBalance[selectedData.method] + selectedData.quantity
+        }
+      })
+      const { response, json } = await deletePersonalSpend(id)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsModalDelete(false)
+    }
   }
-
-  const [selectedData, setSelectedData] = useState({})
-  const [isModalDelete, setIsModalDelete] = useState(false)
 
   const openModalDelete = (data) => {
     setSelectedData(data)
@@ -79,12 +92,6 @@ const ListDiary = ({ title, currency }) => {
     )
   }
 
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }
   return (
     <div>
       <article className={editSwitch ? 'list__container-spend editing' : 'list__container-spend'}>

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react'
 import { useStore } from '../../stores/useStore'
+import Article from '../Article/Article'
 
 const Balance = ({ currency }) => {
   const { income, expense, saving, investment, available_personal_spend: availablePersonalSpend } = useStore()
@@ -45,7 +46,7 @@ const Balance = ({ currency }) => {
     })
   }, [income, expense, saving, investment, availablePersonalSpend])
   return (
-    <article>
+    <Article>
       <h3>Balance</h3>
       <section>
         <span style={{ paddingInline: '5px' }}>Tarjeta: {refreshBalanceCard}{currency}</span>
@@ -53,8 +54,7 @@ const Balance = ({ currency }) => {
       <section>
         <span style={{ paddingInline: '5px' }}>Efectivo: {refreshBalanceCash}{currency}</span>
       </section>
-
-    </article>
+    </Article>
   )
 }
 

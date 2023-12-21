@@ -23,7 +23,7 @@ const Spendings = ({ currency }) => {
   const monthLeftSpend = (monthLimitA - monthSpendA).toFixed(2)
 
   return (
-    <Article>
+    <Article width='100%'>
       <h2>Gasto Personal</h2>
       <section>
         <h3>Hoy has gastado <IsBlurSpan>{diarySpendA}{currency}</IsBlurSpan></h3>

@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import './Grid.css'
+import { MagicMotion } from 'react-magic-motion'
 
-const Grid = ({ children }) => {
+const Grid = ({ children, width }) => {
   return (
-    <article className='grid'>
-      {children}
-    </article>
+    <MagicMotion>
+      <article className='grid' style={{ width }}>
+        {children}
+      </article>
+    </MagicMotion>
   )
 }
 

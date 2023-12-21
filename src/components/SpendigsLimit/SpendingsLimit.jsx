@@ -12,7 +12,7 @@ const SpendingsLimit = ({ currency }) => {
   const weekLimitA = weekLimit(availablePersonalSpend.card, availablePersonalSpend.cash)
   const monthLimitA = monthLimit(availablePersonalSpend.card, availablePersonalSpend.cash)
   return (
-    <Article>
+    <Article width='100%'>
       <h2>Límite de gastos</h2>
       <section>
         <h3>Gasto diario <IsBlurSpan>{diaryLimitA}{currency}</IsBlurSpan></h3>

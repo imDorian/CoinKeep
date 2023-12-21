@@ -2,9 +2,9 @@
 import React from 'react'
 import './Article.css'
 
-const Article = ({ children }) => {
+const Article = ({ children, width, position }) => {
   return (
-    <article className='article'>
+    <article className='article' style={{ width, position }}>
       {children}
     </article>
   )

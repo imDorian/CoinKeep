@@ -15,6 +15,8 @@ import Edit from '../../components/Edit/Edit'
 import ModalDelete from '../../components/ModalDelete/ModalDelete'
 import WeekCalendar from '../../components/WeekCalendar/WeekCalendar'
 import IsModalUpdates from '../../components/IsModalUpdates/IsModalUpdates'
+import { putMethodSchema } from '../../functions/putMethodSchema'
+import Objective from '../../components/Objective/Objective'
 
 const HomePage = () => {
   const [editSwitch, setEditSwitch] = useState(false)
@@ -22,8 +24,17 @@ const HomePage = () => {
   const navigate = useNavigate()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   // const isUpdates = JSON.parse(window.localStorage.getItem('updates'))
-  const { personal_spend: personalSpend } = useStore()
+  const { personal_spend: personalSpend, balance_personal_spend: personalBalance, balance } = useStore()
+  const updateData = async (id, data, cat) => {
+    const { res, json } = await putMethodSchema(id, data, cat)
+    console.log(res, json)
+  }
 
+  useEffect(() => {
+    useStore.setState({
+      selectedPage: 'home'
+    })
+  }, [])
   useEffect(() => {
     const fetchDataUser = async () => {
       const data = await verifyToken()
@@ -44,28 +55,33 @@ const HomePage = () => {
     } else {
       navigate('/')
     }
-    // if (cookies.user === null || cookies.user === undefined) {
-    //   navigate('/')
-    // }
   }, [])
 
+  useEffect(() => {
+    updateData(personalBalance._id, personalBalance, 'personal_balance')
+  }, [personalBalance])
+  useEffect(() => {
+    updateData(balance._id, balance, 'balance')
+  }, [balance])
+
   return (
-    <>
+    <div style={{ marginTop: '7vh' }}>
       <Container>
-        <Welcome username={cookies.user.name} currency='€' />
+        <Welcome username={cookies.user.name} currency='€' pageSelected={0} />
         <h1 style={{ width: '100%', textAlign: 'start', fontSize: '30px' }}>Bienvenido a <br /> CoinKeep {cookies.user.name}</h1>
         <IsModalUpdates />
         <WeekCalendar currency='€' />
         <Grid>
-          <SpendingsLimit currency='€' />
+          <Objective />
           <Spendings currency='€' />
+          <SpendingsLimit currency='€' />
         </Grid>
         <SpendInput currency='€' personalSpend={personalSpend} />
         <ModalDelete />
         <ListDiary editSwitch={editSwitch} currency='€' data={personalSpend} types={TIPOS_GASTOS[3]} title='Gasto Diario' />
       </Container>
       <NavBar />
-    </>
+    </div>
 
   )
 }

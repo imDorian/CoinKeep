@@ -9,12 +9,11 @@ import { INVESTMENT_TYPES, TIPOS_INVERSION } from '../../categories/INVESTMENT_T
 import { useStore } from '../../stores/useStore'
 
 const Investments = ({ currency, editSwitch }) => {
-  const { userData } = useContext(userDataContext)
-  const investment = useStore(state => state.investment)
+  const { investment } = useStore()
   return (
     <Container>
       <ModalDelete prop='investment' />
-      <Subtitle currency={currency} data={userData.investment} subtitle='Inversión' />
+      <Subtitle currency={currency} data={investment} subtitle='Inversión' />
       <List editSwitch={editSwitch} currency={currency} data={investment} types={TIPOS_INVERSION[0] || INVESTMENT_TYPES[0]} title='Acciones' />
       <List editSwitch={editSwitch} currency={currency} data={investment} types={TIPOS_INVERSION[1] || INVESTMENT_TYPES[1]} title='Bonos' />
       <List editSwitch={editSwitch} currency={currency} data={investment} types={TIPOS_INVERSION[2] || INVESTMENT_TYPES[2]} title='Fondos Mutuos' />

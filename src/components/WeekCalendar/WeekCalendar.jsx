@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react'
 import './WeekCalendar.css'
 // import { isThisWeek } from '../../functions/timeController'
 import { useStore } from '../../stores/useStore'
-import { isThisWeek } from '../../functions/timeController'
+import { getCurrentMonthDays, isThisWeek } from '../../functions/timeController'
 import { diaryLimit } from '../../functions/limits'
 
 const WeekCalendar = ({ currency }) => {
   const { personal_spend: personalSpend, available_personal_spend: availablePersonalSpend, isBlur } = useStore()
-  const diaryLimitA = diaryLimit(availablePersonalSpend.card, availablePersonalSpend.cash, 30)
+  const daysOfThisMonth = getCurrentMonthDays()
+  const diaryLimitA = diaryLimit(availablePersonalSpend.card, availablePersonalSpend.cash, daysOfThisMonth)
   const [dailySpend, setDailySpend] = useState({
     Mon: 0,
     Tue: 0,

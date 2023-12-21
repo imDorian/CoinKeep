@@ -5,17 +5,40 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
+    padding-inline: 20px;
     /* gap: 10px; */
     /* padding-inline: 10px; */
     /* box-sizing: border-box; */
     && h3{
         text-align: center;
-        width: 100%;
-        font-size:30px;
+        /* width: 100%; */
+        font-size:24px;
+        margin-block: 20px;
+        margin-bottom: 5px;
         && span{
            font-weight: 300;
            font-size: small;
            text-align: center;
+        }
+    }
+
+    && .summary {
+        margin: 0;
+        padding: 0;
+        font-weight: 500;
+        font-size: 14px;
+        color: wheat;
+    }
+
+    && #types-of{
+        display: flex;
+        align-items: baseline;
+        gap: 20px;
+
+        && span{
+            color: rgb(156, 156, 156);
+            font-size: 14px;
+            font-weight: 500;
         }
     }
     && section{
@@ -37,6 +60,9 @@
             align-items: end;
             justify-items: start;
             padding-top: 10px;
+            && span{
+                text-wrap:nowrap;
+            }
         }
         && #subtotal{
             color: yellow;
@@ -51,7 +77,9 @@
 .editing{
     && section{
         && div{
-            grid-template-columns: 2fr 2fr 2fr 1fr
+            grid-template-columns: 2fr 1fr 0.5fr 0.5fr;
+            grid-template-rows: 1fr 5px;
+
         }
     }
 }

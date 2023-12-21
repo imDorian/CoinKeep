@@ -1,31 +1,47 @@
 /* eslint-disable react/prop-types */
 import { MagicMotion } from 'react-magic-motion'
 // import './Welcome.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useStore } from '../../stores/useStore'
-import Balance from '../Balance/Balance'
-import SpendInput from '../SpendInput/SpendInput'
 import EyeSlashIcon from '../../icons/EyeSlashIcon'
 import EyeIcon from '../../icons/EyeIcon'
+import Grid from '../Grid/Grid'
+import Input from '../Input/Input'
+import PersonalBalanceWidget from '../PersonalBalanceWidget/PersonalBalanceWidget'
+import BalanceWidget from '../BalanceWidget/BalanceWidget'
+import IsNanLoading from '../../functions/IsNanLoading'
 
-const Welcome = ({ username, currency }) => {
+const Welcome = ({ username, currency, pageSelected }) => {
+  const contenedorRef = useRef(null)
+
+  useEffect(() => {
+    // Define el índice de la página en la que quieres que comience el desplazamiento
+    const paginaInicial = pageSelected // Puedes cambiar esto según tus necesidades
+
+    // Calcula el ancho de cada página en el contenedor
+    const anchoPagina = contenedorRef.current.scrollWidth / 2
+
+    // Establece el desplazamiento inicial
+    contenedorRef.current.scrollLeft = anchoPagina * paginaInicial
+  }, [])
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const [isTime, setIsTime] = useState(false)
+  // const [page, setPage] = useState(pageSelected)
+  // const [isTime, setIsTime] = useState(false)
   const { balance, balance_personal_spend: balancePersonalSpend, isBlur } = useStore()
-  const totalBalance = (balance.card + balance.cash) < 0 ? (balance.card + balance.cash).toFixed(2) : '+' + (balance.card + balance.cash).toFixed(2)
-  const totalBalancePersonalSpend = (balancePersonalSpend.card + balancePersonalSpend.cash) < 0 ? (balancePersonalSpend.card + balancePersonalSpend.cash).toFixed(2) : '+' + (balancePersonalSpend.card + balancePersonalSpend.cash).toFixed(2)
+  const totalBalance = (balance.card + balance.cash) < 0.01 ? (balance.card + balance.cash).toFixed(2) : '+' + (balance.card + balance.cash).toFixed(2)
+  const totalBalancePersonalSpend = (balancePersonalSpend.card + balancePersonalSpend.cash) < 0.01 ? (balancePersonalSpend.card + balancePersonalSpend.cash).toFixed(2) : '+' + (balancePersonalSpend.card + balancePersonalSpend.cash).toFixed(2)
 
   const handleBlur = () => {
     useStore.setState({
       isBlur: !isBlur
     })
   }
-  useEffect(() => {
-    setTimeout(() => {
-      // setIsCollapsed(true)
-      setIsTime(true)
-    }, 3000)
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     // setIsCollapsed(true)
+  //     setIsTime(true)
+  //   }, 3000)
+  // }, [])
 
   return (
     <MagicMotion>
@@ -36,7 +52,7 @@ const Welcome = ({ username, currency }) => {
           margin: '1rem 0',
           borderRadius: '0.65rem',
           width: '90vw',
-          height: isCollapsed ? '2.1rem' : '20rem',
+          height: isCollapsed ? '2.1rem' : '',
           fontWeight: 'bold',
           display: 'flex',
           flexDirection: 'column',
@@ -59,10 +75,13 @@ const Welcome = ({ username, currency }) => {
             paddingBottom: '3px'
           }}
         >
-          {!isCollapsed && <h4 style={{ margin: 0 }}>{!isTime ? `Bienvenido a CoinKeep sr. ${username}` : 'Balance'}</h4>}
-
+          <button onClick={handleBlur}>{isBlur ? <EyeSlashIcon color='white' size='21px' /> : <EyeIcon color='white' size='21px' />}</button>
+          <header style={{ width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0 }}>
+            <span style={{ fontSize: '13px', fontWeight: '400', gridTemplateColumns: '1fr 1fr' }}>Balance&nbsp; <span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms', color: totalBalance >= 0 ? 'aquamarine' : 'red' }}> <IsNanLoading d={totalBalance} /></span></span>
+            <span style={{ fontSize: '13px', fontWeight: '400', gridTemplateColumns: '1fr 1fr' }}>B. Personal&nbsp;<span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms', color: totalBalancePersonalSpend >= 0 ? 'aquamarine' : 'red' }}><IsNanLoading d={totalBalancePersonalSpend} /></span></span>
+          </header>
           <button
-            style={{ cursor: 'pointer', padding: 0, border: 0 }}
+            style={{ cursor: 'pointer', padding: 0, border: 0, rotate: isCollapsed ? '' : '90deg', animation: '500ms' }}
             onClick={() => setIsCollapsed(!isCollapsed)}
             title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
           >
@@ -83,36 +102,21 @@ const Welcome = ({ username, currency }) => {
               />
             </svg>
           </button>
-          {isCollapsed
-            ? (
-              <header style={{ width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 0 }}>
-                <span style={{ fontSize: '13px', fontWeight: '400', gridTemplateColumns: '1fr 1fr' }}>Balance&nbsp; <span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms', color: totalBalance > 0 ? 'aquamarine' : 'red' }}>{totalBalance}{currency}</span></span>
-                <span style={{ fontSize: '13px', fontWeight: '400', gridTemplateColumns: '1fr 1fr' }}>B. Personal&nbsp;<span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms', color: totalBalancePersonalSpend > 0 ? 'aquamarine' : 'red' }}>{totalBalancePersonalSpend}{currency}</span></span>
-              </header>
-              )
-            : (
-              <svg
-                style={{ minWidth: '24px', minHeight: '24px' }}
-                width='22'
-                height='22'
-                viewBox='0 0 24 24'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M22.2877 11.0001V13.0001H7.80237L11.045 16.2428L9.63079 17.657L3.97394 12.0001L9.63079 6.34326L11.045 7.75748L7.80236 11.0001H22.2877Z'
-                  fill='currentColor'
-                />
-                <path d='M3 18V6H1V18H3Z' fill='currentColor' />
-              </svg>
-              )}
-          <button onClick={handleBlur}>{isBlur ? <EyeSlashIcon color='white' size='21px' /> : <EyeIcon color='white' size='21px' />}</button>
         </div>
+        <ul ref={contenedorRef} style={{ margin: 0, padding: 0, overflowX: 'auto', overflowY: 'hidden', scrollSnapType: 'x mandatory', display: 'flex', width: '100%', listStyle: 'none' }}>
+          <li style={{ scrollSnapAlign: 'center' }}>
+            <Grid width='90vw'>
+              {/* <Balance currency='€' /> */}
+              <BalanceWidget />
+              <PersonalBalanceWidget />
+            </Grid>
+            {/* <SpendInput currency='€' /> */}
+          </li>
+          <li style={{ scrollSnapAlign: 'center' }}>
+            <Input currency='€' />
+          </li>
 
-        <div>
-          <Balance currency='€' />
-          <SpendInput currency='€' />
-        </div>
+        </ul>
       </aside>
     </MagicMotion>
   )

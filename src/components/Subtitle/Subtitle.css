@@ -1,12 +1,11 @@
 .subtitle{
+    display: flex;
+    flex-direction: column;
     && h2{
-        && span{
-            color: green;
-            font-size: small;
-        }
+        font-size: 36px;
     }
     && span{
-        color: aquamarine;
-        font-size: large;
+        color: rgb(156, 156, 156);
+        font-size: 14px;
     }
 }

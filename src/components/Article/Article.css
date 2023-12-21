@@ -1,13 +1,17 @@
 .article{
-    display: grid;
+    display: flex;
+    flex-direction:column;
     background-color: #303030;
     border-radius: 6px;
     padding: 10px;
     box-sizing: border-box;
+    width: 100%;
 
     && h2{
         color:aquamarine;
         margin-block: 5px;
+        font-size: 18px;
+        /* width: 100%; */
     }
 
     && section{
