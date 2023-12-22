@@ -46,8 +46,9 @@ const List = ({ data, title, types, currency, editSwitch }) => {
                   const newD = new Date(d.date).toLocaleDateString('es-ES', options)
                   return (
                     <div key={d._id}>
-                      <span id='category'>{d.category}</span>
+                      <span className='category'>{d.category}</span>
                       <span>{d.quantity.toFixed(2)}{d.currency}</span>
+                      <span className='method'>{d.method}</span>
                       <span>{newD}</span>
                       {editSwitch ? <button onClick={() => openModal(d)}><TrashIcon size='18px' color='red' /></button> : ''}
                     </div>
@@ -66,8 +67,9 @@ const List = ({ data, title, types, currency, editSwitch }) => {
                   const newD = new Date(d.date).toLocaleDateString('es-ES', options)
                   return (
                     <div key={d._id}>
-                      <span id='category'>{d.category}</span>
+                      <span className='category'>{d.category}</span>
                       <span>{d.quantity.toFixed(2)}{d.currency}</span>
+                      <span className='method'>{d.method}</span>
                       <span>{newD}</span>
                       {editSwitch ? <button onClick={() => openModal(d)}><TrashIcon size='18px' color='red' /></button> : ''}
                     </div>
