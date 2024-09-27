@@ -1,7 +1,4 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
 import { create } from 'zustand'
-import { METHOD } from '../components/SpendInput/SpendInput'
 
 export const useStore = create(set => ({
   name: '',
@@ -22,30 +19,49 @@ export const useStore = create(set => ({
   selectedData: {},
   selectedPage: 'home',
   monthGoal: {},
-  fetchLogin: async (formData) => {
+
+  // Función fetchLogin mejorada
+  fetchLogin: async formData => {
     const url = import.meta.env.VITE_URL + '/users/login'
-    const response = await window.fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      // Verificar si la respuesta es exitosa
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`)
       }
-    })
-    // Nos devuelve una respuesta
-    const json = await response.json()
-    set({
-      name: json.user.name,
-      email: json.user.email,
-      imageUrl: json.user.imageUrl ?? 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Anuel_AA_in_2022.png'
-    })
-    return { response, json }
+
+      const json = await response.json()
+
+      // Actualizar el estado de la store con los datos del usuario autenticado
+      set({
+        name: json.user.name,
+        email: json.user.email,
+        imageUrl:
+          json.user.imageUrl ??
+          'https://upload.wikimedia.org/wikipedia/commons/3/3c/Anuel_AA_in_2022.png'
+      })
+
+      return { response, json }
+    } catch (error) {
+      console.error('Error en el inicio de sesión:', error)
+      return { error }
+    }
   },
-  fetchData: async (dataId) => {
+
+  fetchData: async dataId => {
     const urlData = import.meta.env.VITE_URL + `/data/get/${dataId}`
     try {
-      const response = await window.fetch(urlData, {
-        method: 'GET'
-      })
+      const response = await fetch(urlData, { method: 'GET' })
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`)
+      }
       const json = await response.json()
       set({
         income: json.income,
@@ -58,10 +74,9 @@ export const useStore = create(set => ({
         balance_personal_spend: json.personal_balance,
         monthGoal: json.monthGoal
       })
-      console.log(json)
       return { response, json }
     } catch (error) {
-      console.error(error)
+      console.error('Error al cargar los datos:', error)
     }
   }
 }))
