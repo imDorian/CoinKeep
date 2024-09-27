@@ -17,6 +17,7 @@ import WeekCalendar from '../../components/WeekCalendar/WeekCalendar'
 import IsModalUpdates from '../../components/IsModalUpdates/IsModalUpdates'
 import { putMethodSchema } from '../../functions/putMethodSchema'
 import Objective from '../../components/Objective/Objective'
+import Calendar from '../../components/Calendar/Calendar'
 
 const HomePage = () => {
   const [editSwitch, setEditSwitch] = useState(false)
@@ -24,7 +25,7 @@ const HomePage = () => {
   const navigate = useNavigate()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   // const isUpdates = JSON.parse(window.localStorage.getItem('updates'))
-  const { personal_spend: personalSpend, balance_personal_spend: personalBalance, balance } = useStore()
+  const { personal_spend: personalSpend, balance_personal_spend: personalBalance, balance, monthGoal } = useStore()
   const updateData = async (id, data, cat) => {
     const { res, json } = await putMethodSchema(id, data, cat)
     console.log(res, json)
@@ -70,11 +71,12 @@ const HomePage = () => {
         <Welcome username={cookies.user.name} currency='€' pageSelected={0} />
         <h1 style={{ width: '100%', textAlign: 'start', fontSize: '30px' }}>Bienvenido a <br /> CoinKeep {cookies.user.name}</h1>
         <IsModalUpdates />
-        <WeekCalendar currency='€' />
+        {/* <WeekCalendar currency='€' startDate={monthGoal.startDate} endDate={monthGoal.endDate} /> */}
         <Grid>
           <Objective />
+          <Calendar startDate={monthGoal.startDate} endDate={monthGoal.endDate} expenses={personalSpend} limit={monthGoal.monthGoal} />
           <Spendings currency='€' />
-          <SpendingsLimit currency='€' />
+          {/* <SpendingsLimit currency='€' /> */}
         </Grid>
         <SpendInput currency='€' personalSpend={personalSpend} />
         <ModalDelete />

@@ -5,6 +5,7 @@ import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import EditIcon from '../../icons/EditIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
+import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 
 const PersonalBalanceWidget = () => {
   const [isEdit, setIsEdit] = useState(false)
@@ -94,11 +95,11 @@ const PersonalBalanceWidget = () => {
       <button style={{ position: 'absolute', top: '0px', right: '0', background: 'transparent', padding: '6px' }} onClick={handleIsEdit}> <EditIcon size='12px' color='white' /></button>
       <h2>Balance Personal</h2>
       <section style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', gap: '5px' }}>
-        <h3>Tarjeta {personalBalance.card}{currency}</h3>
+        <h3>Tarjeta <IsBlurSpan>{(personalBalance.card && personalBalance.card.toFixed(2))}{currency}</IsBlurSpan></h3>
         {isEdit ? <button onClick={() => handleMethod('card')}><CreditCardIcon color={method === 'card' ? 'aquamarine' : 'white'} size='23px' /></button> : ''}
       </section>
       <section style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', gap: '5px' }}>
-        <h3>Efectivo {personalBalance.cash}{currency}</h3>
+        <h3>Efectivo <IsBlurSpan>{personalBalance.cash && personalBalance.cash.toFixed(2)}{currency}</IsBlurSpan></h3>
         {isEdit ? <button onClick={() => handleMethod('cash')}><CashIcon color={method === 'cash' ? 'aquamarine' : 'white'} size='23px' /></button> : ''}
       </section>
       {isEdit ? <EditPersonalBalance /> : ''}

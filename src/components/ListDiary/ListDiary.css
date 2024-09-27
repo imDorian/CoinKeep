@@ -45,7 +45,7 @@
         width: 95vw;
         overflow-y: auto;
         background-color: rgba(128, 128, 128, 0.244);
-        border-radius: 10px;
+        border-radius: 20px;
         align-items: center;
         justify-content: flex-start;
         /* box-shadow: 2px 3px 15px -7px aquamarine */

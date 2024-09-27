@@ -1,50 +1,39 @@
-export const isToday = (d) => {
-  const dataDate = new Date(d)
+// Función que devuelve los días restantes del mes actual
+export const getCurrentMonthDays = () => {
+  const now = new Date()
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0) // Último día del mes
+  return endOfMonth.getDate() - now.getDate() // Días restantes
+}
+
+export const isToday = d => {
   const fechaActual = new Date()
   return (
-    dataDate.getDate() === fechaActual.getDate() &&
-    dataDate.getMonth() === fechaActual.getMonth() &&
-    dataDate.getFullYear() === fechaActual.getFullYear()
+    d.getDate() === fechaActual.getDate() &&
+    d.getMonth() === fechaActual.getMonth() &&
+    d.getFullYear() === fechaActual.getFullYear()
   )
 }
 
-export const isThisWeek = (d) => {
-  const dataDate = new Date(d)
+export const isThisWeek = d => {
   const today = new Date()
   const currentDay = today.getDay() // 0 es Domingo, 1 es Lunes, ..., 6 es Sábado
 
   // Ajustar el día actual al primer día de la semana (Lunes)
   const firstDayOfWeek = new Date(today)
-  firstDayOfWeek.setDate(today.getDate() - currentDay + (currentDay === 0 ? -6 : 0))
+  firstDayOfWeek.setDate(
+    today.getDate() - currentDay + (currentDay === 0 ? 1 : 0)
+  )
 
   // Ajustar el día actual al último día de la semana (Domingo)
   const lastDayOfWeek = new Date(firstDayOfWeek)
-  lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6)
+  lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 7)
 
-  return dataDate >= firstDayOfWeek && dataDate <= lastDayOfWeek
+  return d >= firstDayOfWeek && d <= lastDayOfWeek
 }
-export const isThisMonth = (d) => {
+export const isThisMonth = d => {
   const fechaActual = new Date()
-  const date = new Date(d)
   return (
-    date.getMonth() === fechaActual.getMonth() &&
-    date.getFullYear() === fechaActual.getFullYear()
+    d.getMonth() === fechaActual.getMonth() &&
+    d.getFullYear() === fechaActual.getFullYear()
   )
-}
-export const isThisNoMonth = (d) => {
-  const fechaActual = new Date()
-  const date = new Date(d)
-  return (
-    date.getMonth() !== fechaActual.getMonth()
-  )
-}
-export const getCurrentMonthDays = () => {
-  const currentDate = new Date()
-  const year = currentDate.getFullYear()
-  const month = currentDate.getMonth() + 1 // Los meses en JavaScript van de 0 a 11
-
-  // Obtiene el último día del mes restando 1 milisegundo al primer día del siguiente mes
-  const lastDayOfMonth = new Date(year, month, 0)
-
-  return lastDayOfMonth.getDate()
 }

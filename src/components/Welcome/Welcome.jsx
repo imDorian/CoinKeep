@@ -50,7 +50,7 @@ const Welcome = ({ username, currency, pageSelected }) => {
           backgroundColor: 'rgba(70, 70, 70)',
           padding: '3px 10px',
           margin: '1rem 0',
-          borderRadius: '0.65rem',
+          borderRadius: '25px',
           width: '90vw',
           height: isCollapsed ? '2.1rem' : '',
           fontWeight: 'bold',
@@ -104,17 +104,17 @@ const Welcome = ({ username, currency, pageSelected }) => {
           </button>
         </div>
         <ul ref={contenedorRef} style={{ margin: 0, padding: 0, overflowX: 'auto', overflowY: 'hidden', scrollSnapType: 'x mandatory', display: 'flex', width: '100%', listStyle: 'none' }}>
-          <li style={{ scrollSnapAlign: 'center' }}>
+          {/* <li style={{ scrollSnapAlign: 'center' }}>
             <Grid width='90vw'>
-              {/* <Balance currency='€' /> */}
+              <Balance currency='€' />
               <BalanceWidget />
               <PersonalBalanceWidget />
             </Grid>
-            {/* <SpendInput currency='€' /> */}
+            <SpendInput currency='€' />
           </li>
-          <li style={{ scrollSnapAlign: 'center' }}>
-            <Input currency='€' />
-          </li>
+          <li style={{ scrollSnapAlign: 'center' }}> */}
+          <Input currency='€' />
+          {/* </li> */}
 
         </ul>
       </aside>

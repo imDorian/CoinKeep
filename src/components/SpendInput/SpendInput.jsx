@@ -7,6 +7,8 @@ import { useStore } from '../../stores/useStore'
 import { putData } from '../../functions/putData'
 import { isThisMonth } from '../../functions/timeController'
 import { putMethodSchema } from '../../functions/putMethodSchema'
+import PlusCircle from '../../icons/PlusCircle'
+import QuitIcon from '../../icons/QuitIcon'
 
 export function capitalizeFirstLetter (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
@@ -27,9 +29,10 @@ const SpendInput = ({ currency }) => {
     card: availablePersonalSpend.card - monthSpendCard,
     cash: availablePersonalSpend.cash - monthSpendCash
   }
+  const [newProduct, setNewProduct] = useState('')
   const [newData, setNewData] = useState({
     establishment: '',
-    product: '',
+    product: [],
     quantity: Number,
     currency: '€',
     description: '',
@@ -55,7 +58,7 @@ const SpendInput = ({ currency }) => {
   const addToSpend = async (e) => {
     e.preventDefault()
     const PERSONAL_SPEND = 'personal_spend'
-    if (newData.quantity <= personalBalance[method] && personalBalance[method] > 0 && newData.quantity !== '' && newData.quantity > 0 && newData.establishment !== '' && newData.product !== '') {
+    if (newData.quantity <= personalBalance[method] && personalBalance[method] > 0 && newData.quantity !== '' && newData.quantity > 0 && newData.establishment !== '' && newData.product.length !== 0) {
       const { json, res } = await putData(PERSONAL_SPEND, cookies.user.data, newData)
       if (res.status === 200) {
         const newPersonalBalance = {
@@ -69,7 +72,7 @@ const SpendInput = ({ currency }) => {
         setNewData({
           ...newData,
           establishment: '',
-          product: '',
+          product: [],
           quantity: Number
         })
       }
@@ -94,13 +97,35 @@ const SpendInput = ({ currency }) => {
       </div>
     )
   }
+
+  const addNewProduct = (e) => {
+    e.preventDefault()
+    if (newProduct !== '') {
+      setNewData({
+        ...newData,
+        product: [...newData.product, newProduct]
+      })
+      setNewProduct('')
+    }
+  }
+  const quitNewProduct = (e, i) => {
+    e.preventDefault()
+    const productsFiltered = [...newData.product]
+    productsFiltered.splice(i, 1)
+    console.log(productsFiltered)
+    setNewData({
+      ...newData,
+      product: productsFiltered
+    })
+  }
   return (
     <form className='spend-input__form'>
       <h3>Introduce nuevo gasto personal <div id='info-date'>Info.<span>Puedes añadir gastos cambiando la fecha de "Gasto Diario"</span></div></h3>
       <div className='spend-input__container'>
         <div className='spend-input__inputs'>
           <input type='text' required placeholder='Establecimiento' value={newData.establishment} onChange={e => setNewData({ ...newData, establishment: capitalizeFirstLetter(e.target.value) })} />
-          <input type='text' required placeholder='Producto o servicio' value={newData.product} onChange={e => setNewData({ ...newData, product: capitalizeFirstLetter(e.target.value) })} />
+          {newData.product.length > 0 && newData.product.map((p, index) => <span key={p}><input value={p} disabled /><button onClick={e => quitNewProduct(e, index)}><QuitIcon color='rgb(255, 107, 107)' size='24px' /></button></span>)}
+          <span><input type='text' required placeholder='Producto o servicio' value={newProduct} onChange={e => setNewProduct(capitalizeFirstLetter(e.target.value))} /><button onClick={e => addNewProduct(e)}><PlusCircle color='aquamarine' size='24px' /></button></span>
         </div>
         <div className='spend-input__container2'>
           <MethodButtons />

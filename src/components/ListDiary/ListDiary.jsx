@@ -113,7 +113,7 @@ const ListDiary = ({ title, currency }) => {
                 return (
                   <li key={d._id} className='list__container__list'>
                     <span>{d.establishment}</span>
-                    <span>{d.product}</span>
+                    <span>{d.product.join(', ')}</span>
                     <span>{d.quantity.toFixed(2)}{d.currency}</span>
                     <span>{d.method === 'card' ? <CreditCardIcon size='24px' color='white' /> : <CashIcon size='24px' color='white' />}</span>
                     {editSwitch ? <button onClick={() => openModalDelete(d)}><TrashIcon size='20px' color='rgb(255, 60, 60)' /></button> : ''}

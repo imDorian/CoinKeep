@@ -5,7 +5,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    padding-inline: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #303030;
     /* gap: 10px; */
     /* padding-inline: 10px; */
     /* box-sizing: border-box; */
@@ -27,7 +29,7 @@
         padding: 0;
         font-weight: 500;
         font-size: 14px;
-        color: wheat;
+        color: rgb(255, 77, 77);
     }
 
     && #types-of{
@@ -57,7 +59,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr 0.5fr 1fr;
             grid-template-rows: 1fr 5px;
-            align-items: end;
+            align-items: stretch;
             justify-items: end;
             padding-top: 10px;
             && span{

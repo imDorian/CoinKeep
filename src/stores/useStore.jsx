@@ -21,6 +21,7 @@ export const useStore = create(set => ({
   isModalDelete: false,
   selectedData: {},
   selectedPage: 'home',
+  monthGoal: {},
   fetchLogin: async (formData) => {
     const url = import.meta.env.VITE_URL + '/users/login'
     const response = await window.fetch(url, {
@@ -46,7 +47,6 @@ export const useStore = create(set => ({
         method: 'GET'
       })
       const json = await response.json()
-      console.log(json)
       set({
         income: json.income,
         expense: json.expense,
@@ -55,8 +55,10 @@ export const useStore = create(set => ({
         available_personal_spend: json.available_personal_spend,
         personal_spend: json.personal_spend,
         balance: json.balance,
-        balance_personal_spend: json.personal_balance
+        balance_personal_spend: json.personal_balance,
+        monthGoal: json.monthGoal
       })
+      console.log(json)
       return { response, json }
     } catch (error) {
       console.error(error)

@@ -1,5 +1,6 @@
 import Article from '../Article/Article'
 import { useStore } from '../../stores/useStore'
+import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 
 const BalanceWidget = () => {
   const { balance, currency } = useStore()
@@ -45,12 +46,12 @@ const BalanceWidget = () => {
   //   }, [income, expense, saving, investment])
   return (
     <Article width='100%'>
-      <h2>Balance</h2>
+      <h2>Balance Disponible</h2>
       <section>
-        <h3>Tarjeta {balance.card}{currency}</h3>
+        <h3>Tarjeta <IsBlurSpan>{balance.card && balance.card.toFixed(2)}{currency}</IsBlurSpan></h3>
       </section>
       <section>
-        <h3>Efectivo {balance.cash}{currency}</h3>
+        <h3>Efectivo <IsBlurSpan>{balance.cash && balance.cash.toFixed(2)}{currency}</IsBlurSpan></h3>
       </section>
     </Article>
   )

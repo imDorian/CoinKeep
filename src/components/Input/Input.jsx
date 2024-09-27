@@ -33,7 +33,7 @@ const Input = ({ currency }) => {
     investment: 'investment'
   }
   const [newData, setNewData] = useState({
-    category: CATEGORIAS_INGRESOS[0],
+    category: '',
     type: TIPOS_INGRESOS[0],
     quantity: '',
     currency: '€',
@@ -149,7 +149,6 @@ const Input = ({ currency }) => {
   useEffect(() => {
     setNewData({
       ...newData,
-      category: categoriesSelected[0],
       type: typesSelected[0],
       model: typeSelected
     })
@@ -197,22 +196,16 @@ const Input = ({ currency }) => {
       </div> */}
       {/* <Balance currency={currency} /> */}
       <nav id='handle-type'>
-        <a href='#income' className={typeSelected === 'income' ? 'active' : ''} onClick={() => handleType(categories.income)}>Ingresos</a>
-        <a href='#expense' className={typeSelected === 'expense' ? 'active' : ''} onClick={() => handleType(categories.expense)}>Gastos</a>
-        <a href='#saving' className={typeSelected === 'saving' ? 'active' : ''} onClick={() => handleType(categories.saving)}>Ahorros</a>
-        <a href='#investment' className={typeSelected === 'investment' ? 'active' : ''} onClick={() => handleType(categories.investment)}>Inversión</a>
+        <a className={typeSelected === 'income' ? 'active' : ''} onClick={() => handleType(categories.income)}>Ingresos</a>
+        <a className={typeSelected === 'expense' ? 'active' : ''} onClick={() => handleType(categories.expense)}>Gastos</a>
+        <a className={typeSelected === 'saving' ? 'active' : ''} onClick={() => handleType(categories.saving)}>Ahorros</a>
+        <a className={typeSelected === 'investment' ? 'active' : ''} onClick={() => handleType(categories.investment)}>Inversión</a>
       </nav>
       {isInput &&
         <form className='input-form'>
           <div>
-            <select onChange={(e) => setNewData({ ...newData, category: e.target.value })} value={newData.category} name='select'>
-              {categoriesSelected && categoriesSelected.map(category => {
-                return (
-                  <option key={category} value={category}>{category}</option>
-                )
-              })}
-            </select>
-            <select value={newData.type} onChange={(e) => setNewData({ ...newData, type: e.target.value })} name='income-types' id='income-types'>
+            <input type='text' onChange={(e) => setNewData({ ...newData, category: e.target.value })} value={newData.category} placeholder='Concepto' style={{ fontSize: '16px' }} />
+            <select style={{ textAlign: 'center' }} value={newData.type} onChange={(e) => setNewData({ ...newData, type: e.target.value })} name='income-types' id='income-types'>
               {typesSelected && typesSelected.map(type => {
                 return (
                   <option key={type} value={type}>{type}</option>
@@ -222,8 +215,8 @@ const Input = ({ currency }) => {
           </div>
           {/* <div className='input-form__input-container'> */}
           <div className='inputs--form'>
-            <input type='number' id='inputValue' value={newData.quantity} placeholder='0' onChange={(e) => setNewData({ ...newData, quantity: parseFloat(e.target.value) })} />
-            <input type='date' id='selected-date' value={date} onChange={(e) => handleDate(e)} />
+            <input style={{ fontSize: '16px' }} type='number' id='inputValue' value={newData.quantity} placeholder='€€' onChange={(e) => setNewData({ ...newData, quantity: parseFloat(e.target.value) })} />
+            <input style={{ border: 'none' }} type='date' id='selected-date' value={date} onChange={(e) => handleDate(e)} />
           </div>
           <div className='inputs--form'>
             <button onClick={addToList}>{loading ? 'Cargando...' : addButton}</button>

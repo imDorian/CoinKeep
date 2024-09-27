@@ -1,3 +1,4 @@
+/* eslint-disable no-unmodified-loop-condition */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import './WeekCalendar.css'
@@ -6,10 +7,38 @@ import { useStore } from '../../stores/useStore'
 import { getCurrentMonthDays, isThisWeek } from '../../functions/timeController'
 import { diaryLimit } from '../../functions/limits'
 
-const WeekCalendar = ({ currency }) => {
-  const { personal_spend: personalSpend, available_personal_spend: availablePersonalSpend, isBlur } = useStore()
+const WeekCalendar = ({ currency, endDate, startDate }) => {
+  const {
+    personal_spend: personalSpend,
+    available_personal_spend: availablePersonalSpend,
+    isBlur,
+    monthGoal
+  } = useStore()
   const daysOfThisMonth = getCurrentMonthDays()
-  const diaryLimitA = diaryLimit(availablePersonalSpend.card, availablePersonalSpend.cash, daysOfThisMonth)
+  const diaryLimitA = diaryLimit(
+    availablePersonalSpend.card,
+    availablePersonalSpend.cash,
+    daysOfThisMonth
+  )
+  const [dates, setDates] = useState([])
+  useEffect(() => {
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    const days = []
+
+    while (start <= end) {
+      days.push({ date: start.toLocaleDateString(), quantity: personalSpend })
+      start.setDate(start.getDate() + 1)
+    }
+
+    setDates(days)
+    console.log(days)
+  }, [startDate, endDate])
+
+  useEffect(() => {
+    const gastos = []
+  }, [startDate, endDate])
+
   const [dailySpend, setDailySpend] = useState({
     Mon: 0,
     Tue: 0,
@@ -19,6 +48,7 @@ const WeekCalendar = ({ currency }) => {
     Sat: 0,
     Sun: 0
   })
+
   const thisWeekSpend = personalSpend.filter(f => isThisWeek(f.date))
   const getColorClass = (expense, index) => {
     const today = new Date().toLocaleDateString('en-En', { weekday: 'short' })
@@ -36,7 +66,10 @@ const WeekCalendar = ({ currency }) => {
         return parseFloat(expense) <= parseFloat(diaryLimitA) ? 'green' : 'red'
       }
     } else {
-      return 'today ' + (parseFloat(expense) <= parseFloat(diaryLimitA) ? 'green' : 'red')
+      return (
+        'today ' +
+        (parseFloat(expense) <= parseFloat(diaryLimitA) ? 'green' : 'red')
+      )
     }
   }
   const calculateDailySpend = () => {
@@ -51,7 +84,9 @@ const WeekCalendar = ({ currency }) => {
     }
 
     thisWeekSpend.forEach(expense => {
-      const dayOfWeek = new Date(expense.date).toLocaleDateString('en-En', { weekday: 'short' })
+      const dayOfWeek = new Date(expense.date).toLocaleDateString('en-En', {
+        weekday: 'short'
+      })
       updatedDailySpend[dayOfWeek] += parseFloat(expense.quantity)
     })
     setDailySpend(updatedDailySpend)
@@ -63,8 +98,25 @@ const WeekCalendar = ({ currency }) => {
   return (
     <section className='week-calendar__container'>
       <h2>Objetivos</h2>
-      <p>Consigue gastar menos de <span style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms' }}>{diaryLimitA}{currency}</span> diario</p>
-      <ul style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms' }}>
+      <p>
+        Consigue gastar menos de{' '}
+        <span
+          style={{
+            filter: isBlur ? 'blur(4px)' : '',
+            transitionDuration: '300ms'
+          }}
+        >
+          {diaryLimitA}
+          {currency}
+        </span>{' '}
+        diario
+      </p>
+      <ul
+        style={{
+          filter: isBlur ? 'blur(4px)' : '',
+          transitionDuration: '300ms'
+        }}
+      >
         <li className={getColorClass(dailySpend.Mon, 0)}>L</li>
         <li className={getColorClass(dailySpend.Tue, 1)}>M</li>
         <li className={getColorClass(dailySpend.Wed, 2)}>X</li>

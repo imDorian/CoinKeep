@@ -50,9 +50,6 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
   text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 /* button:hover {
   border-color: white;

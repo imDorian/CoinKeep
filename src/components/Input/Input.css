@@ -113,13 +113,15 @@
         }
         && input {
             border: none;
-            border-bottom: 1px solid whitesmoke;
+            /* border-bottom: 0px; */
+            border-radius: 8px;
             background-color: #242424;
             height: 50px;
             font-size: 40px;
             width: 180px;
             text-align: center;
             box-sizing: border-box;
+            color: aliceblue;
 
         }
         }

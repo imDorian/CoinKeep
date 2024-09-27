@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './ModalDelete.css'
 import { useStore } from '../../stores/useStore'
 import { deleteFinancial, deletePersonalSpend } from '../../functions/deletes'
-import { putMethodSchema } from '../../functions/putMethodSchema'
 
 const ModalDelete = () => {
   const { isModalDelete, selectedData, balance_personal_spend: personalBalance, selectedPage, balance, income, expense, saving, investment } = useStore()
