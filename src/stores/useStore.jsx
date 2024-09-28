@@ -23,6 +23,7 @@ export const useStore = create(set => ({
   // Función fetchLogin mejorada
   fetchLogin: async formData => {
     const url = import.meta.env.VITE_URL + '/users/login'
+    console.log(url)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -38,6 +39,7 @@ export const useStore = create(set => ({
       }
 
       const json = await response.json()
+      console.log(json)
 
       // Actualizar el estado de la store con los datos del usuario autenticado
       set({
