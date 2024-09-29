@@ -18,7 +18,11 @@ export const useStore = create(set => ({
   isModalDelete: false,
   selectedData: {},
   selectedPage: 'home',
-  monthGoal: {},
+  monthGoal: { monthGoal: 0, startDate: '', endDate: '' },
+  setMonthGoalInStore: newMonthGoal =>
+    set(state => ({
+      monthGoal: newMonthGoal
+    })),
 
   // Función fetchLogin mejorada
   fetchLogin: async formData => {
