@@ -71,7 +71,7 @@ const HomePage = () => {
   }, [balance])
 
   return (
-    <div style={{ marginTop: '7vh' }}>
+    <div className='mt-14 mb-20'>
       <Container>
         <Welcome username={cookies.user.name} currency='€' pageSelected={0} />
         <h1
