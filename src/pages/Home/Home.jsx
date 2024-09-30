@@ -74,22 +74,30 @@ const HomePage = () => {
     <div style={{ marginTop: '7vh' }}>
       <Container>
         <Welcome username={cookies.user.name} currency='€' pageSelected={0} />
-        <h1 style={{ width: '100%', textAlign: 'start', fontSize: '30px' }}>
-          Bienvenido a <br /> CoinKeep {cookies.user.name}
+        <h1
+          style={{
+            width: '100%',
+            textAlign: 'start',
+            fontSize: '30px',
+            paddingLeft: '25px',
+            fontWeight: '400'
+          }}
+        >
+          Bienvenido a <br /> CoinKeep <b>{cookies.user.name}</b>
         </h1>
         <IsModalUpdates />
         {/* <WeekCalendar currency='€' startDate={monthGoal.startDate} endDate={monthGoal.endDate} /> */}
-        <Grid>
-          <Objective />
-          <Calendar
+        {/* <Grid> */}
+        {/* <Objective /> */}
+        {/* <Calendar
             startDate={monthGoal.startDate}
             endDate={monthGoal.endDate}
             expenses={personalSpend}
             limit={monthGoal.monthGoal}
-          />
-          <Spendings currency='€' />
-          {/* <SpendingsLimit currency='€' /> */}
-        </Grid>
+          /> */}
+        {/* <Spendings currency='€' /> */}
+        {/* <SpendingsLimit currency='€' /> */}
+        {/* </Grid> */}
         <SpendInput currency='€' personalSpend={personalSpend} />
         <ModalDelete />
         <ListDiary

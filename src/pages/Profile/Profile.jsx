@@ -9,20 +9,21 @@ const Profile = () => {
   const navigate = useNavigate()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
 
-  const handleLogout = async (e) => {
+  const handleLogout = async e => {
     e.preventDefault()
     window.localStorage.removeItem('userdata')
     navigate('/')
   }
   return (
     <Container>
-      <ImageProfile src={cookies.user.imageUrl ?? 'https://nexus-net.info/wp-content/uploads/2017/01/user.png'} />
+      <ImageProfile src='https://nexus-net.info/wp-content/uploads/2017/01/user.png' />
       <div className='image-name__container'>
         <h3>{cookies.user.name}</h3>
         <h3>{cookies.user.email}</h3>
-        <h3>id_user: {cookies.user._id}</h3>
       </div>
-      <button id='logout--btn' onClick={handleLogout}>Cerrar sesión</button>
+      <button id='logout--btn' onClick={handleLogout}>
+        Cerrar sesión
+      </button>
       <NavBar />
     </Container>
   )

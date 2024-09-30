@@ -61,9 +61,13 @@ const Financial = () => {
     <div id='financial'>
       <Container>
         <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
-        <Welcome currency={currency} username={cookies.user.name} pageSelected={2} />
+        <Welcome
+          currency={currency}
+          username={cookies.user.name}
+          pageSelected={2}
+        />
         <h1>Mis Finanzas</h1>
-        <Grid width='100vw'>
+        <Grid width='100%'>
           <BalanceWidget />
           <PersonalBalanceWidget />
         </Grid>

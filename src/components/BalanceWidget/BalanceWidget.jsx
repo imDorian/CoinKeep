@@ -1,58 +1,93 @@
 import Article from '../Article/Article'
 import { useStore } from '../../stores/useStore'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
+import { useState } from 'react'
+import SwitchIcon from '../../icons/SwitchIcon'
+import EditIcon from '../../icons/EditIcon'
+import QuitIcon from '../../icons/QuitIcon'
 
 const BalanceWidget = () => {
   const { balance, currency } = useStore()
-  //   // INCOME
-  //   const incomeCard = income.filter(i => i.method === 'card')
-  //   const sumIncomeCard = incomeCard.reduce((total, i) => total + i.quantity, 0).toFixed(2)
-  //   const incomeCash = income.filter(i => i.method === 'cash')
-  //   const sumIncomeCash = incomeCash.reduce((total, i) => total + i.quantity, 0).toFixed(2)
+  const [isEdit, setIsEdit] = useState(false)
+  const [switchTransfer, setSwitchTransfer] = useState(false)
+  const method = {
+    card: 'Tarjeta',
+    cash: 'Efectivo'
+  }
 
-  //   // EXPENSE
-  //   const expenseCard = expense.filter(i => i.method === 'card')
-  //   const sumExpenseCard = expenseCard.reduce((total, i) => total + i.quantity, 0).toFixed(2)
-  //   const expenseCash = expense.filter(i => i.method === 'cash')
-  //   const sumExpenseCash = expenseCash.reduce((total, i) => total + i.quantity, 0).toFixed(2)
-  //   // SAVING
-  //   const savingCard = saving.filter(i => i.method === 'card')
-  //   const sumSavingCard = savingCard.reduce((total, i) => total + i.quantity, 0).toFixed(2)
-  //   const savingCash = saving.filter(i => i.method === 'cash')
-  //   const sumSavingCash = savingCash.reduce((total, i) => total + i.quantity, 0).toFixed(2)
+  const handleEdit = () => {
+    setIsEdit(!isEdit)
+  }
 
-  //   // INVESTMENT
-  //   const investmentCard = investment.filter(i => i.method === 'card')
-  //   const sumInvestmentCard = investmentCard.reduce((total, i) => total + i.quantity, 0).toFixed(2)
-  //   const investmentCash = investment.filter(i => i.method === 'cash')
-  //   const sumInvestmentCash = investmentCash.reduce((total, i) => total + i.quantity, 0).toFixed(2)
-
-  //   // AVAILABLE PERSONAL SPEND
-  //   const { card, cash } = personalBalance
-
-  //   // BALANCE
-  //   const refreshBalanceCard = (sumIncomeCard - sumExpenseCard - sumSavingCard - sumInvestmentCard).toFixed(2)
-  //   const refreshBalanceCash = (sumIncomeCash - sumExpenseCash - sumSavingCash - sumInvestmentCash).toFixed(2)
-
-  //   // ALL BALANCE
-
-  //   useEffect(() => {
-  //     useStore.setState({
-  //       balance: {
-  //         card: parseFloat(refreshBalanceCard),
-  //         cash: parseFloat(refreshBalanceCash)
-  //       }
-  //     })
-  //   }, [income, expense, saving, investment])
+  const handleSwitch = () => {
+    setSwitchTransfer(!switchTransfer)
+  }
   return (
     <Article width='100%'>
-      <h2>Balance Disponible</h2>
-      <section>
-        <h3>Tarjeta <IsBlurSpan>{balance.card && balance.card.toFixed(2)}{currency}</IsBlurSpan></h3>
+      {!isEdit ? (
+        <h2>Balance</h2>
+      ) : (
+        <span className='text-lg'>Transferir de </span>
+      )}
+      <section
+        className={
+          !isEdit
+            ? 'grid grid-cols-2 px-4 justify-items-center'
+            : 'grid grid-cols-3 justify-items-center text-center px-4'
+        }
+      >
+        {isEdit ? (
+          <span>{switchTransfer ? method.card : method.cash}</span>
+        ) : (
+          <span>Tarjeta</span>
+        )}
+
+        {isEdit && (
+          <button onClick={handleSwitch}>
+            <SwitchIcon className='size-6 text-[var(--brand-color)]' />
+          </button>
+        )}
+        {isEdit && <span>{switchTransfer ? method.cash : method.card}</span>}
+        {!isEdit && (
+          <span>
+            <IsBlurSpan>
+              {balance.card && balance.card.toFixed(2)}
+              {currency}
+            </IsBlurSpan>
+          </span>
+        )}
       </section>
-      <section>
-        <h3>Efectivo <IsBlurSpan>{balance.cash && balance.cash.toFixed(2)}{currency}</IsBlurSpan></h3>
-      </section>
+      {!isEdit && (
+        <section className='grid grid-cols-2 justify-items-center px-4'>
+          <span>Efectivo</span>
+          <span>
+            <IsBlurSpan>
+              {balance.cash && balance.cash.toFixed(2)}
+              {currency}
+            </IsBlurSpan>
+          </span>
+        </section>
+      )}
+      {isEdit && (
+        <>
+          <input
+            className='text-center h-7 rounded-md'
+            type='number'
+            placeholder='ej: 120€'
+          />
+          <button className='mt-1 tracking-wider bg-emerald-600 text-neutral-800 font-bold text-lg'>
+            Transferir
+          </button>
+          <button onClick={handleEdit} className='absolute top-1 right-0'>
+            <QuitIcon className='text-neutral-500 stroke-transparent size-4' />
+          </button>
+        </>
+      )}
+      {!isEdit && (
+        <button onClick={handleEdit} className='absolute top-1 right-0'>
+          <EditIcon className='size-4 stroke-transparent text-neutral-400' />
+        </button>
+      )}
     </Article>
   )
 }

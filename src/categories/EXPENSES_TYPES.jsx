@@ -8,6 +8,5 @@ export const TIPOS_GASTOS = [
 export const EXPENSES_TYPES = [
   'Fixed expense',
   'Variable expense',
-  'Unpredictable expense',
-  'Daily expense'
+  'Unpredictable expense'
 ]

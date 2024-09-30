@@ -11,20 +11,30 @@ const PersonalBalanceWidget = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [inputBalance, setInputBalance] = useState('')
   const [method, setMethod] = useState('card')
-  const { balance, balance_personal_spend: personalBalance, currency, available_personal_spend: availablePersonalSpend } = useStore()
+  const {
+    balance,
+    balance_personal_spend: personalBalance,
+    currency,
+    available_personal_spend: availablePersonalSpend
+  } = useStore()
   const handleIsEdit = () => {
     setIsEdit(!isEdit)
   }
-  const handleMethod = (e) => {
+  const handleMethod = e => {
     setMethod(e)
   }
   const updateData = async (id, data, cat) => {
     const { res, json } = await putMethodSchema(id, data, cat)
     console.log(res, json)
   }
-  const hanldePersonalBalance = async (e) => {
+  const hanldePersonalBalance = async e => {
     try {
-      if (e === 'rest' && inputBalance <= personalBalance[method] && inputBalance > 0 && inputBalance !== '') {
+      if (
+        e === 'rest' &&
+        inputBalance <= personalBalance[method] &&
+        inputBalance > 0 &&
+        inputBalance !== ''
+      ) {
         useStore.setState({
           balance_personal_spend: {
             ...personalBalance,
@@ -41,7 +51,12 @@ const PersonalBalanceWidget = () => {
         })
         setInputBalance('')
       }
-      if (e === 'sum' && inputBalance <= balance[method] && inputBalance > 0 && inputBalance !== '') {
+      if (
+        e === 'sum' &&
+        inputBalance <= balance[method] &&
+        inputBalance > 0 &&
+        inputBalance !== ''
+      ) {
         useStore.setState({
           balance_personal_spend: {
             ...personalBalance,
@@ -62,7 +77,7 @@ const PersonalBalanceWidget = () => {
       console.error(error)
     }
   }
-  const handleInput = (e) => {
+  const handleInput = e => {
     const newValue = e.target.value
     if (newValue !== inputBalance) {
       setInputBalance(isNaN(newValue) ? '' : newValue)
@@ -70,9 +85,24 @@ const PersonalBalanceWidget = () => {
   }
   const EditPersonalBalance = () => {
     return (
-      <div id='personalBalance' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <div
+        id='personalBalance'
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
         <input
-          style={{ width: '90%', height: '26px', textAlign: 'center', fontSize: '22px', border: 'none', borderRadius: '6px' }}
+          style={{
+            width: '90%',
+            height: '26px',
+            textAlign: 'center',
+            fontSize: '22px',
+            border: 'none',
+            borderRadius: '6px'
+          }}
           placeholder='420'
           value={inputBalance}
           onChange={handleInput}
@@ -92,15 +122,47 @@ const PersonalBalanceWidget = () => {
   }, [personalBalance])
   return (
     <Article position='relative' width='100%'>
-      <button style={{ position: 'absolute', top: '0px', right: '0', background: 'transparent', padding: '6px' }} onClick={handleIsEdit}> <EditIcon size='12px' color='white' /></button>
-      <h2>Balance Personal</h2>
-      <section style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', gap: '5px' }}>
-        <h3>Tarjeta <IsBlurSpan>{(personalBalance.card && personalBalance.card.toFixed(2))}{currency}</IsBlurSpan></h3>
-        {isEdit ? <button onClick={() => handleMethod('card')}><CreditCardIcon color={method === 'card' ? 'aquamarine' : 'white'} size='23px' /></button> : ''}
+      <button className='absolute top-1 right-0' onClick={handleIsEdit}>
+        <EditIcon className='size-4 stroke-transparent text-neutral-400' />
+      </button>
+      <h2>Bal. Personal</h2>
+      <section className='grid grid-cols-2 justify-items-center px-4'>
+        {!isEdit && <span>Tarjeta</span>}
+        <span>
+          <IsBlurSpan>
+            {personalBalance.card && personalBalance.card.toFixed(2)}
+            {currency}
+          </IsBlurSpan>
+        </span>
+        {isEdit ? (
+          <button className='p-0' onClick={() => handleMethod('card')}>
+            <CreditCardIcon
+              color={method === 'card' ? 'aquamarine' : 'white'}
+              size='23px'
+            />
+          </button>
+        ) : (
+          ''
+        )}
       </section>
-      <section style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', gap: '5px' }}>
-        <h3>Efectivo <IsBlurSpan>{personalBalance.cash && personalBalance.cash.toFixed(2)}{currency}</IsBlurSpan></h3>
-        {isEdit ? <button onClick={() => handleMethod('cash')}><CashIcon color={method === 'cash' ? 'aquamarine' : 'white'} size='23px' /></button> : ''}
+      <section className='grid grid-cols-2 justify-items-center px-4 items-center justify-center'>
+        {!isEdit && <span>Efectivo</span>}
+        <span>
+          <IsBlurSpan>
+            {personalBalance.cash && personalBalance.cash.toFixed(2)}
+            {currency}
+          </IsBlurSpan>
+        </span>
+        {isEdit ? (
+          <button className='p-0' onClick={() => handleMethod('cash')}>
+            <CashIcon
+              color={method === 'cash' ? 'aquamarine' : 'white'}
+              size='23px'
+            />
+          </button>
+        ) : (
+          ''
+        )}
       </section>
       {isEdit ? <EditPersonalBalance /> : ''}
     </Article>

@@ -79,7 +79,7 @@ const List = ({ data, title, types, currency, editSwitch }) => {
               .reduce((total, d) => total + d.quantity, 0)
               .toFixed(2)
             return (
-              <details key={month} style={{ width: '100%' }}>
+              <details open key={month} style={{ width: '100%' }}>
                 <summary key={month} className='summary'>
                   {month} {thisMonthSum}
                   {currency}
@@ -87,7 +87,10 @@ const List = ({ data, title, types, currency, editSwitch }) => {
                 <section>
                   {datosFiltradosPorMes.map(d => {
                     return (
-                      <div key={d._id}>
+                      <div
+                        className='grid grid-cols-[1fr_1.5fr_0.5fr_1.5fr] justify-items-center'
+                        key={d._id}
+                      >
                         <span className='category'>{d.category}</span>
                         <span>
                           {d.quantity.toFixed(2)}

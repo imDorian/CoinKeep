@@ -5,11 +5,11 @@ import { MagicMotion } from 'react-magic-motion'
 
 const Grid = ({ children, width }) => {
   return (
-    <MagicMotion>
-      <article className='grid' style={{ width }}>
-        {children}
-      </article>
-    </MagicMotion>
+    // <MagicMotion>
+    <article className='grid' style={{ width }}>
+      {children}
+    </article>
+    // </MagicMotion>
   )
 }
 

@@ -6,7 +6,15 @@ import EditIcon from '../../icons/EditIcon'
 const Edit = ({ editSwitch, setEditSwitch }) => {
   return (
     <div className='edit'>
-      <button onClick={() => setEditSwitch(!editSwitch)}><EditIcon color='white' size='18px' /></button>
+      <button onClick={() => setEditSwitch(!editSwitch)}>
+        <EditIcon
+          className={
+            !editSwitch
+              ? 'size-5 absolute top-0 right-0'
+              : 'size-5 absolute top-0 right-0 stroke-red-400'
+          }
+        />
+      </button>
     </div>
   )
 }

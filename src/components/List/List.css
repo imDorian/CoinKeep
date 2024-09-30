@@ -15,7 +15,7 @@
         text-align: center;
         /* width: 100%; */
         font-size:24px;
-        margin-block: 20px;
+        margin-block: 5px;
         margin-bottom: 5px;
         && span{
            font-weight: 300;
@@ -56,11 +56,12 @@
         padding-inline: 10px;
         && div{
             width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr 0.5fr 1fr;
-            grid-template-rows: 1fr 5px;
-            align-items: stretch;
-            justify-items: end;
+            /* display: grid; */
+            /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+            /* grid-template-rows: 1fr 5px; */
+            /* align-items: center; */
+            /* justify-items: center; */
+            /* justify-content: center; */
             padding-top: 10px;
             && span{
                 overflow: hidden;
