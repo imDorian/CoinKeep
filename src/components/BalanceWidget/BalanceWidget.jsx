@@ -15,13 +15,20 @@ const BalanceWidget = () => {
     cash: 'Efectivo'
   }
 
-  const handleEdit = () => {
-    setIsEdit(!isEdit)
-  }
-
   const handleSwitch = () => {
     setSwitchTransfer(!switchTransfer)
   }
+  const handleEdit = () => {
+    if (!isEdit) {
+      const WIDGET = 'balance'
+      setIsEdit(true)
+      useStore.setState({ focusWidget: WIDGET })
+      return
+    }
+    setIsEdit(false)
+    useStore.setState({ focusWidget: '' })
+  }
+
   return (
     <Article className={isEdit ? 'h-[180px]' : 'h-[150px]'} width='100%'>
       {!isEdit ? (

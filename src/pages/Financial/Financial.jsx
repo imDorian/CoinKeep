@@ -4,11 +4,8 @@ import NavBar from '../../components/NavBar/NavBar'
 import Incomes from '../../components/Incomes/Incomes'
 import Edit from '../../components/Edit/Edit'
 import Expenses from '../../components/Expenses/Expenses'
-import { userDataContext } from '../../contexts/ContextProvider'
 import Savings from '../../components/Savings/Savings'
 import Investments from '../../components/Investments/Investments'
-import AvailableToSpend from '../../components/AvailableToSpend/AvailableToSpend'
-import Input from '../../components/Input/Input'
 import './Financial.css'
 import { useStore } from '../../stores/useStore'
 import { verifyToken } from '../../functions/verifyToken'
@@ -20,14 +17,27 @@ import PersonalBalanceWidget from '../../components/PersonalBalanceWidget/Person
 import { MagicMotion } from 'react-magic-motion'
 // import { useCookiesStore } from '../store/useCookiesStore'
 
+function selectWidget (widget) {
+  if (widget === 'personalBalance') {
+    return 'grid grid-cols-[30%_60%]  gap-x-3 w-[100%] transition-all duration-300 items-start justify-center'
+  }
+  if (widget === 'balance') {
+    return 'grid grid-cols-[60%_30%] gap-x-3 w-[100%] transition-all duration-300 items-start justify-center'
+  }
+  if (widget === '') {
+    return 'grid grid-cols-[45%_45%] gap-x-3 w-[100%] transition-all duration-300 items-start justify-center'
+  }
+}
+
 const Financial = () => {
-  const { typeSelected } = useContext(userDataContext)
   const [editSwitch, setEditSwitch] = useState(false)
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const navigate = useNavigate()
   // const fetchData = useStore(state => state.fetchData)
-  const { fetchData } = useStore()
+  const { fetchData, focusWidget } = useStore()
   const currency = '€'
+
+  const selectedWidget = selectWidget(focusWidget)
 
   const fetchDataUser = async () => {
     const data = await verifyToken()
@@ -57,6 +67,9 @@ const Financial = () => {
     })
   }, [])
 
+  useEffect(() => {
+    console.log(focusWidget)
+  }, [focusWidget])
   return (
     <div id='financial'>
       <Container>
@@ -67,7 +80,7 @@ const Financial = () => {
           pageSelected={2}
         />
         <h1>Mis Finanzas</h1>
-        <Grid>
+        <Grid className={selectedWidget}>
           <BalanceWidget />
           <PersonalBalanceWidget />
         </Grid>

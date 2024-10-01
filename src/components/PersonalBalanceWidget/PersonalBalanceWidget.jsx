@@ -16,10 +16,20 @@ const PersonalBalanceWidget = () => {
     balance,
     balance_personal_spend: personalBalance,
     currency,
-    available_personal_spend: availablePersonalSpend
+    available_personal_spend: availablePersonalSpend,
+    focusWidget
   } = useStore()
   const handleIsEdit = () => {
-    setIsEdit(!isEdit)
+    if (!isEdit) {
+      const WIDGET = 'personalBalance'
+      setIsEdit(true)
+      useStore.setState({ focusWidget: WIDGET })
+      console.log(focusWidget)
+      return
+    }
+    setIsEdit(false)
+    useStore.setState({ focusWidget: '' })
+    console.log(focusWidget)
   }
   const handleMethod = e => {
     setMethod(e)

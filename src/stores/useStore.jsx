@@ -9,6 +9,7 @@ export const useStore = create(set => ({
   expense: [],
   saving: [],
   investment: [],
+  focusWidget: '',
   available_personal_spend: {},
   personal_spend: [],
   balance: {},
