@@ -23,7 +23,7 @@ const BalanceWidget = () => {
     setSwitchTransfer(!switchTransfer)
   }
   return (
-    <Article width='100%'>
+    <Article className={isEdit ? 'h-[180px]' : 'h-[150px]'} width='100%'>
       {!isEdit ? (
         <h2>Balance</h2>
       ) : (
@@ -32,8 +32,8 @@ const BalanceWidget = () => {
       <section
         className={
           !isEdit
-            ? 'grid grid-cols-2 px-4 justify-items-center'
-            : 'grid grid-cols-3 justify-items-center text-center px-4'
+            ? 'grid grid-cols-2 px-4 justify-items-center items-center'
+            : 'grid grid-cols-[1fr_0.5fr_1fr] justify-items-center text-center w-[80%] items-center overflow-auto'
         }
       >
         {isEdit ? (
@@ -58,7 +58,7 @@ const BalanceWidget = () => {
         )}
       </section>
       {!isEdit && (
-        <section className='grid grid-cols-2 justify-items-center px-4'>
+        <section className='grid grid-cols-2 justify-items-center'>
           <span>Efectivo</span>
           <span>
             <IsBlurSpan>
@@ -71,11 +71,14 @@ const BalanceWidget = () => {
       {isEdit && (
         <>
           <input
-            className='text-center h-7 rounded-md'
+            className='text-center h-7 rounded-md w-[80%]'
             type='number'
             placeholder='ej: 120€'
           />
-          <button className='mt-1 tracking-wider bg-emerald-600 text-neutral-800 font-bold text-lg'>
+          <button
+            className='mt-1 tracking-wider bg-emerald-600 text-neutral-800 font-bold text-center text-basic w-[80%] flex p-[2px] justify-center
+           '
+          >
             Transferir
           </button>
           <button onClick={handleEdit} className='absolute top-1 right-0'>

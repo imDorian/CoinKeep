@@ -67,7 +67,7 @@ const Financial = () => {
           pageSelected={2}
         />
         <h1>Mis Finanzas</h1>
-        <Grid width='100%'>
+        <Grid>
           <BalanceWidget />
           <PersonalBalanceWidget />
         </Grid>

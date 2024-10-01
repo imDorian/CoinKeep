@@ -6,10 +6,14 @@ import EditIcon from '../../icons/EditIcon'
 const Edit = ({ editSwitch, setEditSwitch }) => {
   return (
     <button
-      className='absolute top-1 right-1'
+      className='absolute top-1 right-1 z-50'
       onClick={() => setEditSwitch(!editSwitch)}
     >
-      <EditIcon className={!editSwitch && 'stroke-red-400 size-5'} />
+      <EditIcon
+        className={
+          editSwitch ? 'text-red-200 size-5' : 'size-5 stro text-neutral-400'
+        }
+      />
     </button>
   )
 }

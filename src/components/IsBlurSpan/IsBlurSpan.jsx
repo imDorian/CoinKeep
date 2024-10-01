@@ -2,11 +2,14 @@
 import React from 'react'
 import { useStore } from '../../stores/useStore'
 
-const IsBlurSpan = ({ children }) => {
+const IsBlurSpan = ({ children, className, ...rest }) => {
   const { isBlur } = useStore()
   return (
     <span
-      style={{ filter: isBlur ? 'blur(4px)' : '', transitionDuration: '300ms' }}
+      className={`${
+        isBlur ? 'blur-sm' : ''
+      } transition-all duration-300 ${className}`}
+      {...rest}
     >
       {children}
     </span>

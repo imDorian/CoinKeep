@@ -6,6 +6,7 @@ import CashIcon from '../../icons/CashIcon'
 import EditIcon from '../../icons/EditIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
+import QuitIcon from '../../icons/QuitIcon'
 
 const PersonalBalanceWidget = () => {
   const [isEdit, setIsEdit] = useState(false)
@@ -85,86 +86,123 @@ const PersonalBalanceWidget = () => {
   }
   const EditPersonalBalance = () => {
     return (
-      <div
-        id='personalBalance'
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
+      <>
         <input
-          style={{
-            width: '90%',
-            height: '26px',
-            textAlign: 'center',
-            fontSize: '22px',
-            border: 'none',
-            borderRadius: '6px'
-          }}
-          placeholder='420'
+          className='w-[80%] text-center rounded-md h-7'
+          placeholder='ej: 420€'
           value={inputBalance}
           onChange={handleInput}
           type='number'
           id='inputPersonalBalance'
           name='inputPersonalBalance'
         />
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <button onClick={() => hanldePersonalBalance('rest')}>Restar</button>
-          <button onClick={() => hanldePersonalBalance('sum')}>Sumar</button>
-        </div>
-      </div>
+        <span className='flex w-[80%] justify-between mt-1'>
+          <button
+            className='tracking-wide bg-red-600 text-basic text-center p-[2px] w-[40%]'
+            onClick={() => hanldePersonalBalance('rest')}
+          >
+            Restar
+          </button>
+          <button
+            className='tracking-wide bg-emerald-600 text-basic text-center p-[2px] w-[40%]'
+            onClick={() => hanldePersonalBalance('sum')}
+          >
+            Sumar
+          </button>
+        </span>
+      </>
     )
   }
   useEffect(() => {
     updateData(personalBalance._id, personalBalance, 'personal_balance')
   }, [personalBalance])
   return (
-    <Article position='relative' width='100%'>
+    <Article
+      className={isEdit ? 'h-[180px]' : 'h-[150px]'}
+      position='relative'
+      width='100%'
+    >
       <button className='absolute top-1 right-0' onClick={handleIsEdit}>
-        <EditIcon className='size-4 stroke-transparent text-neutral-400' />
-      </button>
-      <h2>Bal. Personal</h2>
-      <section className='grid grid-cols-2 justify-items-center px-4'>
-        {!isEdit && <span>Tarjeta</span>}
-        <span>
-          <IsBlurSpan>
-            {personalBalance.card && personalBalance.card.toFixed(2)}
-            {currency}
-          </IsBlurSpan>
-        </span>
-        {isEdit ? (
-          <button className='p-0' onClick={() => handleMethod('card')}>
-            <CreditCardIcon
-              color={method === 'card' ? 'aquamarine' : 'white'}
-              size='23px'
-            />
-          </button>
+        {!isEdit ? (
+          <EditIcon className='size-4 stroke-transparent text-neutral-400' />
         ) : (
-          ''
+          <QuitIcon className='size-4 text-neutral-500' />
         )}
-      </section>
-      <section className='grid grid-cols-2 justify-items-center px-4 items-center justify-center'>
-        {!isEdit && <span>Efectivo</span>}
-        <span>
+      </button>
+      {!isEdit ? (
+        <h2>Bal. Personal</h2>
+      ) : (
+        <div className='relative group w-[100%] flex items-center justify-center'>
+          <span className='truncate w-[80%] text-lg'>
+            Añade o quita del balance personal
+          </span>
+          <span className='absolute left-0 bottom-0 mt-1 w-auto p-2 bg-gray-800 text-white text-xs rounded shadow-lg hidden group-hover:inline'>
+            Añade o quita del balance personal
+          </span>
+        </div>
+      )}
+      {!isEdit && <span>Tarjeta</span>}
+      {isEdit && (
+        <section className='grid grid-cols-2 justify-items-center w-[90%]'>
+          <label className='flex gap-1 items-center'>
+            <button className='px-0' onClick={() => handleMethod('card')}>
+              <CreditCardIcon
+                className={
+                  method === 'card'
+                    ? 'text-[var(--brand-color)] w-6 transition-all duration-300'
+                    : 'text-neutral-300 w-5 transition-all duration-300'
+                }
+              />
+            </button>
+            <IsBlurSpan
+              className={
+                method === 'card'
+                  ? 'text-[var(--brand-color)] transition-all duration-300'
+                  : 'text-neutral-300 text-sm transition-all duration-300'
+              }
+            >
+              {personalBalance.cash && personalBalance.card.toFixed(2)}
+              {currency}
+            </IsBlurSpan>
+          </label>
+          <label className='flex gap-1 items-center'>
+            {isEdit && (
+              <button className='p-0' onClick={() => handleMethod('cash')}>
+                <CashIcon
+                  className={
+                    method === 'cash'
+                      ? 'text-[var(--brand-color)] w-6 transition-all duration-300'
+                      : 'text-neutral-300 w-5 transition-all duration-300'
+                  }
+                  width='24px'
+                />
+              </button>
+            )}
+            <IsBlurSpan
+              className={
+                method === 'cash'
+                  ? 'text-[var(--brand-color)]'
+                  : 'text-white text-sm'
+              }
+            >
+              {personalBalance.cash && personalBalance.cash.toFixed(2)}
+              {currency}
+            </IsBlurSpan>
+          </label>
+        </section>
+      )}
+
+      {!isEdit && (
+        <section className='grid grid-cols-2 justify-items-center px-4 items-center justify-center'>
+          <span>Efectivo</span>
           <IsBlurSpan>
             {personalBalance.cash && personalBalance.cash.toFixed(2)}
             {currency}
           </IsBlurSpan>
-        </span>
-        {isEdit ? (
-          <button className='p-0' onClick={() => handleMethod('cash')}>
-            <CashIcon
-              color={method === 'cash' ? 'aquamarine' : 'white'}
-              size='23px'
-            />
-          </button>
-        ) : (
-          ''
-        )}
-      </section>
-      {isEdit ? <EditPersonalBalance /> : ''}
+        </section>
+      )}
+
+      {isEdit && <EditPersonalBalance />}
     </Article>
   )
 }

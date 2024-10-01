@@ -3,7 +3,10 @@
     flex-direction:column;
     background-color: #303030;
     border-radius: 15px;
-    padding: 10px;
+    align-items: center;
+    padding-block: 20px;
+    max-height: 180px;
+    /* padding: 10px; */
     gap: 5px;
     box-sizing: border-box;
     position: relative;
