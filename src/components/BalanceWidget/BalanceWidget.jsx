@@ -53,7 +53,7 @@ const BalanceWidget = () => {
         style={{
           display: focusWidget === 'personalBalance' ? 'none' : 'inline'
         }}
-        className='absolute bottom-4 right-4 text-neutral-800 border-1 bg-neutral-400 border-neutral-400 rounded-full p-0 px-1 text-[12px] tracking-wide font-medium'
+        className='absolute bottom-4 right-4 opacity-85 text-neutral-800 border-1 bg-neutral-400 border-neutral-400 rounded-full p-0 px-1 text-[12px] tracking-wide font-medium'
         onClick={handleEdit}
       >
         {!isEdit ? 'Editar' : 'Cancelar'}
