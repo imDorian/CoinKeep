@@ -20,17 +20,31 @@ const PersonalBalanceWidget = () => {
     focusWidget
   } = useStore()
   const handleIsEdit = () => {
+    const WIDGET = 'personalBalance'
     if (!isEdit) {
-      const WIDGET = 'personalBalance'
       setIsEdit(true)
       useStore.setState({ focusWidget: WIDGET })
       console.log(focusWidget)
       return
     }
+    if (focusWidget === 'balance') {
+      setIsEdit(false)
+    }
     setIsEdit(false)
     useStore.setState({ focusWidget: '' })
     console.log(focusWidget)
   }
+
+  function controllerWidgets () {
+    if (focusWidget === 'balance') {
+      setIsEdit(false)
+    }
+  }
+
+  useEffect(() => {
+    controllerWidgets()
+  }, [focusWidget])
+
   const handleMethod = e => {
     setMethod(e)
   }
@@ -128,20 +142,24 @@ const PersonalBalanceWidget = () => {
   }, [personalBalance])
   return (
     <Article
-      className={isEdit ? 'h-[180px]' : 'h-[150px]'}
+      className={
+        !isEdit && focusWidget === 'balance'
+          ? 'h-[150px] opacity-70'
+          : isEdit
+          ? 'h-[200px]'
+          : 'h-[200px]'
+      }
       position='relative'
       width='100%'
     >
-      <button className='absolute top-1 right-0' onClick={handleIsEdit}>
-        {!isEdit ? (
-          <EditIcon className='size-4 stroke-transparent text-neutral-400' />
-        ) : (
-          <QuitIcon className='size-4 text-neutral-500' />
-        )}
+      <button
+        style={{ display: focusWidget === 'balance' ? 'none' : 'inline' }}
+        className='absolute bottom-4 right-4 text-neutral-800 border-1 bg-neutral-400 border-neutral-400 rounded-full p-0 px-1 text-[12px] tracking-wide font-medium'
+        onClick={handleIsEdit}
+      >
+        {!isEdit ? 'Editar' : 'Cancelar'}
       </button>
-      {!isEdit ? (
-        <h2>Bal. Personal</h2>
-      ) : (
+      {isEdit && (
         <div className='relative group w-[100%] flex items-center justify-center'>
           <span className='truncate w-[80%] text-lg'>
             Añade o quita del balance personal
@@ -151,7 +169,6 @@ const PersonalBalanceWidget = () => {
           </span>
         </div>
       )}
-      {!isEdit && <span>Tarjeta</span>}
       {isEdit && (
         <section className='grid grid-cols-2 justify-items-center w-[90%]'>
           <label className='flex gap-1 items-center'>
@@ -203,13 +220,19 @@ const PersonalBalanceWidget = () => {
       )}
 
       {!isEdit && (
-        <section className='grid grid-cols-2 justify-items-center px-4 items-center justify-center'>
-          <span>Efectivo</span>
+        <>
+          <h2>Balance Personal</h2>
+          <h3 className=''>Tarjeta</h3>
+          <IsBlurSpan className=''>
+            {personalBalance.card && personalBalance.card.toFixed(2)}
+            {currency}
+          </IsBlurSpan>
+          <h3 className=''>Efectivo</h3>
           <IsBlurSpan>
             {personalBalance.cash && personalBalance.cash.toFixed(2)}
             {currency}
           </IsBlurSpan>
-        </section>
+        </>
       )}
 
       {isEdit && <EditPersonalBalance />}

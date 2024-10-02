@@ -10,6 +10,7 @@ export const useStore = create(set => ({
   saving: [],
   investment: [],
   focusWidget: '',
+  isActiveWidget: false,
   available_personal_spend: {},
   personal_spend: [],
   balance: {},
