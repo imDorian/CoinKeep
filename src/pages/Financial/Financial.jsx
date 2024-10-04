@@ -80,7 +80,6 @@ const Financial = () => {
           pageSelected={2}
         />
         <h1>Mis Finanzas</h1>
-        <Input currency='€' />
         <Grid className={selectedWidget}>
           <BalanceWidget />
           <PersonalBalanceWidget />

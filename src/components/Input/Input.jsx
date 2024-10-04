@@ -16,7 +16,7 @@ import { useStore } from '../../stores/useStore'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
-const Input = ({ currency }) => {
+const Input = ({ currency, className }) => {
   const { setTypeSelected, typeSelected } = useContext(userDataContext)
   const { balance, income, expense, saving, investment } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
@@ -239,12 +239,7 @@ const Input = ({ currency }) => {
   }
 
   return (
-    <div className='mb-8'>
-      {/* <div id='finance__bar'>
-        <h1>Mis Finanzas</h1>
-        <button onClick={handleInput}><AddIcon size='24px' color='aquamarine' /></button>
-      </div> */}
-      {/* <Balance currency={currency} /> */}
+    <div className={className}>
       <nav id='handle-type'>
         <a
           className={typeSelected === 'income' ? 'active' : ''}
