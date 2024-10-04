@@ -57,7 +57,11 @@ const List = ({ data, title, types, currency, editSwitch }) => {
     filteredData.length !== 0 && (
       <article
         id={type}
-        className={editSwitch ? 'list__container editing' : 'list__container'}
+        className={
+          editSwitch
+            ? 'list__container editing'
+            : 'w-full flex flex-col items-center'
+        }
       >
         <div id='types-of'>
           <h3>{title}</h3>
@@ -84,37 +88,42 @@ const List = ({ data, title, types, currency, editSwitch }) => {
                   {month} {thisMonthSum}
                   {currency}
                 </summary>
-                <section>
+                <section className='w-full'>
                   {datosFiltradosPorMes.map(d => {
                     return (
                       <div
-                        className='grid grid-cols-[1fr_1.5fr_0.5fr_1.5fr] justify-items-center'
+                        className={
+                          !editSwitch
+                            ? 'grid grid-cols-[3fr_3fr_2fr_3fr] items-center w-full'
+                            : 'grid grid-cols-[2fr_2fr_1fr_1.5fr_1fr] items-center w-full'
+                        }
                         key={d._id}
                       >
-                        <span className='category'>{d.category}</span>
-                        <span>
+                        <span className='text-left truncate'>{d.category}</span>
+                        <span className='text-right truncate'>
                           {d.quantity.toFixed(2)}
                           {d.currency}
                         </span>
-                        <span className='method'>
+                        <span className='flex justify-center'>
                           {d.method === 'card' ? (
                             <CreditCardIcon color='aliceblue' size='26px' />
                           ) : (
                             <CashIcon color='aliceblue' size='26px' />
                           )}
                         </span>
-                        <span>
+                        <span className='text-right truncate'>
                           {new Date(d.date).toLocaleDateString(
                             'es-Es',
                             options
                           )}
                         </span>
-                        {editSwitch ? (
-                          <button onClick={() => openModal(d)}>
+                        {editSwitch && (
+                          <button
+                            className='p-0 flex place-content-center'
+                            onClick={() => openModal(d)}
+                          >
                             <TrashIcon size='18px' color='red' />
                           </button>
-                        ) : (
-                          ''
                         )}
                       </div>
                     )

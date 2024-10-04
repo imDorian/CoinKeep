@@ -1,46 +1,4 @@
-/* .types-container{
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    position: sticky;
-    top: -1px;
-    padding-block: 20px;
-    background-color: transparent;
-    transition: 300ms;
-    box-sizing: border-box;
-    && button{
-        display:grid;
-        place-content: center;
-        width: 30px;
-        height: 40px;
-    }
-    && h1{
-        font-size: 40px;
-        transition: 300ms
-    }
-} */
 
-.sticky{
-    background-color:  transparent;
-    /* position: sticky; */
-    top: 0px;
-    width: 100%;
-    /* animation: adjust-header linear both;
-    animation-timeline: scroll();
-    animation-range: 0 200px; */
-    /* padding: 20px; */
-    /* padding-inline: 20px; */
-    /* box-sizing: border-box; */
-    /* padding-block: 20px; */
-    
-    && h1{
-        /* transition: 300ms; */
-        font-size: 30px;
-    }
-
-}
 
 /* @keyframes adjust-header {
     to{
@@ -51,7 +9,7 @@
 } */
 
 #handle-type{
-    width: 90vw;
+    /* width: 100vw; */
     display: flex;
     flex-direction: row;
     list-style: none;
@@ -70,7 +28,7 @@
         font-weight: 500;
         box-shadow: 0 0 10px -2px whitesmoke;
         /* border: solid whitesmoke 1px; */
-        box-sizing: border-box;
+        box-sizing: content-box;
 
     }
     && .active{
@@ -89,6 +47,7 @@
     /* width: 90vw; */
     /* padding-inline: 5px; */
     box-sizing: border-box;
+    padding-inline: 20px;
     
     && div {
         height: 50px;
@@ -97,7 +56,7 @@
         grid-template-columns: 1fr 1fr;
         align-items: center;
         justify-items: center;
-        gap: 10px;
+        gap: 20px;
         box-sizing: border-box;
 
         && select{
@@ -107,23 +66,26 @@
             padding: 0;
             margin: 0;
             border: 0;
-            border-radius: 6px;
+            border-radius: 26px;
             box-sizing: border-box;
+            padding-inline: 10px;
 
         }
         && input {
-            border: none;
+            /* border: 1px solid; */
             /* border-bottom: 0px; */
-            border-radius: 8px;
-            background-color: #242424;
+            border-radius:26px;
+            /* background-color: #242424; */
             height: 50px;
             font-size: 40px;
             /* width: 180px; */
             text-align: center;
             box-sizing: border-box;
             color: aliceblue;
-
+            padding-inline: 10px;
+            width: 100%;
         }
+        
         }
     && button{
         text-align: center;

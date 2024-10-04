@@ -239,7 +239,7 @@ const Input = ({ currency }) => {
   }
 
   return (
-    <div className='sticky'>
+    <div className='mb-8'>
       {/* <div id='finance__bar'>
         <h1>Mis Finanzas</h1>
         <button onClick={handleInput}><AddIcon size='24px' color='aquamarine' /></button>
@@ -280,7 +280,7 @@ const Input = ({ currency }) => {
                 setNewData({ ...newData, category: e.target.value })
               }
               value={newData.category}
-              placeholder='Concepto'
+              placeholder='ej: Sueldo'
               style={{ fontSize: '16px' }}
             />
             <select
@@ -307,7 +307,7 @@ const Input = ({ currency }) => {
               type='number'
               id='inputValue'
               value={newData.quantity}
-              placeholder='€€'
+              placeholder='ej: 4200€'
               onChange={e =>
                 setNewData({ ...newData, quantity: parseFloat(e.target.value) })
               }
@@ -321,10 +321,10 @@ const Input = ({ currency }) => {
             />
           </div>
           <div className='inputs--form'>
+            <MethodButtons />
             <button onClick={addToList}>
               {loading ? 'Cargando...' : addButton}
             </button>
-            <MethodButtons />
           </div>
           {/* </div> */}
 

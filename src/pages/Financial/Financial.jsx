@@ -15,6 +15,7 @@ import Grid from '../../components/Grid/Grid'
 import BalanceWidget from '../../components/BalanceWidget/BalanceWidget'
 import PersonalBalanceWidget from '../../components/PersonalBalanceWidget/PersonalBalanceWidget'
 import { MagicMotion } from 'react-magic-motion'
+import Input from '../../components/Input/Input'
 // import { useCookiesStore } from '../store/useCookiesStore'
 
 function selectWidget (widget) {
@@ -73,24 +74,22 @@ const Financial = () => {
   return (
     <div id='financial'>
       <Container>
-        <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
         <Welcome
           currency={currency}
           username={cookies.user.name}
           pageSelected={2}
         />
         <h1>Mis Finanzas</h1>
+        <Input currency='€' />
         <Grid className={selectedWidget}>
           <BalanceWidget />
           <PersonalBalanceWidget />
         </Grid>
-        <MagicMotion>
-          <Incomes currency='€' editSwitch={editSwitch} />
-          <Expenses currency='€' editSwitch={editSwitch} />
-          <Savings currency='€' editSwitch={editSwitch} />
-          <Investments currency='€' editSwitch={editSwitch} />
-        </MagicMotion>
-
+        <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
+        <Incomes currency='€' editSwitch={editSwitch} />
+        <Expenses currency='€' editSwitch={editSwitch} />
+        <Savings currency='€' editSwitch={editSwitch} />
+        <Investments currency='€' editSwitch={editSwitch} />
         <NavBar />
       </Container>
     </div>
