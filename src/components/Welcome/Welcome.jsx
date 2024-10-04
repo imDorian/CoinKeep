@@ -7,6 +7,7 @@ import EyeIcon from '../../icons/EyeIcon'
 import Input from '../Input/Input'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 import './Welcome.css'
+import AddIcon from '../../icons/AddIcon'
 
 const Welcome = ({ username, currency, pageSelected }) => {
   const contenedorRef = useRef(null)
@@ -44,11 +45,11 @@ const Welcome = ({ username, currency, pageSelected }) => {
     <header
       className={
         isExpanded
-          ? 'transition-all duration-300 bg-neutral-700 h-auto'
-          : 'bg-neutral-700 transition-all duration-300 h-11'
+          ? 'transition-all duration-300 h-auto bg-neutral-700 border border-transparent'
+          : 'transition-all duration-300 h-11 bg-neutral-800 border-neutral-600 border'
       }
     >
-      <div className='rounded-full py-[3px] bg-neutral-700 grid grid-cols-[1fr_4fr_4fr_1fr] justify-items-center items-center justify-center w-full'>
+      <div className='rounded-full py-[3px] grid grid-cols-[1fr_4fr_4fr_1fr] justify-items-center items-center justify-center w-full'>
         <button onClick={handleBlur}>
           {isBlur ? (
             <EyeSlashIcon color='white' size='21px' />
@@ -74,8 +75,15 @@ const Welcome = ({ username, currency, pageSelected }) => {
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           title={isExpanded ? 'Expand Sidebar' : 'Collapse Sidebar'}
+          className='p-0 m-0 w-full'
         >
-          +
+          <AddIcon
+            className={
+              !isExpanded
+                ? 'text-[var(--brand-color)] transition-all'
+                : 'rotate-45 transition-all'
+            }
+          />
         </button>
       </div>
       <Input
