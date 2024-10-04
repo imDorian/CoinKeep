@@ -5,19 +5,58 @@ import { useEffect, useState } from 'react'
 import SwitchIcon from '../../icons/SwitchIcon'
 import EditIcon from '../../icons/EditIcon'
 import QuitIcon from '../../icons/QuitIcon'
+import { updateData } from '../PersonalBalanceWidget/PersonalBalanceWidget'
 
 const BalanceWidget = () => {
   const { balance, currency, focusWidget } = useStore()
   const [isEdit, setIsEdit] = useState(false)
-  const [switchTransfer, setSwitchTransfer] = useState(false)
   const method = {
-    card: 'Tarjeta',
-    cash: 'Efectivo'
+    card: 'card',
+    cash: 'cash'
+  }
+  const [transfer, setTransfer] = useState({
+    from: 'card',
+    to: 'cash',
+    amount: ''
+  })
+
+  function handleAmount (e) {
+    setTransfer({ ...transfer, amount: e.target.value })
   }
 
-  const handleSwitch = () => {
-    setSwitchTransfer(!switchTransfer)
+  const handleTransfer = () => {
+    if (transfer.from === method.card) {
+      setTransfer({ ...transfer, from: method.cash, to: method.card })
+    } else if (transfer.from === method.cash) {
+      setTransfer({ ...transfer, from: method.card, to: method.cash })
+    }
   }
+
+  function handleSubmitTransfer () {
+    const amount = Number(transfer.amount)
+    if (amount > 0) {
+      if (transfer.from === method.card && amount <= balance.card) {
+        useStore.setState({
+          balance: {
+            ...balance,
+            card: balance.card - amount,
+            cash: balance.cash + amount
+          }
+        })
+      } else if (transfer.from === method.cash && amount <= balance.cash) {
+        useStore.setState({
+          balance: {
+            ...balance,
+            card: balance.card + amount,
+            cash: balance.cash - amount
+          }
+        })
+      } else {
+        console.log('Saldo insuficiente')
+      }
+    }
+  }
+
   const handleEdit = () => {
     if (!isEdit) {
       const WIDGET = 'balance'
@@ -38,6 +77,15 @@ const BalanceWidget = () => {
     controllerWidgets()
   }, [focusWidget])
 
+  useEffect(() => {
+    if (balance._id) {
+      updateData(balance._id, balance, 'balance')
+      console.log(balance)
+    } else {
+      console.log('error', balance)
+    }
+  }, [balance])
+
   return (
     <Article
       className={
@@ -45,7 +93,7 @@ const BalanceWidget = () => {
           ? 'h-[150px] opacity-70'
           : isEdit
           ? 'h-[200px] '
-          : 'h-[200px]'
+          : 'h-[150px]'
       }
       width='100%'
     >
@@ -59,56 +107,61 @@ const BalanceWidget = () => {
         {!isEdit ? 'Editar' : 'Cancelar'}
       </button>
 
-      {isEdit && (
-        <>
-          <span className='text-lg'>Transferir de </span>
-          <section
-            className={
-              !isEdit
-                ? 'grid grid-cols-2 px-4 justify-items-center items-center'
-                : 'grid grid-cols-[1fr_0.5fr_1fr] justify-items-center text-center w-[80%] items-center overflow-auto'
-            }
-          >
-            <span>{switchTransfer ? method.card : method.cash}</span>
-
-            <button onClick={handleSwitch}>
-              <SwitchIcon className='size-6 text-[var(--brand-color)]' />
-            </button>
-
-            <span>{switchTransfer ? method.cash : method.card}</span>
-          </section>
-
-          <input
-            className='text-center h-7 rounded-md w-[80%]'
-            type='number'
-            placeholder='ej: 120€'
-          />
-          <button
-            className='mt-1 tracking-wider bg-emerald-600 text-neutral-800 font-bold text-center text-basic w-[80%] flex p-[2px] justify-center
-           '
-          >
-            Transferir
-          </button>
-        </>
-      )}
-      {!isEdit && (
-        <>
-          <h2>Balance</h2>
-          <h3 className=''>Tarjeta</h3>
+      <h2 className={!isEdit ? 'text-start' : 'text-center'}>Balance</h2>
+      <div
+        className={
+          !isEdit
+            ? ' flex flex-col'
+            : 'grid grid-cols-3 items-center justify-items-center w-full'
+        }
+      >
+        <div className={!isEdit ? 'items-start' : 'items-center'}>
+          <h3 className=''>
+            {transfer.from === method.card ? 'Tarjeta' : 'Efectivo'}
+          </h3>
           <IsBlurSpan
             className={Number(balance.card) < 0 ? 'text-red-600' : ''}
           >
-            {balance.card && balance.card.toFixed(2)}
+            {transfer.from === method.card && balance
+              ? Number(balance.card).toFixed(2)
+              : Number(balance.cash).toFixed(2)}
             {currency}
           </IsBlurSpan>
-          <h3 className=''>Efectivo</h3>
+        </div>
+        {isEdit && (
+          <button onClick={handleTransfer}>
+            <SwitchIcon className='size-6 text-[var(--brand-color)]' />
+          </button>
+        )}
+        <div className={!isEdit ? 'items-start' : 'items-center'}>
+          <h3 className=''>
+            {transfer.to === method.card ? 'Tarjeta' : 'Efectivo'}
+          </h3>
           <IsBlurSpan
             className={Number(balance.cash) < 0 ? 'text-red-600' : ''}
           >
-            {balance.cash && balance.cash.toFixed(2)}
+            {transfer.to === 'card' && balance
+              ? Number(balance.card).toFixed(2)
+              : Number(balance.cash).toFixed(2)}
             {currency}
           </IsBlurSpan>
-        </>
+        </div>
+      </div>
+      {isEdit && (
+        <div className='w-full flex flex-col items-center'>
+          <input
+            type='number'
+            placeholder='ej. 420€'
+            className='text-center rounded-xl h-7 w-full'
+            onChange={handleAmount}
+          />
+          <button
+            onClick={handleSubmitTransfer}
+            className='tracking-wide text-[var(--brand-color)]'
+          >
+            Transferir
+          </button>
+        </div>
       )}
     </Article>
   )

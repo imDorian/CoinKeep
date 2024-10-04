@@ -12,9 +12,9 @@ const SwitchIcon = props => {
       <path
         fill='none'
         stroke='currentColor'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='4'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='3'
         d='M42 19H6M30 7l12 12M6.799 29h36m-36 0l12 12'
       />
     </svg>

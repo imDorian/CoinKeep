@@ -82,6 +82,7 @@ export const useStore = create(set => ({
         balance_personal_spend: json.personal_balance,
         monthGoal: json.monthGoal
       })
+      console.log(json)
       return { response, json }
     } catch (error) {
       console.error('Error al cargar los datos:', error)

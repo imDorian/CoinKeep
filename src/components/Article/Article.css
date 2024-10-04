@@ -4,10 +4,13 @@
     align-items: start;
     background-color: #303030;
     border-radius: 30px;
+    height: auto;
+    text-align: start;
     /* align-items: center; */
-    max-height: 200px;
+    /* max-height: 200px; */
+    /* max-width: 200px; */
     padding: 15px;
-    /* gap: 5px; */
+    gap: 5px;
     box-sizing: border-box;
     position: relative;
     transition: all;
@@ -18,8 +21,8 @@
         color:aquamarine;
         margin: 0;
         margin-bottom: 2px;
-        font-size: 26px;
-        text-align: start;
+        font-size:large;
+        /* text-align: center; */
         overflow: hidden;
         /* text-overflow:clip; */
         width: 100%;
@@ -27,18 +30,37 @@
         opacity: 80%;
         /* width: 100%; */
     }
-    && h3 {
-        font-size: x-large;
+    
+    && div h3 {
+        font-size:medium;
         padding: 0;
         margin: 0;
         opacity: 80%;
         color: rgb(202, 202, 202)
     }
 
-    && span {
+    && div span {
         opacity: 90%;
-        font-size: medium;
-        line-height: 18px ;
+        font-size:small;
+        line-height: 12px ;
         margin-bottom: 8px;
+    }
+
+    div div {
+        display: flex;
+        flex-direction: column;
+        /* align-items: start; */
+
+    }
+
+    div button, div span button {
+        font-size:large;
+        font-weight: 400;
+        text-align: center;
+        height: 26px;
+        letter-spacing: 0.025rem;
+        padding: 0;
+        margin: 0;
+        opacity: 85%;
     }
 }
