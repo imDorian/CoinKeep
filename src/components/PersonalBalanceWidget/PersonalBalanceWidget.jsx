@@ -111,7 +111,8 @@ const PersonalBalanceWidget = () => {
     }
   }
   const handleInput = e => {
-    console.log(e.target.value)
+    const quant = e.target.value
+    if (isNaN(quant)) return
     setInputBalance(e.target.value)
   }
   useEffect(() => {

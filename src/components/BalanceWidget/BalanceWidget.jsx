@@ -21,7 +21,9 @@ const BalanceWidget = () => {
   })
 
   function handleAmount (e) {
-    setTransfer({ ...transfer, amount: e.target.value })
+    const quant = e.target.value
+    if (isNaN(quant)) return
+    setTransfer({ ...transfer, amount: quant })
   }
 
   const handleTransfer = () => {
@@ -155,6 +157,7 @@ const BalanceWidget = () => {
             placeholder='ej. 420€'
             className='text-center rounded-xl h-7 w-full'
             onChange={handleAmount}
+            value={transfer.amount}
           />
           <button
             onClick={handleSubmitTransfer}

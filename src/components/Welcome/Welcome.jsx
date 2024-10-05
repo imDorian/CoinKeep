@@ -45,11 +45,11 @@ const Welcome = ({ username, currency, pageSelected }) => {
     <header
       className={
         isExpanded
-          ? 'transition-all duration-300 h-auto bg-neutral-700 border border-transparent'
-          : 'transition-all duration-300 h-11 bg-neutral-800 border-neutral-600 border'
+          ? 'transition-all duration-300 h-auto bg-neutral-700 border border-transparent w-[90%]'
+          : 'transition-all duration-300 h-11 bg-neutral-800 border-neutral-600 border w-[90%]'
       }
     >
-      <div className='rounded-full py-[3px] grid grid-cols-[1fr_4fr_4fr_1fr] justify-items-center items-center justify-center w-full'>
+      <div className='py-[3px] flex flex-row justify-between w-full items-center'>
         <button onClick={handleBlur}>
           {isBlur ? (
             <EyeSlashIcon color='white' size='21px' />
@@ -60,7 +60,7 @@ const Welcome = ({ username, currency, pageSelected }) => {
 
         <span className='text-sm font-normal text-[rgb(205,205,205)] flex flex-col items-center text-center w-full text-nowrap truncate'>
           Balance
-          <IsBlurSpan className='truncate w-full text-xs font-normaal text-neutral-200'>
+          <IsBlurSpan className='truncate w-full text-xs font-normal text-neutral-200'>
             {totalBalance}
             {/* <IsNanLoading d={totalBalance} /> */}
           </IsBlurSpan>
@@ -75,7 +75,7 @@ const Welcome = ({ username, currency, pageSelected }) => {
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           title={isExpanded ? 'Expand Sidebar' : 'Collapse Sidebar'}
-          className='p-0 m-0 w-full'
+          className=''
         >
           <AddIcon
             className={

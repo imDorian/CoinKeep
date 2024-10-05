@@ -152,6 +152,15 @@ const SpendInput = ({ currency }) => {
     )
   }
 
+  function handleQuantity (e) {
+    const quant = e.target.value
+    if (isNaN(quant)) return
+    setNewData({
+      ...newData,
+      quantity: quant
+    })
+  }
+
   const addNewProduct = e => {
     e.preventDefault()
     if (newProduct !== '') {
@@ -229,17 +238,11 @@ const SpendInput = ({ currency }) => {
           <input
             required
             value={newData.quantity}
-            onChange={e =>
-              setNewData({
-                ...newData,
-                quantity: isNaN(e.target.valueAsNumber)
-                  ? Number
-                  : e.target.valueAsNumber
-              })
-            }
+            onChange={handleQuantity}
             className='rounded-full h-10 text-center w-[80%]'
             placeholder={'ej: 12' + currency}
-            type='number'
+            type='tel'
+            pattern='[0-9]*'
           />
         </div>
       </div>
