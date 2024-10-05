@@ -238,6 +238,12 @@ const Input = ({ currency, className }) => {
     setDate(newDate)
   }
 
+  function handleInput (e) {
+    const quant = e.target.value
+    if (isNaN(quant)) return
+    setNewData({ ...newData, quantity: e.target.value })
+  }
+
   return (
     <div className={className}>
       <nav id='handle-type'>
@@ -304,9 +310,7 @@ const Input = ({ currency, className }) => {
               id='inputValue'
               value={newData.quantity}
               placeholder='ej: 4200€'
-              onChange={e =>
-                setNewData({ ...newData, quantity: parseFloat(e.target.value) })
-              }
+              onChange={handleInput}
             />
             <input
               style={{ border: 'none' }}
