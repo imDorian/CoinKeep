@@ -117,8 +117,9 @@ const SpendInput = ({ currency }) => {
 
   const MethodButtons = () => {
     return (
-      <div className='flex flex-row items-center justify-center gap-3 w-full transition-all duration-300'>
+      <div className='flex flex-row items-start justify-evenly gap-3 w-full transition-all duration-300'>
         <button
+          className='p-0 m-0 h-10'
           onClick={e => {
             e.preventDefault()
             handlePayMethod(METHOD.CARD)
@@ -126,11 +127,14 @@ const SpendInput = ({ currency }) => {
         >
           <CreditCardIcon
             className={
-              method === METHOD.CARD ? 'text-[var(--brand-color)]' : ''
+              method === METHOD.CARD
+                ? 'text-[var(--brand-color)] w-auto'
+                : 'w-auto'
             }
           />
         </button>
         <button
+          className='p-0 m-0 h-10'
           onClick={e => {
             e.preventDefault()
             handlePayMethod(METHOD.CASH)
@@ -138,7 +142,9 @@ const SpendInput = ({ currency }) => {
         >
           <CashIcon
             className={
-              method === METHOD.CASH ? 'text-[var(--brand-color)]' : ''
+              method === METHOD.CASH
+                ? 'text-[var(--brand-color)] w-auto'
+                : 'w-auto'
             }
           />
         </button>
@@ -176,7 +182,7 @@ const SpendInput = ({ currency }) => {
         </div>
       </h3>
       <div className='flex flex-row flex-nowrap justify-center items-center gap-5 w-full my-3'>
-        <div className='flex flex-col items-start gap-3 w-[70%]'>
+        <div className='flex flex-col items-start gap-3 w-[60%]'>
           <input
             className='h-10 rounded-full text-center w-full'
             type='text'
@@ -218,7 +224,7 @@ const SpendInput = ({ currency }) => {
             </button>
           </span>
         </div>
-        <div className='flex flex-col gap-3 justify-center items-center w-[30%]'>
+        <div className='flex flex-col items-center w-[40%] gap-3'>
           <MethodButtons />
           <input
             required
@@ -231,7 +237,7 @@ const SpendInput = ({ currency }) => {
                   : e.target.valueAsNumber
               })
             }
-            className='rounded-full h-10 text-center w-full'
+            className='rounded-full h-10 text-center w-[80%]'
             placeholder={'ej: 12' + currency}
             type='number'
           />
