@@ -197,7 +197,8 @@ const PersonalBalanceWidget = () => {
             placeholder='ej: 420€'
             value={inputBalance}
             onChange={handleInput}
-            type='number'
+            type='tel'
+            pattern='[0-9]*'
             id='inputPersonalBalance'
             name='inputPersonalBalance'
           />

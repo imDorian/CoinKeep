@@ -150,7 +150,8 @@ const BalanceWidget = () => {
       {isEdit && (
         <div className='w-full flex flex-col items-center'>
           <input
-            type='number'
+            type='tel'
+            pattern='[0-9]*'
             placeholder='ej. 420€'
             className='text-center rounded-xl h-7 w-full'
             onChange={handleAmount}

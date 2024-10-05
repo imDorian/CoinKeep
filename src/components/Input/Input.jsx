@@ -299,7 +299,8 @@ const Input = ({ currency, className }) => {
           <div className='inputs--form'>
             <input
               style={{ fontSize: '16px' }}
-              type='number'
+              type='tel'
+              pattern='[0-9]*'
               id='inputValue'
               value={newData.quantity}
               placeholder='ej: 4200€'

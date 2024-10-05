@@ -22,9 +22,24 @@ export const METHOD = {
 const SpendInput = ({ currency }) => {
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const [method, setMethod] = useState(METHOD.CARD)
-  const { personal_spend: personalSpend, available_personal_spend: availablePersonalSpend, dateSelected, balance_personal_spend: personalBalance } = useStore()
-  const monthSpendCard = personalSpend && personalSpend.filter(ex => ex && ex.method === 'card' && isThisMonth(ex.date)).reduce((total, da) => total + parseFloat(da.quantity), 0).toFixed(2)
-  const monthSpendCash = personalSpend && personalSpend.filter(ex => ex && ex.method === 'cash' && isThisMonth(ex.date)).reduce((total, da) => total + parseFloat(da.quantity), 0).toFixed(2)
+  const {
+    personal_spend: personalSpend,
+    available_personal_spend: availablePersonalSpend,
+    dateSelected,
+    balance_personal_spend: personalBalance
+  } = useStore()
+  const monthSpendCard =
+    personalSpend &&
+    personalSpend
+      .filter(ex => ex && ex.method === 'card' && isThisMonth(ex.date))
+      .reduce((total, da) => total + parseFloat(da.quantity), 0)
+      .toFixed(2)
+  const monthSpendCash =
+    personalSpend &&
+    personalSpend
+      .filter(ex => ex && ex.method === 'cash' && isThisMonth(ex.date))
+      .reduce((total, da) => total + parseFloat(da.quantity), 0)
+      .toFixed(2)
   const totalPersonalSpending = {
     card: availablePersonalSpend.card - monthSpendCard,
     cash: availablePersonalSpend.cash - monthSpendCash
@@ -55,15 +70,26 @@ const SpendInput = ({ currency }) => {
     })
   }, [dateSelected])
 
-  const addToSpend = async (e) => {
+  const addToSpend = async e => {
     e.preventDefault()
     const PERSONAL_SPEND = 'personal_spend'
-    if (newData.quantity <= personalBalance[method] && personalBalance[method] > 0 && newData.quantity !== '' && newData.quantity > 0 && newData.establishment !== '' && newData.product.length !== 0) {
-      const { json, res } = await putData(PERSONAL_SPEND, cookies.user.data, newData)
+    if (
+      newData.quantity <= personalBalance[method] &&
+      personalBalance[method] > 0 &&
+      newData.quantity !== '' &&
+      newData.quantity > 0 &&
+      newData.establishment !== '' &&
+      newData.product.length !== 0
+    ) {
+      const { json, res } = await putData(
+        PERSONAL_SPEND,
+        cookies.user.data,
+        newData
+      )
       if (res.status === 200) {
         const newPersonalBalance = {
           ...personalBalance,
-          [method]: personalBalance[method] - (newData.quantity)
+          [method]: personalBalance[method] - newData.quantity
         }
         useStore.setState({
           personal_spend: [...personalSpend, json],
@@ -81,7 +107,7 @@ const SpendInput = ({ currency }) => {
     }
   }
 
-  const handlePayMethod = (e) => {
+  const handlePayMethod = e => {
     setMethod(e)
     setNewData({
       ...newData,
@@ -91,14 +117,36 @@ const SpendInput = ({ currency }) => {
 
   const MethodButtons = () => {
     return (
-      <div className='pay-method__container'>
-        <button onClick={e => { e.preventDefault(); handlePayMethod(METHOD.CARD) }} className={method === METHOD.CARD ? 'pay-method__button method-selected' : 'pay-method__button'}><CreditCardIcon color='white' size='23px' /></button>
-        <button onClick={e => { e.preventDefault(); handlePayMethod(METHOD.CASH) }} className={method === METHOD.CASH ? 'pay-method__button method-selected' : 'pay-method__button'}><CashIcon color='white' size='23px' /></button>
+      <div className='flex flex-row items-center justify-center gap-3 w-full transition-all duration-300'>
+        <button
+          onClick={e => {
+            e.preventDefault()
+            handlePayMethod(METHOD.CARD)
+          }}
+        >
+          <CreditCardIcon
+            className={
+              method === METHOD.CARD ? 'text-[var(--brand-color)]' : ''
+            }
+          />
+        </button>
+        <button
+          onClick={e => {
+            e.preventDefault()
+            handlePayMethod(METHOD.CASH)
+          }}
+        >
+          <CashIcon
+            className={
+              method === METHOD.CASH ? 'text-[var(--brand-color)]' : ''
+            }
+          />
+        </button>
       </div>
     )
   }
 
-  const addNewProduct = (e) => {
+  const addNewProduct = e => {
     e.preventDefault()
     if (newProduct !== '') {
       setNewData({
@@ -119,20 +167,74 @@ const SpendInput = ({ currency }) => {
     })
   }
   return (
-    <form className='spend-input__form'>
-      <h3>Introduce nuevo gasto personal <div id='info-date'>Info.<span>Puedes añadir gastos cambiando la fecha de "Gasto Diario"</span></div></h3>
-      <div className='spend-input__container'>
-        <div className='spend-input__inputs'>
-          <input type='text' required placeholder='Establecimiento' value={newData.establishment} onChange={e => setNewData({ ...newData, establishment: capitalizeFirstLetter(e.target.value) })} />
-          {newData.product.length > 0 && newData.product.map((p, index) => <span key={p}><input value={p} disabled /><button onClick={e => quitNewProduct(e, index)}><QuitIcon color='rgb(255, 107, 107)' size='24px' /></button></span>)}
-          <span><input type='text' required placeholder='Producto o servicio' value={newProduct} onChange={e => setNewProduct(capitalizeFirstLetter(e.target.value))} /><button onClick={e => addNewProduct(e)}><PlusCircle color='aquamarine' size='24px' /></button></span>
+    <form className='my-2 flex flex-col items-stretch justify-center gap-2 w-auto px-7 box-content'>
+      <h3 className='text-lg'>
+        Introduce nuevo gasto personal
+        <div id='info-date'>
+          Info.
+          <span>Puedes añadir gastos cambiando la fecha de "Gasto Diario"</span>
         </div>
-        <div className='spend-input__container2'>
+      </h3>
+      <div className='flex flex-row flex-nowrap justify-center items-center gap-5 w-full my-3'>
+        <div className='flex flex-col items-start gap-3 w-[70%]'>
+          <input
+            className='h-10 rounded-full text-center w-full'
+            type='text'
+            required
+            placeholder='ej: McDonalds'
+            value={newData.establishment}
+            onChange={e =>
+              setNewData({
+                ...newData,
+                establishment: capitalizeFirstLetter(e.target.value)
+              })
+            }
+          />
+          {newData.product.length > 0 &&
+            newData.product.map((p, index) => (
+              <span key={p}>
+                <input value={p} disabled />
+                <button onClick={e => quitNewProduct(e, index)}>
+                  <QuitIcon color='rgb(255, 107, 107)' size='24px' />
+                </button>
+              </span>
+            ))}
+          <span className='flex flex-row items-center justify-between'>
+            <input
+              className='text-center rounded-full h-10 w-[80%]'
+              type='text'
+              required
+              placeholder='ej: Menú'
+              value={newProduct}
+              onChange={e =>
+                setNewProduct(capitalizeFirstLetter(e.target.value))
+              }
+            />
+            <button
+              className='border-0 p-0 m-0'
+              onClick={e => addNewProduct(e)}
+            >
+              <PlusCircle color='aquamarine' size='24px' />
+            </button>
+          </span>
+        </div>
+        <div className='flex flex-col gap-3 justify-center items-center w-[30%]'>
           <MethodButtons />
-          <div className='input-currency__container'>
-            <input required value={newData.quantity} onChange={(e) => setNewData({ ...newData, quantity: isNaN(e.target.valueAsNumber) ? Number : e.target.valueAsNumber })} className='spend-input' placeholder={currency} type='number' />
-            {/* <span className='currency'>{currency}</span> */}
-          </div>
+          <input
+            required
+            value={newData.quantity}
+            onChange={e =>
+              setNewData({
+                ...newData,
+                quantity: isNaN(e.target.valueAsNumber)
+                  ? Number
+                  : e.target.valueAsNumber
+              })
+            }
+            className='rounded-full h-10 text-center w-full'
+            placeholder={'ej: 12' + currency}
+            type='number'
+          />
         </div>
       </div>
       <div className='spend-input__btn'>
