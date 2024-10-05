@@ -9,6 +9,7 @@ import { isThisMonth } from '../../functions/timeController'
 import { putMethodSchema } from '../../functions/putMethodSchema'
 import PlusCircle from '../../icons/PlusCircle'
 import QuitIcon from '../../icons/QuitIcon'
+import AddIcon from '../../icons/AddIcon'
 
 export function capitalizeFirstLetter (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
@@ -47,7 +48,7 @@ const SpendInput = ({ currency }) => {
   const [newProduct, setNewProduct] = useState('')
   const [newData, setNewData] = useState({
     establishment: '',
-    product: [],
+    product: '',
     quantity: Number,
     currency: '€',
     description: '',
@@ -55,6 +56,14 @@ const SpendInput = ({ currency }) => {
     date: dateSelected,
     model: 'personal'
   })
+
+  function handleProduct (e) {
+    const product = e.target.value
+    setNewData({
+      ...newData,
+      product
+    })
+  }
 
   useEffect(() => {
     setNewData({
@@ -78,8 +87,8 @@ const SpendInput = ({ currency }) => {
       personalBalance[method] > 0 &&
       newData.quantity !== '' &&
       newData.quantity > 0 &&
-      newData.establishment !== '' &&
-      newData.product.length !== 0
+      newData.establishment &&
+      newData.product
     ) {
       const { json, res } = await putData(
         PERSONAL_SPEND,
@@ -190,10 +199,10 @@ const SpendInput = ({ currency }) => {
           <span>Puedes añadir gastos cambiando la fecha de "Gasto Diario"</span>
         </div>
       </h3>
-      <div className='flex flex-row flex-nowrap justify-center items-center gap-5 w-full my-3'>
-        <div className='flex flex-col items-start gap-3 w-[60%]'>
+      <div className='flex flex-row flex-nowrap items-center w-full my-3'>
+        <div className='flex flex-col items-end gap-3 w-[50%]'>
           <input
-            className='h-10 rounded-full text-center w-full'
+            className='h-10 rounded-full text-center w-[90%]'
             type='text'
             required
             placeholder='ej: McDonalds'
@@ -205,41 +214,48 @@ const SpendInput = ({ currency }) => {
               })
             }
           />
-          {newData.product.length > 0 &&
+          {/* {newData.product.length > 0 &&
             newData.product.map((p, index) => (
-              <span key={p}>
-                <input value={p} disabled />
-                <button onClick={e => quitNewProduct(e, index)}>
-                  <QuitIcon color='rgb(255, 107, 107)' size='24px' />
+              <span
+                key={p}
+                className='flex flex-row items-center justify-between'
+              >
+                <input
+                  value={p}
+                  disabled
+                  className='text-center rounded-full h-10 w-[80%]'
+                />
+                <button
+                  className='border-0 p-0 m-0'
+                  onClick={e => quitNewProduct(e, index)}
+                >
+                  <AddIcon color='rgb(255, 107, 107)' size='24px' />
                 </button>
               </span>
-            ))}
-          <span className='flex flex-row items-center justify-between'>
-            <input
-              className='text-center rounded-full h-10 w-[80%]'
-              type='text'
-              required
-              placeholder='ej: Menú'
-              value={newProduct}
-              onChange={e =>
-                setNewProduct(capitalizeFirstLetter(e.target.value))
-              }
-            />
-            <button
+            ))} */}
+
+          <input
+            className='text-center rounded-full h-10 w-[90%]'
+            type='text'
+            required
+            placeholder='ej: Menú'
+            value={newData.product}
+            onChange={handleProduct}
+          />
+          {/* <button
               className='border-0 p-0 m-0'
               onClick={e => addNewProduct(e)}
             >
               <PlusCircle color='aquamarine' size='24px' />
-            </button>
-          </span>
+            </button> */}
         </div>
-        <div className='flex flex-col items-center w-[40%] gap-3'>
+        <div className='flex flex-col items-center w-[50%] gap-3'>
           <MethodButtons />
           <input
             required
             value={newData.quantity}
             onChange={handleQuantity}
-            className='rounded-full h-10 text-center w-[80%]'
+            className='rounded-full h-10 text-center w-[70%]'
             placeholder={'ej: 12' + currency}
             type='tel'
             pattern='[0-9]*'
