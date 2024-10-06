@@ -9,13 +9,13 @@
     box-sizing: border-box;
     padding: 5px;
     position: relative;
-    && h1{
+    /* && h1{
         margin: 0;
         margin-block: 20px
-    }
-    && h2{
+    } */
+    /* && h2{
         margin: 0;
         margin-block: 5px
-    }
+    } */
     
 }

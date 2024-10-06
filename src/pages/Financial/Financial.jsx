@@ -73,27 +73,20 @@ const Financial = () => {
     console.log(focusWidget)
   }, [focusWidget])
   return (
-    <div id='financial'>
-      <Container>
-        <Welcome
-          currency={currency}
-          username={cookies.user.name}
-          pageSelected={2}
-        />
-        <h1>Mis Finanzas</h1>
-        <Grid className={selectedWidget}>
-          <BalanceWidget />
-          <PersonalBalanceWidget />
-        </Grid>
-        {/* <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
-        <Incomes currency='€' editSwitch={editSwitch} />
-        <Expenses currency='€' editSwitch={editSwitch} />
-        <Savings currency='€' editSwitch={editSwitch} />
-        <Investments currency='€' editSwitch={editSwitch} /> */}
-        <List data={income} />
-        <NavBar />
-      </Container>
-    </div>
+    <Container className='overflow-hidden pt-20'>
+      <Welcome
+        currency={currency}
+        username={cookies.user.name}
+        pageSelected={2}
+      />
+      {/* <h1 className='p-0 m-0 pt-7'>Mis Finanzas</h1> */}
+      <Grid className={selectedWidget}>
+        <BalanceWidget />
+        <PersonalBalanceWidget />
+      </Grid>
+      <List data={income} />
+      <NavBar />
+    </Container>
   )
 }
 

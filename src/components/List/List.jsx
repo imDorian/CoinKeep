@@ -2,9 +2,9 @@
 import './List.css'
 import { useStore } from '../../stores/useStore'
 import { useEffect, useState } from 'react'
-import { isEmpty } from '@cloudinary/url-gen/backwards/utils/isEmpty'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
+import UpIcon from '../../icons/UpIcon'
 
 export const thisMonth = new Date().toLocaleDateString('es-ES', {
   month: 'long'
@@ -22,35 +22,56 @@ const Method = {
   card: 'card',
   cash: 'cash'
 }
+const SORT = {
+  dateUp: 'dateUp',
+  dateDown: 'dateDown',
+  quantUp: 'quantUp',
+  quantDown: 'quantDown'
+}
 
 const List = () => {
   const { income, expense, saving, investment, balance } = useStore()
   const [typeSelected, setTypeSelected] = useState('')
+  const [sortList, setSortList] = useState(SORT.dateUp)
+  function sortedArray (array) {
+    if (sortList === SORT.dateUp) {
+      return array.sort((a, b) => new Date(b.date) - new Date(a.date))
+    }
+    if (sortList === SORT.dateDown) {
+      return array.sort((a, b) => new Date(a.date) - new Date(b.date))
+    }
+    if (sortList === SORT.quantUp) {
+      return array.sort((a, b) => b.quantity - a.quantity)
+    }
+    if (sortList === SORT.quantDown) {
+      return array.sort((a, b) => a.quantity - b.quantity)
+    }
+  }
+  function handleSort (e) {
+    const sort = e.target.value
+    setSortList(sort)
+  }
   function filterTypes () {
     if (typeSelected === Types.income) {
-      return income
+      return sortedArray(income)
     }
     if (typeSelected === Types.expense) {
-      return expense
+      return sortedArray(expense)
     }
     if (typeSelected === Types.investment) {
-      return investment
+      return sortedArray(investment)
     }
     if (typeSelected === Types.saving) {
-      return saving
+      return sortedArray(saving)
     }
     const allTypes = income.concat(expense).concat(investment).concat(saving)
-    return allTypes
+
+    return sortedArray(allTypes)
   }
   const filteredTypes = filterTypes()
   function handleTypes (e) {
-    console.log(e)
     setTypeSelected(e)
   }
-
-  useEffect(() => {
-    console.log(income)
-  }, [balance])
 
   return (
     <div className='w-full p-2 mx-4 my-1 bg-[var(--gray-color)] rounded-[30px] list'>
@@ -83,7 +104,28 @@ const List = () => {
           </button>
         ))}
       </div>
-      <ul className='flex flex-col px-5 h-[40vh] divide-y-[1px] divide-neutral-600 overflow-y-auto mb-6'>
+      <span className='flex px-4 py-1 justify-between'>
+        <input
+          className='rounded-lg bg-neutral-800 border border-neutral-600 text-start px-1'
+          placeholder='ej: Restaurante'
+          type='search'
+          name='search'
+          id='search'
+        />
+        <select
+          name='sort'
+          id='sort'
+          value={sortList}
+          onChange={handleSort}
+          className='rounded-lg p-1 bg-neutral-800 border border-neutral-600'
+        >
+          <option value={SORT.dateUp}>Fecha ↑</option>
+          <option value={SORT.dateDown}>Fecha ↓</option>
+          <option value={SORT.quantUp}>Monto ↑</option>
+          <option value={SORT.quantDown}>Monto ↓</option>
+        </select>
+      </span>
+      <ul className='flex flex-col px-5 h-[42vh] divide-y-[1px] divide-neutral-600 overflow-y-auto mb-6'>
         {filteredTypes?.map((item, index) => {
           const {
             category,
@@ -100,13 +142,16 @@ const List = () => {
             year: '2-digit'
           })
           return (
-            <li className='w-full grid grid-cols-4 py-3' key={id}>
+            <li
+              className='w-full grid grid-cols-[2fr_2fr_1fr_2fr] py-3'
+              key={id}
+            >
               <span className='text-start truncate'>{category}</span>
               <span className='text-end'>
                 {quantity}
                 {currency}
               </span>
-              <span className='flex justify-center'>
+              <span className='flex justify-end'>
                 {method === Method.card ? <CreditCardIcon /> : <CashIcon />}
               </span>
               <span className='text-end'>{formatedData}</span>
