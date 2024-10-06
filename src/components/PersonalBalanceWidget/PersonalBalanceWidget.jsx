@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 import Article from '../Article/Article'
 import { useStore } from '../../stores/useStore'
-import CreditCardIcon from '../../icons/CreditCardIcon'
-import CashIcon from '../../icons/CashIcon'
-import EditIcon from '../../icons/EditIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
-import QuitIcon from '../../icons/QuitIcon'
 
 export const updateData = async (id, data, cat) => {
   const { res, json } = await putMethodSchema(id, data, cat)
@@ -205,13 +201,13 @@ const PersonalBalanceWidget = () => {
           />
           <span className='flex w-full justify-around gap-1 m-0 p-0'>
             <button
-              className='tracking-wide text-red-700'
+              className='tracking-wide text-red-500'
               onClick={() => hanldePersonalBalance('rest')}
             >
               Restar
             </button>
             <button
-              className='tracking-wide text-[var(--brand-color)]'
+              className='tracking-wide text-blue-500'
               onClick={() => hanldePersonalBalance('sum')}
             >
               Sumar

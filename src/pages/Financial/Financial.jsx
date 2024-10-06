@@ -16,6 +16,7 @@ import BalanceWidget from '../../components/BalanceWidget/BalanceWidget'
 import PersonalBalanceWidget from '../../components/PersonalBalanceWidget/PersonalBalanceWidget'
 import { MagicMotion } from 'react-magic-motion'
 import Input from '../../components/Input/Input'
+import List from '../../components/List/List'
 // import { useCookiesStore } from '../store/useCookiesStore'
 
 function selectWidget (widget) {
@@ -35,7 +36,7 @@ const Financial = () => {
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const navigate = useNavigate()
   // const fetchData = useStore(state => state.fetchData)
-  const { fetchData, focusWidget } = useStore()
+  const { fetchData, focusWidget, income } = useStore()
   const currency = '€'
 
   const selectedWidget = selectWidget(focusWidget)
@@ -84,11 +85,12 @@ const Financial = () => {
           <BalanceWidget />
           <PersonalBalanceWidget />
         </Grid>
-        <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
+        {/* <Edit setEditSwitch={setEditSwitch} editSwitch={editSwitch} />
         <Incomes currency='€' editSwitch={editSwitch} />
         <Expenses currency='€' editSwitch={editSwitch} />
         <Savings currency='€' editSwitch={editSwitch} />
-        <Investments currency='€' editSwitch={editSwitch} />
+        <Investments currency='€' editSwitch={editSwitch} /> */}
+        <List data={income} />
         <NavBar />
       </Container>
     </div>

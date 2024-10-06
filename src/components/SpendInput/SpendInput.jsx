@@ -6,10 +6,6 @@ import CreditCardIcon from '../../icons/CreditCardIcon'
 import { useStore } from '../../stores/useStore'
 import { putData } from '../../functions/putData'
 import { isThisMonth } from '../../functions/timeController'
-import { putMethodSchema } from '../../functions/putMethodSchema'
-import PlusCircle from '../../icons/PlusCircle'
-import QuitIcon from '../../icons/QuitIcon'
-import AddIcon from '../../icons/AddIcon'
 
 export function capitalizeFirstLetter (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)

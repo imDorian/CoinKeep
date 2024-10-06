@@ -11,6 +11,7 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
   --brand-color: aquamarine;
+  --gray-color:#303030;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

@@ -23,7 +23,6 @@ const Input = ({ currency, className }) => {
   const [isInput, setIsInput] = useState(true)
   const [loading, setLoading] = useState(false)
   const [method, setMethod] = useState('card')
-  const store = useStore(state => state)
   const [date, setDate] = useState('')
   const addButton =
     typeSelected === 'income'
@@ -89,74 +88,40 @@ const Input = ({ currency, className }) => {
 
   const addToList = async e => {
     e.preventDefault()
-    if (
-      newData.quantity !== '' &&
-      newData.quantity !== 0 &&
-      typeSelected === 'income'
-    ) {
+    if (newData.quantity !== '' && newData.quantity !== 0) {
       setLoading(true)
       try {
         const newBalance = {
           ...balance,
-          [method]: balance[method] + newData.quantity
+          [method]:
+            balance[method] +
+            (typeSelected === 'income' ? newData.quantity : -newData.quantity)
         }
-        // Si el balance (card o efectivo) te lo permite
-        // REVISAR ESTO <------------------------------->
+
         const { json: jsonData, res } = await putData(
           typeSelected,
           cookies.user.data,
           newData
         )
-        // IF RES === 200 ENTONCES........
+
         if (res.status === 200) {
-          useStore.setState({
-            ...store,
-            [typeSelected]: [...store[typeSelected], jsonData],
-            balance: newBalance
+          // Aquí accedemos dinámicamente a useStore[typeSelected]
+          useStore.setState(state => {
+            const currentList = state[typeSelected] || [] // Asegura que siempre sea un array
+
+            return {
+              [typeSelected]: [...currentList, jsonData], // Agrega el nuevo dato
+              balance: newBalance
+            }
           })
+
           setNewData({
             ...newData,
-            quantity: Number
+            quantity: 0 // Restablece la cantidad
           })
         }
       } catch (error) {
         console.error(error)
-        setLoading(false)
-      } finally {
-        setLoading(false)
-      }
-    }
-    if (
-      newData.quantity !== '' &&
-      newData.quantity !== 0 &&
-      typeSelected !== 'income' &&
-      newData.quantity <= balance[method]
-    ) {
-      setLoading(true)
-      try {
-        const newBalance = {
-          ...balance,
-          [method]: balance[method] - newData.quantity
-        }
-        const { res, json } = await putData(
-          typeSelected,
-          cookies.user.data,
-          newData
-        )
-        if (res.status === 200) {
-          useStore.setState({
-            ...store,
-            [typeSelected]: [...store[typeSelected], json],
-            balance: newBalance
-          })
-          setNewData({
-            ...newData,
-            quantity: Number
-          })
-        }
-      } catch (error) {
-        console.error(error)
-        setLoading(false)
       } finally {
         setLoading(false)
       }
@@ -224,6 +189,9 @@ const Input = ({ currency, className }) => {
           }
         >
           <CashIcon
+            className={
+              method === 'cash' ? 'text-[var(--brand-color)]' : 'text-white'
+            }
             color={method === 'cash' ? 'aquamarine' : 'white'}
             size='23px'
           />
@@ -241,7 +209,7 @@ const Input = ({ currency, className }) => {
   function handleInput (e) {
     const quant = e.target.value
     if (isNaN(quant)) return
-    setNewData({ ...newData, quantity: e.target.value })
+    setNewData({ ...newData, quantity: Number(quant) })
   }
 
   return (

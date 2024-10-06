@@ -22,8 +22,8 @@ const Welcome = ({ username, currency, pageSelected }) => {
   } = useStore()
   const totalBalance =
     balance.card + balance.cash < 0.01
-      ? (balance.card + balance.cash).toFixed(2)
-      : (balance.card + balance.cash).toFixed(2)
+      ? (Number(balance.card) + Number(balance.cash)).toFixed(2)
+      : (Number(balance.card) + Number(balance.cash)).toFixed(2)
   const totalBalancePersonalSpend =
     balancePersonalSpend.card + balancePersonalSpend.cash < 0.01
       ? (balancePersonalSpend.card + balancePersonalSpend.cash).toFixed(2)

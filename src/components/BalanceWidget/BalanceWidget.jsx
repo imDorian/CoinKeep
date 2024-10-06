@@ -132,7 +132,7 @@ const BalanceWidget = () => {
         </div>
         {isEdit && (
           <button onClick={handleTransfer}>
-            <SwitchIcon className='size-6 text-[var(--brand-color)]' />
+            <SwitchIcon className='size-6 text-neutral-300' />
           </button>
         )}
         <div className={!isEdit ? 'items-start' : 'items-center'}>
@@ -161,7 +161,7 @@ const BalanceWidget = () => {
           />
           <button
             onClick={handleSubmitTransfer}
-            className='tracking-wide text-[var(--brand-color)]'
+            className='tracking-wide text-blue-500'
           >
             Transferir
           </button>
