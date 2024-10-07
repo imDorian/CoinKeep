@@ -5,10 +5,8 @@ import { useEffect, useState } from 'react'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import UpIcon from '../../icons/UpIcon'
+import { capitalizeFirstLetter } from '../SpendInput/SpendInput'
 
-export const thisMonth = new Date().toLocaleDateString('es-ES', {
-  month: 'long'
-})
 const MONTHS = [
   'Enero',
   'Febrero',
@@ -47,7 +45,8 @@ const List = () => {
   const { income, expense, saving, investment, balance } = useStore()
   const [typeSelected, setTypeSelected] = useState('')
   const [sortList, setSortList] = useState(SORT.dateUp)
-  const [monthSelected, setMonthSelected] = useState()
+  const thisMonth = new Date().getMonth()
+  const [monthSelected, setMonthSelected] = useState(MONTHS[thisMonth])
   function sortedArray (array) {
     if (sortList === SORT.dateUp) {
       return array.sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -61,6 +60,22 @@ const List = () => {
     if (sortList === SORT.quantDown) {
       return array.sort((a, b) => a.quantity - b.quantity)
     }
+  }
+  function onlyMonthSelected (array) {
+    const newElements = []
+    array.forEach(e => {
+      const date = new Date(e.date).toLocaleDateString('es-Es', {
+        month: 'long'
+      })
+      console.log(date, monthSelected)
+      if (
+        capitalizeFirstLetter(date) === capitalizeFirstLetter(monthSelected)
+      ) {
+        newElements.push(e)
+      }
+    })
+    console.log(newElements)
+    return newElements
   }
   function handleSort (e) {
     const sort = e.target.value
@@ -93,7 +108,7 @@ const List = () => {
     setMonthSelected(month)
   }
 
-  function monthOnUse (array) {
+  function monthSelect (array) {
     const indexMonths = []
     const newMonths = []
     for (const element of array) {
@@ -109,7 +124,9 @@ const List = () => {
     return newMonths
   }
 
-  const months = monthOnUse(filteredTypes)
+  const filteredData = onlyMonthSelected(filteredTypes)
+
+  const months = monthSelect(filteredTypes)
 
   return (
     <div className='w-[90%] p-3 mx-4 my-1 bg-[var(--gray-color)] rounded-[30px] list flex flex-col gap-2'>
@@ -177,8 +194,8 @@ const List = () => {
           <option value={SORT.quantDown}>Monto ↓</option>
         </select>
       </span>
-      <ul className='flex flex-col px-1 h-[42vh] divide-y-[1px] divide-neutral-600 overflow-y-auto mb-3 mt-1'>
-        {filteredTypes?.map((item, index) => {
+      <ul className='flex flex-col px-1 h-[40vh] divide-y-[1px] divide-neutral-600 overflow-y-auto mb-3 mt-1'>
+        {filteredData?.map((item, index) => {
           const {
             category,
             currency,
