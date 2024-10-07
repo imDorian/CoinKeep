@@ -9,6 +9,20 @@ import UpIcon from '../../icons/UpIcon'
 export const thisMonth = new Date().toLocaleDateString('es-ES', {
   month: 'long'
 })
+const MONTHS = [
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre'
+]
 
 const TIPOS = ['Ingresos', 'Gastos', 'Ahorro', 'Inversión']
 const TYPES = ['income', 'expense', 'saving', 'investment']
@@ -33,6 +47,7 @@ const List = () => {
   const { income, expense, saving, investment, balance } = useStore()
   const [typeSelected, setTypeSelected] = useState('')
   const [sortList, setSortList] = useState(SORT.dateUp)
+  const [monthSelected, setMonthSelected] = useState()
   function sortedArray (array) {
     if (sortList === SORT.dateUp) {
       return array.sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -73,8 +88,31 @@ const List = () => {
     setTypeSelected(e)
   }
 
+  function handleMonth (e) {
+    const month = e.target.value
+    setMonthSelected(month)
+  }
+
+  function monthOnUse (array) {
+    const indexMonths = []
+    const newMonths = []
+    for (const element of array) {
+      const month = new Date(element.date).getMonth()
+      if (!indexMonths.includes(month)) {
+        indexMonths.push(month)
+      }
+    }
+    if (indexMonths.length > 0) {
+      const sortedIndexMonths = indexMonths.sort((a, b) => b - a)
+      sortedIndexMonths.forEach(e => newMonths.push(MONTHS[e]))
+    }
+    return newMonths
+  }
+
+  const months = monthOnUse(filteredTypes)
+
   return (
-    <div className='w-full p-2 mx-4 my-1 bg-[var(--gray-color)] rounded-[30px] list'>
+    <div className='w-[90%] p-3 mx-4 my-1 bg-[var(--gray-color)] rounded-[30px] list flex flex-col gap-2'>
       <div className='flex items-center justify-center py-2 md:py-8 flex-wrap text-sm gap-2'>
         <button
           name=''
@@ -104,20 +142,34 @@ const List = () => {
           </button>
         ))}
       </div>
-      <span className='flex px-4 py-1 justify-between'>
+      <span className='grid grid-cols-[1.5fr_1fr_1fr] gap-4 justify-items-center items-stretch w-full'>
         <input
-          className='rounded-lg bg-neutral-800 border border-neutral-600 text-start px-1'
+          className='rounded-lg bg-neutral-800 border border-neutral-600 text-start px-1 w-full'
           placeholder='ej: Restaurante'
           type='search'
           name='search'
           id='search'
         />
         <select
+          value={monthSelected}
+          onChange={handleMonth}
+          className='truncate w-full rounded-lg bg-neutral-800 border border-neutral-600'
+          name=''
+        >
+          {months?.map(month => {
+            return (
+              <option key={crypto.randomUUID()} value={month}>
+                {month}
+              </option>
+            )
+          })}
+        </select>
+        <select
           name='sort'
           id='sort'
           value={sortList}
           onChange={handleSort}
-          className='rounded-lg p-1 bg-neutral-800 border border-neutral-600'
+          className='rounded-lg py-1 bg-neutral-800 border border-neutral-600 w-full'
         >
           <option value={SORT.dateUp}>Fecha ↑</option>
           <option value={SORT.dateDown}>Fecha ↓</option>
@@ -125,7 +177,7 @@ const List = () => {
           <option value={SORT.quantDown}>Monto ↓</option>
         </select>
       </span>
-      <ul className='flex flex-col px-5 h-[42vh] divide-y-[1px] divide-neutral-600 overflow-y-auto mb-6'>
+      <ul className='flex flex-col px-1 h-[42vh] divide-y-[1px] divide-neutral-600 overflow-y-auto mb-3 mt-1'>
         {filteredTypes?.map((item, index) => {
           const {
             category,
