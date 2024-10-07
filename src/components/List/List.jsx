@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import './List.css'
 import { useStore } from '../../stores/useStore'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import UpIcon from '../../icons/UpIcon'
@@ -47,6 +47,17 @@ const List = () => {
   const [sortList, setSortList] = useState(SORT.dateUp)
   const thisMonth = new Date().getMonth()
   const [monthSelected, setMonthSelected] = useState(MONTHS[thisMonth])
+  const [search, setSearch] = useState({
+    search: '',
+    element: []
+  })
+  function handleSearch (e) {
+    const newSearch = e.target.value
+    setSearch({
+      ...search,
+      search: newSearch
+    })
+  }
   function sortedArray (array) {
     if (sortList === SORT.dateUp) {
       return array.sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -67,7 +78,6 @@ const List = () => {
       const date = new Date(e.date).toLocaleDateString('es-Es', {
         month: 'long'
       })
-      console.log(date, monthSelected)
       if (
         capitalizeFirstLetter(date) === capitalizeFirstLetter(monthSelected)
       ) {
@@ -124,10 +134,17 @@ const List = () => {
     return newMonths
   }
 
-  const filteredData = onlyMonthSelected(filteredTypes)
+  const filteredData = useMemo(() => {
+    return onlyMonthSelected(
+      filteredTypes.filter(item =>
+        item.category.toLowerCase().includes(search.search.toLowerCase())
+      )
+    )
+  }, [filteredTypes, search.search, monthSelected])
 
-  const months = monthSelect(filteredTypes)
-
+  const months = useMemo(() => {
+    return monthSelect(filteredTypes)
+  }, [filteredTypes])
   return (
     <div className='w-[90%] p-3 mx-4 my-1 bg-[var(--gray-color)] rounded-[30px] list flex flex-col gap-2'>
       <div className='flex items-center justify-center py-2 md:py-8 flex-wrap text-sm gap-2'>
@@ -161,6 +178,8 @@ const List = () => {
       </div>
       <span className='grid grid-cols-[1.5fr_1fr_1fr] gap-4 justify-items-center items-stretch w-full'>
         <input
+          onChange={handleSearch}
+          value={search.search}
           className='rounded-lg bg-neutral-800 border border-neutral-600 text-start px-1 w-full'
           placeholder='ej: Restaurante'
           type='search'
