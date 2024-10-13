@@ -42,7 +42,7 @@ const SORT = {
 }
 
 const List = () => {
-  const { income, expense, saving, investment, balance } = useStore()
+  const { income, expense, saving, investment, currency } = useStore()
   const [typeSelected, setTypeSelected] = useState('')
   const [sortList, setSortList] = useState(SORT.dateUp)
   const thisMonth = new Date().getMonth()
@@ -130,6 +130,8 @@ const List = () => {
     if (indexMonths.length > 0) {
       const sortedIndexMonths = indexMonths.sort((a, b) => b - a)
       sortedIndexMonths.forEach(e => newMonths.push(MONTHS[e]))
+    } else if (indexMonths.length === 0) {
+      return ['Meses']
     }
     return newMonths
   }
@@ -181,7 +183,7 @@ const List = () => {
           onChange={handleSearch}
           value={search.search}
           className='rounded-lg bg-neutral-800 border border-neutral-600 text-start px-1 w-full'
-          placeholder='ej: Restaurante'
+          placeholder='ej: Alimentación'
           type='search'
           name='search'
           id='search'
@@ -205,25 +207,17 @@ const List = () => {
           id='sort'
           value={sortList}
           onChange={handleSort}
-          className='rounded-lg py-1 bg-neutral-800 border border-neutral-600 w-full'
+          className='rounded-lg py-1 bg-neutral-800 border border-neutral-600 w-full truncate'
         >
-          <option value={SORT.dateUp}>Fecha ↑</option>
-          <option value={SORT.dateDown}>Fecha ↓</option>
-          <option value={SORT.quantUp}>Monto ↑</option>
-          <option value={SORT.quantDown}>Monto ↓</option>
+          <option value={SORT.dateUp}>↑ Fecha, la más reciente primero</option>
+          <option value={SORT.dateDown}>↓ Fecha, la más antigua primero</option>
+          <option value={SORT.quantUp}>↑ Monto, el más alto primero</option>
+          <option value={SORT.quantDown}>↓ Monto, el más bajo primero</option>
         </select>
       </span>
       <ul className='flex flex-col px-1 h-[40vh] divide-y-[1px] divide-neutral-600 overflow-y-auto mb-3 mt-1'>
         {filteredData?.map((item, index) => {
-          const {
-            category,
-            currency,
-            quantity,
-            type,
-            date,
-            method,
-            _id: id
-          } = item
+          const { category, currency, quantity, date, method, _id: id } = item
           const formatedData = new Date(date).toLocaleDateString('es-Es', {
             day: 'numeric',
             month: 'short',

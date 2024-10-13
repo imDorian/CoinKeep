@@ -1,14 +1,9 @@
 export const CATEGORIAS_INVERSION = [
-  'Ingresos regulares',
-  'Ahorros personales',
-  'Bonificaciones y premios',
-  'Herencia o regalos',
-  'Reducción de gastos',
-  'Incrementos salariales',
-  'Ventas de bienes no esenciales',
-  'Inversionistas externos',
-  'Fondos de ahorro o cuentas de jubilación',
-  'Préstamos o financiamiento'
+  '📈 Acciones',
+  '💰 Bonos',
+  '🏢 Bienes Raíces',
+  '₿ Criptomonedas',
+  '📊 Otros'
 ]
 
 export const INVESTMENT_CATEGORIES = [

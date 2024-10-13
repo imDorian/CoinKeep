@@ -1,55 +1,63 @@
 /* eslint-disable react/jsx-handler-names */
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react'
+import {
+  GoogleLogin,
+  useGoogleLogin,
+  useGoogleOAuth,
+  useGoogleOneTapLogin
+} from '@react-oauth/google'
+
+import { jwtDecode } from 'jwt-decode'
+import { useStore } from '../../stores/useStore'
+import { googleLogin } from '../../functions/googleLogin'
+import { verifyToken } from '../../functions/verifyToken'
+import { useNavigate } from 'react-router-dom'
 import GoogleIcon from '../../icons/GoogleIcon'
-import GoogleLogin from 'react-google-login'
-import { gapi } from 'gapi-script'
-import './LoginGoogle.css'
 
-const LoginGoogle = () => {
-  const clientID = '882636311043-1dfaagufid5k7s11gavt1df185lhqt4g.apps.googleusercontent.com'
-
-  useEffect(() => {
-    const start = () => {
-      gapi.auth2.init({
-        clientId: clientID
-      })
+const LoginGoogle = ({ className, title }) => {
+  const navigate = useNavigate()
+  async function fetchData (res) {
+    const response = await googleLogin(res.credential)
+    console.log(response)
+    if (response.res.status === 200) {
+      const json = response.json
+      // console.log(json)
+      window.localStorage.setItem('userdata', JSON.stringify(json))
+      navigate('/inicio')
+    } else {
+      console.log('Error')
     }
-    gapi.load('client:auth2', start)
-  }, [])
-
-  const onSuccess = (res) => {
-    console.log(res)
-    // Logear al usuario con Google
-    // Sacar los datos de google
-    const { email, givenName, imageUrl, googleId } = res.profileObj
-    // Buscar en la lista de users y ver si existe el email
-    const user = {
-      email,
-      name: givenName,
-      imageUrl,
-      googleId
-    }
-    console.log(user)
-    // Si existe incimos sesión
-    // Si no existe creamos una cuenta con los datos de Google
   }
 
-  const onFailure = (res) => {
-    console.log('Algo ha salido mal', res)
-  }
-
+  const handleLogin = useGoogleLogin({
+    onSuccess: async res => {
+      console.log(res)
+      const response = await googleLogin(res.access_token)
+      console.log(response)
+      if (response.res.status === 200) {
+        const json = response.json
+        console.log(json)
+        window.localStorage.setItem('userdata', JSON.stringify(json))
+        navigate('/inicio')
+      } else {
+        console.log('Error')
+      }
+    },
+    onError: error => console.log(error),
+    flow: 'implicit',
+    scope: 'email profile',
+    ux_mode: 'popup'
+  })
   return (
-    <GoogleLogin
-      render={renderProps => (
-        <button onClick={renderProps.onClick} disabled={renderProps.disabled}><GoogleIcon size='24px' color='white' /></button>
-      )}
-      theme='dark'
-      clientId={clientID}
-      onSuccess={onSuccess}
-      onFailure={onFailure}
-      cookiePolicy='single_host_policy'
-    />
+    <button
+      onClick={handleLogin}
+      type='button'
+      className={`text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-3 h-7 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55  mb-5 ${className}`}
+    >
+      <GoogleIcon />
+      {title}
+    </button>
   )
 }
 

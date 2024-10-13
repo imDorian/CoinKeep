@@ -73,7 +73,7 @@ const Financial = () => {
     console.log(focusWidget)
   }, [focusWidget])
   return (
-    <Container className='overflow-hidden pt-20'>
+    <Container className='overflow-hidden'>
       <Welcome
         currency={currency}
         username={cookies.user.name}
@@ -82,7 +82,7 @@ const Financial = () => {
       {/* <h1 className='p-0 m-0 pt-7'>Mis Finanzas</h1> */}
       <Grid className={selectedWidget}>
         <BalanceWidget />
-        <PersonalBalanceWidget />
+        {/* <PersonalBalanceWidget /> */}
       </Grid>
       <List data={income} />
       <NavBar />

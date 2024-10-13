@@ -1,17 +1,14 @@
 export const CATEGORIAS_GASTOS = [
-  'Alimentación',
-  'Vivienda',
-  'Transporte',
-  'Salud',
-  'Educación',
-  'Entretenimiento',
-  'Ropa y accesorios',
-  'Regalos y donaciones',
-  'Tecnología',
-  'Seguros',
-  'Viajes',
-  'Cuidado personal',
-  'Impuestos y multas'
+  '🍔 Alimentación',
+  '🚗 Transporte',
+  '🎉 Entretenimiento',
+  '👗 Ropa',
+  '💊 Salud',
+  '🏡 Hogar',
+  '📚 Educación',
+  '🎁 Regalos',
+  '📅 Suscripciones',
+  '🔧 Otros'
 ]
 
 export const EXPENSES_CATEGORIES = [

@@ -66,7 +66,7 @@ const ListDiary = ({ title, currency }) => {
             personalBalance[selectedData.method] + selectedData.quantity
         }
       })
-      const { response, json } = await deletePersonalSpend(id)
+      await deletePersonalSpend(id)
     } catch (error) {
       console.error(error)
     } finally {
@@ -90,8 +90,8 @@ const ListDiary = ({ title, currency }) => {
           ¿Estás seguro que quieres borrar este gasto?
         </span>
         <div className='delete--grid'>
-          <span className='grid-1'>{selectedData.establishment}</span>
-          <span className='grid-2'>{selectedData.product}</span>
+          <span className='grid-1'>{selectedData.category}</span>
+          <span className='grid-2'>{selectedData.description}</span>
           <span className='grid-3'>
             {selectedData.quantity}
             {currency}
@@ -170,7 +170,7 @@ const ListDiary = ({ title, currency }) => {
                   return (
                     <li key={d._id} className='list__container__list'>
                       <span>{d.establishment}</span>
-                      <span>{d.product.join(', ')}</span>
+                      {/* <span>{d.product.join(', ')}</span> */}
                       <span>
                         {d.quantity.toFixed(2)}
                         {d.currency}

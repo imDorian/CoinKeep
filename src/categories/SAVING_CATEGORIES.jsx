@@ -1,14 +1,9 @@
 export const CATEGORIAS_AHORROS = [
-  'Ingresos regulares',
-  'Bonificaciones y premios',
-  'Reducción de gastos',
-  'Herencia o regalos',
-  'Incrementos salariales',
-  'Bono de fin de año o aguinaldo',
-  'Reembolsos y devoluciones',
-  'Ventas de bienes no esenciales',
-  'Rendimientos de inversiones',
-  'Cambio de hábitos financieros'
+  '🏦 Fondo de Emergencia',
+  '✈️ Viajes',
+  '🏠 Compra de Casa',
+  '🎓 Educación',
+  '📦 Otros'
 ]
 
 export const SAVINGS_CATEGORIES = [

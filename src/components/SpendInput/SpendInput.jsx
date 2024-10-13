@@ -16,14 +16,15 @@ export const METHOD = {
   CASH: 'cash'
 }
 
-const SpendInput = ({ currency }) => {
+const SpendInput = () => {
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const [method, setMethod] = useState(METHOD.CARD)
   const {
     personal_spend: personalSpend,
     available_personal_spend: availablePersonalSpend,
     dateSelected,
-    balance_personal_spend: personalBalance
+    balance_personal_spend: personalBalance,
+    currency
   } = useStore()
   const monthSpendCard =
     personalSpend &&
@@ -43,8 +44,8 @@ const SpendInput = ({ currency }) => {
   }
   const [newProduct, setNewProduct] = useState('')
   const [newData, setNewData] = useState({
-    establishment: '',
-    product: '',
+    category: '',
+    description: '',
     quantity: Number,
     currency: '€',
     description: '',
@@ -53,7 +54,7 @@ const SpendInput = ({ currency }) => {
     model: 'personal'
   })
 
-  function handleProduct (e) {
+  function handleDescription (e) {
     const product = e.target.value
     setNewData({
       ...newData,
@@ -78,14 +79,7 @@ const SpendInput = ({ currency }) => {
   const addToSpend = async e => {
     e.preventDefault()
     const PERSONAL_SPEND = 'personal_spend'
-    if (
-      newData.quantity <= personalBalance[method] &&
-      personalBalance[method] > 0 &&
-      newData.quantity !== '' &&
-      newData.quantity > 0 &&
-      newData.establishment &&
-      newData.product
-    ) {
+    if (newData.category && newData.description) {
       const { json, res } = await putData(
         PERSONAL_SPEND,
         cookies.user.data,
@@ -102,13 +96,11 @@ const SpendInput = ({ currency }) => {
         })
         setNewData({
           ...newData,
-          establishment: '',
-          product: [],
+          category: '',
+          description: '',
           quantity: Number
         })
       }
-    } else {
-      console.log('No hay disponibilidad para gasto personal')
     }
   }
 
@@ -166,26 +158,40 @@ const SpendInput = ({ currency }) => {
     })
   }
 
-  const addNewProduct = e => {
-    e.preventDefault()
-    if (newProduct !== '') {
-      setNewData({
-        ...newData,
-        product: [...newData.product, newProduct]
-      })
-      setNewProduct('')
-    }
-  }
-  const quitNewProduct = (e, i) => {
-    e.preventDefault()
-    const productsFiltered = [...newData.product]
-    productsFiltered.splice(i, 1)
-    console.log(productsFiltered)
-    setNewData({
-      ...newData,
-      product: productsFiltered
-    })
-  }
+  const personalExpenseCategories = [
+    {
+      name: 'Comida 🍔',
+      description: 'Gastos relacionados con alimentos y bebidas.'
+    },
+    {
+      name: 'Transporte 🚗',
+      description: 'Gastos en transporte público o gasolina.'
+    },
+    {
+      name: 'Entretenimiento 🎉',
+      description: 'Gastos en actividades recreativas.'
+    },
+    { name: 'Ropa 👗', description: 'Compras de ropa y accesorios.' },
+    { name: 'Salud 🏥', description: 'Gastos médicos y de bienestar.' },
+    {
+      name: 'Hogar 🏠',
+      description: 'Gastos en servicios del hogar y mantenimiento.'
+    },
+    {
+      name: 'Regalos 🎁',
+      description: 'Gastos en regalos para otras personas.'
+    },
+    {
+      name: 'Educación 🎓',
+      description: 'Gastos en cursos, libros y materiales de estudio.'
+    },
+    {
+      name: 'Mascotas 🐾',
+      description: 'Gastos relacionados con el cuidado de mascotas.'
+    },
+    { name: 'Ahorro 💰', description: 'Dinero destinado al ahorro personal.' }
+  ]
+
   return (
     <form className='my-2 flex flex-col items-stretch justify-center gap-2 w-auto px-7 box-content'>
       <h3 className='text-lg'>
@@ -197,46 +203,39 @@ const SpendInput = ({ currency }) => {
       </h3>
       <div className='flex flex-row flex-nowrap items-center w-full my-3'>
         <div className='flex flex-col items-end gap-3 w-[50%]'>
-          <input
+          <select
             className='h-10 rounded-full text-center w-[90%]'
             type='text'
             required
             placeholder='ej: McDonalds'
-            value={newData.establishment}
+            value={newData.category}
             onChange={e =>
               setNewData({
                 ...newData,
-                establishment: capitalizeFirstLetter(e.target.value)
+                category: capitalizeFirstLetter(e.target.value)
               })
             }
-          />
-          {/* {newData.product.length > 0 &&
-            newData.product.map((p, index) => (
-              <span
-                key={p}
-                className='flex flex-row items-center justify-between'
-              >
-                <input
-                  value={p}
-                  disabled
-                  className='text-center rounded-full h-10 w-[80%]'
-                />
-                <button
-                  className='border-0 p-0 m-0'
-                  onClick={e => quitNewProduct(e, index)}
+          >
+            {personalExpenseCategories?.map(cat => {
+              return (
+                <option
+                  className='text-end'
+                  key={crypto.randomUUID()}
+                  value={cat.name}
                 >
-                  <AddIcon color='rgb(255, 107, 107)' size='24px' />
-                </button>
-              </span>
-            ))} */}
+                  {cat.name}
+                </option>
+              )
+            })}
+          </select>
 
           <input
             className='text-center rounded-full h-10 w-[90%]'
             type='text'
             required
-            placeholder='ej: Menú'
-            value={newData.product}
-            onChange={handleProduct}
+            placeholder='Descripcion'
+            value={newData.description}
+            onChange={handleDescription}
           />
           {/* <button
               className='border-0 p-0 m-0'

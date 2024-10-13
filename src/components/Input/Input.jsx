@@ -16,9 +16,9 @@ import { useStore } from '../../stores/useStore'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
-const Input = ({ currency, className }) => {
+const Input = ({ className }) => {
   const { setTypeSelected, typeSelected } = useContext(userDataContext)
-  const { balance, income, expense, saving, investment } = useStore()
+  const { balance, currency } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const [isInput, setIsInput] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -42,7 +42,7 @@ const Input = ({ currency, className }) => {
     category: '',
     type: TIPOS_INGRESOS[0],
     quantity: '',
-    currency: '€',
+    currency,
     description: '',
     date: new Date(date),
     method,
@@ -243,42 +243,45 @@ const Input = ({ currency, className }) => {
       {isInput && (
         <form className='input-form'>
           <div>
-            <input
-              type='text'
+            <select
+              className='truncate '
+              style={{ textAlign: 'center' }}
+              value={newData.category}
               onChange={e =>
                 setNewData({ ...newData, category: e.target.value })
               }
-              value={newData.category}
-              placeholder='ej: Sueldo'
-              style={{ fontSize: '16px' }}
-            />
-            <select
-              style={{ textAlign: 'center' }}
-              value={newData.type}
-              onChange={e => setNewData({ ...newData, type: e.target.value })}
               name='income-types'
               id='income-types'
             >
-              {typesSelected &&
-                typesSelected.map(type => {
-                  return (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  )
-                })}
+              {categoriesSelected?.map(type => {
+                return (
+                  <option className='text-start' key={type} value={type}>
+                    {type}
+                  </option>
+                )
+              })}
             </select>
+            <input
+              style={{ fontSize: '16px' }}
+              type='tel'
+              pattern='[0-9,]*'
+              inputMode='decimal'
+              id='inputValue'
+              value={newData.quantity}
+              placeholder={`ej: 3200${currency}`}
+              onChange={handleInput}
+            />
           </div>
           {/* <div className='input-form__input-container'> */}
           <div className='inputs--form'>
             <input
+              type='text'
+              onChange={e =>
+                setNewData({ ...newData, description: e.target.value })
+              }
+              value={newData.description}
+              placeholder='Descripción'
               style={{ fontSize: '16px' }}
-              type='tel'
-              pattern='[0-9]*'
-              id='inputValue'
-              value={newData.quantity}
-              placeholder='ej: 4200€'
-              onChange={handleInput}
             />
             <input
               style={{ border: 'none' }}

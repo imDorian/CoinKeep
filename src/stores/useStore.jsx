@@ -52,7 +52,7 @@ export const useStore = create(set => ({
         name: json.user.name,
         email: json.user.email,
         imageUrl:
-          json.user.imageUrl ??
+          json.user.image ??
           'https://upload.wikimedia.org/wikipedia/commons/3/3c/Anuel_AA_in_2022.png'
       })
 
@@ -66,7 +66,7 @@ export const useStore = create(set => ({
   fetchData: async dataId => {
     const urlData = import.meta.env.VITE_URL + `/data/get/${dataId}`
     try {
-      const response = await fetch(urlData, { method: 'GET' })
+      const response = await window.fetch(urlData, { method: 'GET' })
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`)
       }
@@ -79,8 +79,7 @@ export const useStore = create(set => ({
         available_personal_spend: json.available_personal_spend,
         personal_spend: json.personal_spend,
         balance: json.balance,
-        balance_personal_spend: json.personal_balance,
-        monthGoal: json.monthGoal
+        balance_personal_spend: json.personal_balance
       })
       console.log(json)
       return { response, json }

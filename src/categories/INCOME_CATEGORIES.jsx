@@ -9,11 +9,9 @@ export const INCOME_CATEGORIES = [
 ]
 
 export const CATEGORIAS_INGRESOS = [
-  'Salario o sueldo',
-  'Ingresos adicionales',
-  'Ingresos por freelance o trabajos independientes',
-  'Ingresos de alquiler de propiedades',
-  'Ingresos por inversiones',
-  'Ingresos por venta de bienes',
-  'Otros ingresos'
+  '💼 Salario',
+  '📝 Freelance',
+  '💵 Intereses',
+  '🎁 Regalos',
+  '💳 Otros'
 ]

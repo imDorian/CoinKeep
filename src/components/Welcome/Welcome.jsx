@@ -9,7 +9,7 @@ import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 import './Welcome.css'
 import AddIcon from '../../icons/AddIcon'
 
-const Welcome = ({ username, currency, pageSelected }) => {
+const Welcome = () => {
   const contenedorRef = useRef(null)
 
   const [isExpanded, setIsExpanded] = useState(false)
@@ -18,7 +18,8 @@ const Welcome = ({ username, currency, pageSelected }) => {
   const {
     balance,
     balance_personal_spend: balancePersonalSpend,
-    isBlur
+    isBlur,
+    currency
   } = useStore()
   const totalBalance =
     balance.card + balance.cash < 0.01
@@ -62,16 +63,11 @@ const Welcome = ({ username, currency, pageSelected }) => {
           Balance
           <IsBlurSpan className='truncate w-full text-xs font-normal text-neutral-200'>
             {totalBalance}
+            {currency}
             {/* <IsNanLoading d={totalBalance} /> */}
           </IsBlurSpan>
         </span>
-        <span className='text-sm font-normal text-[rgb(205,205,205)] flex flex-col items-center text-center w-full text-nowrap truncate'>
-          Balance Personal
-          <IsBlurSpan className='truncate text-xs font-normal text-neutral-200 w-full'>
-            {totalBalancePersonalSpend}
-            {currency}
-          </IsBlurSpan>
-        </span>
+
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           title={isExpanded ? 'Expand Sidebar' : 'Collapse Sidebar'}
