@@ -39,7 +39,7 @@ const Input = ({ className }) => {
     investment: 'investment'
   }
   const [newData, setNewData] = useState({
-    category: '',
+    category: CATEGORIAS_INGRESOS[0],
     type: TIPOS_INGRESOS[0],
     quantity: '',
     currency,
