@@ -117,7 +117,7 @@ const Input = ({ className }) => {
 
           setNewData({
             ...newData,
-            quantity: 0 // Restablece la cantidad
+            quantity: '' // Restablece la cantidad
           })
         }
       } catch (error) {
