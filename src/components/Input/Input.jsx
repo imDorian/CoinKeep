@@ -263,7 +263,7 @@ const Input = ({ className }) => {
             </select>
             <input
               style={{ fontSize: '16px' }}
-              type='tel'
+              type='number'
               pattern='[0-9,]*'
               inputMode='decimal'
               id='inputValue'
