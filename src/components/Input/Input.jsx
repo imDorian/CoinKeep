@@ -209,7 +209,7 @@ const Input = ({ className }) => {
   function handleInput (e) {
     const quant = e.target.value
     if (isNaN(quant)) return
-    setNewData({ ...newData, quantity: Number(quant) })
+    setNewData({ ...newData, quantity: quant })
   }
 
   return (
