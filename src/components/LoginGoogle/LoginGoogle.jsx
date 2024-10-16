@@ -1,50 +1,32 @@
 /* eslint-disable react/jsx-handler-names */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react'
-import {
-  GoogleLogin,
-  useGoogleLogin,
-  useGoogleOAuth,
-  useGoogleOneTapLogin
-} from '@react-oauth/google'
-
-import { jwtDecode } from 'jwt-decode'
-import { useStore } from '../../stores/useStore'
+import { useGoogleLogin } from '@react-oauth/google'
 import { googleLogin } from '../../functions/googleLogin'
-import { verifyToken } from '../../functions/verifyToken'
 import { useNavigate } from 'react-router-dom'
 import GoogleIcon from '../../icons/GoogleIcon'
+import { useState } from 'react'
 
 const LoginGoogle = ({ className, title }) => {
   const navigate = useNavigate()
-  async function fetchData (res) {
-    const response = await googleLogin(res.credential)
-    console.log(response)
-    if (response.res.status === 200) {
-      const json = response.json
-      // console.log(json)
-      window.localStorage.setItem('userdata', JSON.stringify(json))
-      navigate('/inicio')
-    } else {
-      console.log('Error')
-    }
-  }
-
+  const [loading, setLoading] = useState(false)
   const handleLogin = useGoogleLogin({
     onSuccess: async res => {
-      console.log(res)
+      setLoading(true)
       const response = await googleLogin(res.access_token)
-      console.log(response)
       if (response.res.status === 200) {
         const json = response.json
-        console.log(json)
         window.localStorage.setItem('userdata', JSON.stringify(json))
+        setLoading(false)
         navigate('/inicio')
       } else {
-        console.log('Error')
+        console.error('Error')
+        setLoading(false)
       }
     },
-    onError: error => console.log(error),
+    onError: error => {
+      setLoading(false)
+      console.error(error)
+    },
     flow: 'implicit',
     scope: 'email profile',
     ux_mode: 'popup'
@@ -56,7 +38,7 @@ const LoginGoogle = ({ className, title }) => {
       className={`text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-3 h-7 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55  mb-5 ${className}`}
     >
       <GoogleIcon />
-      {title}
+      {!loading ? title : 'Iniciando sesión...'}
     </button>
   )
 }

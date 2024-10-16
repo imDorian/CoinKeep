@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
 import './List.css'
 import { useStore } from '../../stores/useStore'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
-import UpIcon from '../../icons/UpIcon'
-import { capitalizeFirstLetter } from '../SpendInput/SpendInput'
 
 const MONTHS = [
   'Enero',
@@ -22,13 +20,11 @@ const MONTHS = [
   'Diciembre'
 ]
 
-const TIPOS = ['Ingresos', 'Gastos', 'Ahorro', 'Inversión']
-const TYPES = ['income', 'expense', 'saving', 'investment']
+const TIPOS = ['Ingresos', 'Gastos']
+const TYPES = ['income', 'expense']
 const Types = {
   income: 'income',
-  expense: 'expense',
-  saving: 'saving',
-  investment: 'investment'
+  expense: 'expense'
 }
 const Method = {
   card: 'card',
@@ -42,7 +38,7 @@ const SORT = {
 }
 
 const List = () => {
-  const { income, expense, saving, investment, currency } = useStore()
+  const { income, expense } = useStore()
   const [typeSelected, setTypeSelected] = useState('')
   const [sortList, setSortList] = useState(SORT.dateUp)
   const thisMonth = new Date().getMonth()
@@ -78,13 +74,10 @@ const List = () => {
       const date = new Date(e.date).toLocaleDateString('es-Es', {
         month: 'long'
       })
-      if (
-        capitalizeFirstLetter(date) === capitalizeFirstLetter(monthSelected)
-      ) {
+      if (date.toUpperCase() === monthSelected.toUpperCase()) {
         newElements.push(e)
       }
     })
-    console.log(newElements)
     return newElements
   }
   function handleSort (e) {
@@ -98,13 +91,7 @@ const List = () => {
     if (typeSelected === Types.expense) {
       return sortedArray(expense)
     }
-    if (typeSelected === Types.investment) {
-      return sortedArray(investment)
-    }
-    if (typeSelected === Types.saving) {
-      return sortedArray(saving)
-    }
-    const allTypes = income.concat(expense).concat(investment).concat(saving)
+    const allTypes = income.concat(expense)
 
     return sortedArray(allTypes)
   }
@@ -144,14 +131,26 @@ const List = () => {
     )
   }, [filteredTypes, search.search, monthSelected])
 
+  function traductorModel (e) {
+    if (e === 'income') return 'Ingreso'
+    if (e === 'expense') return 'Gasto'
+    if (e === 'saving') return 'Ahorro'
+    if (e === 'investment') return 'Inversión'
+  }
+
   const months = useMemo(() => {
     return monthSelect(filteredTypes)
   }, [filteredTypes])
+
+  function isDecimal (numero) {
+    if (!Number.isInteger(numero)) return Number(numero).toFixed(2)
+    return Number(numero)
+  }
+
   return (
     <div className='w-[90%] p-3 mx-4 my-1 bg-[var(--gray-color)] rounded-[30px] list flex flex-col gap-2'>
       <div className='flex items-center justify-center py-2 md:py-8 flex-wrap text-sm gap-2'>
         <button
-          name=''
           onClick={e => handleTypes(e.target.name)}
           type='button'
           className={
@@ -215,9 +214,18 @@ const List = () => {
           <option value={SORT.quantDown}>↓ Monto, el más bajo primero</option>
         </select>
       </span>
-      <ul className='flex flex-col px-1 h-[40vh] divide-y-[1px] divide-neutral-600 overflow-y-auto mb-3 mt-1'>
+      <ul className='flex flex-col px-1 h-[55vh] divide-y-[1px] divide-neutral-700 overflow-y-auto mb-3 mt-1'>
         {filteredData?.map((item, index) => {
-          const { category, currency, quantity, date, method, _id: id } = item
+          const {
+            category,
+            currency,
+            quantity,
+            date,
+            method,
+            _id: id,
+            description,
+            model
+          } = item
           const formatedData = new Date(date).toLocaleDateString('es-Es', {
             day: 'numeric',
             month: 'short',
@@ -225,21 +233,48 @@ const List = () => {
           })
           return (
             <li
-              className='w-full grid grid-cols-[2fr_2fr_1fr_2fr] py-3'
+              className='w-full py-3 grid grid-cols-[1fr_2.5fr_1.5fr_1.5fr] justify-items-center'
               key={id}
             >
-              <span className='text-start truncate'>{category}</span>
-              <span className='text-end'>
-                {quantity}
-                {currency}
-              </span>
-              <span className='flex justify-end'>
-                {method === Method.card ? <CreditCardIcon /> : <CashIcon />}
-              </span>
-              <span className='text-end'>{formatedData}</span>
+              <div className='flex items-center rounded-full justify-center text-center'>
+                <span className='text-xl bg-neutral-700 size-11 flex items-center justify-center rounded-full'>
+                  {category.slice(0, 2)}
+                </span>
+              </div>
+              <div className='w-[90%] flex flex-col text-start items-start justify-between truncate'>
+                <span className='w-full truncate'>{category.slice(2)}</span>
+                <span className='text-neutral-400 text-sm truncate'>
+                  {description}
+                </span>
+              </div>
+              <div className='flex flex-col items-start w-full text-start'>
+                <span className='w-full'>{traductorModel(model)}</span>
+                <span className='text-neutral-400'>
+                  {method === Method.card ? (
+                    <CreditCardIcon className='size-5' />
+                  ) : (
+                    <CashIcon className='size-5' />
+                  )}
+                </span>
+              </div>
+              <div className='w-full flex flex-col text-end justify-between truncate'>
+                <span className={model !== 'income' && 'text-red-300'}>
+                  {model !== 'income' && '-'}
+                  {isDecimal(quantity)}
+                  {currency}
+                </span>
+                <span className='text-end text-neutral-400 text-sm truncate'>
+                  {formatedData}
+                </span>
+              </div>
             </li>
           )
         })}
+        {filteredData.length === 0 && (
+          <span className='text-center p-8 text-neutral-300'>
+            Todavía no hay transacciones, añade para empezar.
+          </span>
+        )}
       </ul>
     </div>
   )

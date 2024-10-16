@@ -3,9 +3,7 @@ import { useStore } from '../../stores/useStore'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 import { useEffect, useState } from 'react'
 import SwitchIcon from '../../icons/SwitchIcon'
-import EditIcon from '../../icons/EditIcon'
-import QuitIcon from '../../icons/QuitIcon'
-import { updateData } from '../PersonalBalanceWidget/PersonalBalanceWidget'
+import { putMethodSchema } from '../../functions/putMethodSchema'
 
 const BalanceWidget = () => {
   const { balance, currency, focusWidget } = useStore()
@@ -37,24 +35,22 @@ const BalanceWidget = () => {
   function handleSubmitTransfer () {
     const amount = Number(transfer.amount)
     if (amount > 0) {
-      if (transfer.from === method.card && amount <= balance.card) {
+      if (transfer.from === method.card) {
         useStore.setState({
           balance: {
             ...balance,
-            card: balance.card - amount,
-            cash: balance.cash + amount
+            card: Number(balance.card) - amount,
+            cash: Number(balance.cash) + amount
           }
         })
-      } else if (transfer.from === method.cash && amount <= balance.cash) {
+      } else if (transfer.from === method.cash) {
         useStore.setState({
           balance: {
             ...balance,
-            card: balance.card + amount,
-            cash: balance.cash - amount
+            card: Number(balance.card) + amount,
+            cash: Number(balance.cash) - amount
           }
         })
-      } else {
-        console.log('Saldo insuficiente')
       }
     }
   }
@@ -81,17 +77,16 @@ const BalanceWidget = () => {
 
   useEffect(() => {
     if (balance._id) {
-      updateData(balance._id, balance, 'balance')
-      console.log(balance)
+      putMethodSchema(balance._id, balance, 'balance')
     } else {
-      console.log('error', balance)
+      console.error('error', balance)
     }
   }, [balance])
 
   return (
     <Article
       className={
-        !isEdit && focusWidget === 'personalBalance'
+        isEdit && focusWidget !== 'balance'
           ? 'h-[150px] opacity-70'
           : isEdit
           ? 'h-[200px] '
@@ -113,7 +108,7 @@ const BalanceWidget = () => {
       <div
         className={
           !isEdit
-            ? ' flex flex-col'
+            ? 'flex flex-col'
             : 'grid grid-cols-3 items-center justify-items-center w-full'
         }
       >
@@ -122,7 +117,13 @@ const BalanceWidget = () => {
             {transfer.from === method.card ? 'Tarjeta' : 'Efectivo'}
           </h3>
           <IsBlurSpan
-            className={Number(balance.card) < 0 ? 'text-red-600' : ''}
+            className={
+              transfer.from === method.card && Number(balance.card) < 0
+                ? 'text-red-300'
+                : transfer.from === method.cash && Number(balance.cash) < 0
+                ? 'text-red-300'
+                : ''
+            }
           >
             {transfer.from === method.card && balance
               ? Number(balance.card).toFixed(2)
@@ -139,12 +140,19 @@ const BalanceWidget = () => {
           <h3 className=''>
             {transfer.to === method.card ? 'Tarjeta' : 'Efectivo'}
           </h3>
+
           <IsBlurSpan
-            className={Number(balance.cash) < 0 ? 'text-red-600' : ''}
+            className={
+              transfer.to === method.cash && Number(balance.cash) < 0
+                ? 'text-red-300'
+                : transfer.to === method.card && Number(balance.card) < 0
+                ? 'text-red-300'
+                : ''
+            }
           >
-            {transfer.to === 'card' && balance
-              ? Number(balance.card).toFixed(2)
-              : Number(balance.cash).toFixed(2)}
+            {transfer.to === method.cash && balance
+              ? Number(balance.cash).toFixed(2)
+              : Number(balance.card).toFixed(2)}
             {currency}
           </IsBlurSpan>
         </div>

@@ -3,9 +3,9 @@
     grid-template-columns: repeat(2, 1fr);
     /* grid-template-rows: repeat(2, 2fr); */
     gap: 10px;
-    align-items: start;
-    padding: 1px;
-    /* width: 90vw; */
+    justify-content: center;
+    /* padding: 10px; */
+    /* width: 100%; */
     && :first-child{
         grid-area: 1 / 1 / 2 / 2; 
     }

@@ -25,7 +25,7 @@ const LoginForm = ({ loading, setLoading }) => {
       } else {
         googleLogout()
         window.localStorage.setItem('userdata', { token: '', user: {} })
-        console.log('Token no válido')
+        console.error('Token no válido')
       }
     } catch (error) {
       console.error('Error verificando el token:', error)
@@ -60,18 +60,16 @@ const LoginForm = ({ loading, setLoading }) => {
     try {
       const { response, json } = await fetchLogin(formData)
       if (response.status === 200) {
-        // Guardar datos del usuario en localStorage
         window.localStorage.setItem('userdata', JSON.stringify(json))
-        console.log(json)
         setLoading(false)
-        navigate('/inicio') // Redirigir a la página de inicio si el login es exitoso
+        navigate('/inicio')
       } else {
         setErrorMessage('Credenciales incorrectas. Inténtalo de nuevo.')
         setLoading(false)
       }
     } catch (error) {
       console.error('Error en el inicio de sesión:', error)
-      setErrorMessage('Error en la conexión. Inténtalo de nuevo.')
+      setErrorMessage('Email o contraseña incorrecta. Inténtalo de nuevo.')
       setLoading(false)
     }
   }

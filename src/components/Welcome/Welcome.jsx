@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // import './Welcome.css'
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { useStore } from '../../stores/useStore'
 import EyeSlashIcon from '../../icons/EyeSlashIcon'
 import EyeIcon from '../../icons/EyeIcon'
@@ -10,37 +10,17 @@ import './Welcome.css'
 import AddIcon from '../../icons/AddIcon'
 
 const Welcome = () => {
-  const contenedorRef = useRef(null)
-
   const [isExpanded, setIsExpanded] = useState(false)
   // const [page, setPage] = useState(pageSelected)
   // const [isTime, setIsTime] = useState(false)
-  const {
-    balance,
-    balance_personal_spend: balancePersonalSpend,
-    isBlur,
-    currency
-  } = useStore()
-  const totalBalance =
-    balance.card + balance.cash < 0.01
-      ? (Number(balance.card) + Number(balance.cash)).toFixed(2)
-      : (Number(balance.card) + Number(balance.cash)).toFixed(2)
-  const totalBalancePersonalSpend =
-    balancePersonalSpend.card + balancePersonalSpend.cash < 0.01
-      ? (balancePersonalSpend.card + balancePersonalSpend.cash).toFixed(2)
-      : (balancePersonalSpend.card + balancePersonalSpend.cash).toFixed(2)
+  const { balance, isBlur, currency } = useStore()
+  const totalBalance = balance && (balance.card + balance.cash).toFixed(2)
 
   const handleBlur = () => {
     useStore.setState({
       isBlur: !isBlur
     })
   }
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     // setIsCollapsed(true)
-  //     setIsTime(true)
-  //   }, 3000)
-  // }, [])
 
   return (
     <header

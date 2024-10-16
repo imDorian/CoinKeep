@@ -1,4 +1,7 @@
+import { redirect } from 'react-router-dom'
 import { create } from 'zustand'
+
+import { googleLogout } from '@react-oauth/google'
 
 export const useStore = create(set => ({
   name: '',
@@ -7,29 +10,15 @@ export const useStore = create(set => ({
   currency: '€',
   income: [],
   expense: [],
-  saving: [],
-  investment: [],
   focusWidget: '',
   isActiveWidget: false,
-  available_personal_spend: {},
-  personal_spend: [],
   balance: {},
-  balance_personal_spend: {},
   isBlur: false,
   dateSelected: new Date(),
   isModalDelete: false,
-  selectedData: {},
-  selectedPage: 'home',
-  monthGoal: { monthGoal: 0, startDate: '', endDate: '' },
-  setMonthGoalInStore: newMonthGoal =>
-    set(state => ({
-      monthGoal: newMonthGoal
-    })),
 
-  // Función fetchLogin mejorada
   fetchLogin: async formData => {
     const url = import.meta.env.VITE_URL + '/users/login'
-    console.log(url)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -39,21 +28,16 @@ export const useStore = create(set => ({
         }
       })
 
-      // Verificar si la respuesta es exitosa
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`)
       }
 
       const json = await response.json()
-      console.log(json)
 
-      // Actualizar el estado de la store con los datos del usuario autenticado
       set({
         name: json.user.name,
         email: json.user.email,
-        imageUrl:
-          json.user.image ??
-          'https://upload.wikimedia.org/wikipedia/commons/3/3c/Anuel_AA_in_2022.png'
+        image: json.user?.image
       })
 
       return { response, json }
@@ -74,16 +58,14 @@ export const useStore = create(set => ({
       set({
         income: json.income,
         expense: json.expense,
-        saving: json.saving,
-        investment: json.investment,
-        available_personal_spend: json.available_personal_spend,
-        personal_spend: json.personal_spend,
         balance: json.balance,
-        balance_personal_spend: json.personal_balance
+        valut: json.valut
       })
-      console.log(json)
       return { response, json }
     } catch (error) {
+      googleLogout()
+      window.localStorage.removeItem('userdata')
+      redirect('/', 404)
       console.error('Error al cargar los datos:', error)
     }
   }

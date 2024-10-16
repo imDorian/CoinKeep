@@ -5,11 +5,6 @@ import './Input.css'
 import { CATEGORIAS_INGRESOS } from '../../categories/INCOME_CATEGORIES'
 import { CATEGORIAS_GASTOS } from '../../categories/EXPENSES_CATEGORIES'
 import { TIPOS_INGRESOS } from '../../categories/INCOME_TYPES'
-import { TIPOS_GASTOS } from '../../categories/EXPENSES_TYPES'
-import { CATEGORIAS_AHORROS } from '../../categories/SAVING_CATEGORIES'
-import { CATEGORIAS_INVERSION } from '../../categories/INVESTMENT_CATEGORIES'
-import { TIPOS_AHORROS } from '../../categories/SAVINGS_TYPES'
-import { TIPOS_INVERSION } from '../../categories/INVESTMENT_TYPES'
 import { putData } from '../../functions/putData'
 import { userDataContext } from '../../contexts/ContextProvider'
 import { useStore } from '../../stores/useStore'
@@ -20,10 +15,11 @@ const Input = ({ className }) => {
   const { setTypeSelected, typeSelected } = useContext(userDataContext)
   const { balance, currency } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
-  const [isInput, setIsInput] = useState(true)
   const [loading, setLoading] = useState(false)
   const [method, setMethod] = useState('card')
-  const [date, setDate] = useState('')
+  const newDatt = new Date().toISOString()
+  console.log(newDatt)
+  const [date, setDate] = useState(newDatt.slice(0, 10))
   const addButton =
     typeSelected === 'income'
       ? 'Añadir ingreso'
@@ -34,9 +30,7 @@ const Input = ({ className }) => {
       : 'Añadir inversión'
   const categories = {
     income: 'income',
-    expense: 'expense',
-    saving: 'saving',
-    investment: 'investment'
+    expense: 'expense'
   }
   const [newData, setNewData] = useState({
     category: CATEGORIAS_INGRESOS[0],
@@ -44,58 +38,54 @@ const Input = ({ className }) => {
     quantity: '',
     currency,
     description: '',
-    date: new Date(date),
+    date: newDatt,
     method,
     model: typeSelected
   })
   const categorySelectedFunction = () => {
     if (typeSelected === categories.income) return CATEGORIAS_INGRESOS
     if (typeSelected === categories.expense) return CATEGORIAS_GASTOS
-    if (typeSelected === categories.saving) return CATEGORIAS_AHORROS
-    if (typeSelected === categories.investment) return CATEGORIAS_INVERSION
-  }
-  const typeSelectedFunction = () => {
-    if (typeSelected === categories.income) return TIPOS_INGRESOS
-    if (typeSelected === categories.expense) return TIPOS_GASTOS
-    if (typeSelected === categories.saving) return TIPOS_AHORROS
-    if (typeSelected === categories.investment) return TIPOS_INVERSION
   }
   const categoriesSelected = categorySelectedFunction()
-  const typesSelected = typeSelectedFunction()
 
   const handleMethod = e => {
     setMethod(e)
   }
 
-  useEffect(() => {
-    // Obtén la fecha de hoy en el formato 'yyyy-MM-dd'
+  function formateDate (e) {
+    const newDate = new Date(e).toISOString()
+    console.log(newDate)
     const today = new Date()
-    const year = today.getFullYear()
-    let month = today.getMonth() + 1
-    month = month < 10 ? `0${month}` : month // Agrega un cero al mes si es necesario
-    let day = today.getDate()
-    day = day < 10 ? `0${day}` : day // Agrega un cero al día si es necesario
+    const year = newDate.slice(0, 4)
+    const month = newDate.slice(5, 7)
+    const day = newDate.slice(8, 10)
 
+    let hours = today.getHours()
+    hours = hours < 10 ? `0${hours}` : hours // Agrega un cero a la hora si es necesario
+    let minutes = today.getMinutes()
+    minutes = minutes < 10 ? `0${minutes}` : minutes // Agrega un cero a los minutos si es necesario
+    let seconds = today.getSeconds()
+    seconds = seconds < 10 ? `0${seconds}` : seconds // Agrega un cero a los segundos si es necesario
+
+    const formattedDatetime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
     const formattedDate = `${year}-${month}-${day}`
-
-    // Establece la fecha actual en el estado
-    setDate(formattedDate)
-  }, [])
-
-  useEffect(() => {
-    console.log(method, newData)
-  }, [newData])
+    console.log(formattedDate, formattedDatetime)
+    return { formattedDate, formattedDatetime }
+  }
 
   const addToList = async e => {
     e.preventDefault()
-    if (newData.quantity !== '' && newData.quantity !== 0) {
+    if (newData.quantity !== '' && newData.quantity > 0) {
       setLoading(true)
+      console.log(newData.date)
       try {
         const newBalance = {
           ...balance,
           [method]:
             balance[method] +
-            (typeSelected === 'income' ? newData.quantity : -newData.quantity)
+            (typeSelected === 'income'
+              ? Number(newData.quantity)
+              : Number(-newData.quantity))
         }
 
         const { json: jsonData, res } = await putData(
@@ -105,19 +95,21 @@ const Input = ({ className }) => {
         )
 
         if (res.status === 200) {
-          // Aquí accedemos dinámicamente a useStore[typeSelected]
           useStore.setState(state => {
-            const currentList = state[typeSelected] || [] // Asegura que siempre sea un array
+            const currentList = state[typeSelected] || []
 
             return {
-              [typeSelected]: [...currentList, jsonData], // Agrega el nuevo dato
+              [typeSelected]: [...currentList, jsonData],
               balance: newBalance
             }
           })
 
+          const { formattedDatetime } = formateDate(new Date())
           setNewData({
             ...newData,
-            quantity: '' // Restablece la cantidad
+            quantity: '', // Restablece la cantidad
+            description: '',
+            date: formattedDatetime
           })
         }
       } catch (error) {
@@ -138,10 +130,9 @@ const Input = ({ className }) => {
   useEffect(() => {
     setNewData({
       ...newData,
-      type: typesSelected[0],
-      model: typeSelected
+      model: typeSelected,
+      category: categoriesSelected[0]
     })
-    console.log(newData)
   }, [typeSelected])
 
   useEffect(() => {
@@ -150,13 +141,6 @@ const Input = ({ className }) => {
       method
     })
   }, [method])
-
-  useEffect(() => {
-    setNewData({
-      ...newData,
-      date: new Date(date)
-    })
-  }, [date])
 
   useEffect(() => {
     updateBalance(balance._id, balance, 'balance')
@@ -202,14 +186,19 @@ const Input = ({ className }) => {
 
   const handleDate = e => {
     e.preventDefault()
-    const newDate = e.target.value
-    setDate(newDate)
+    console.log(e.target.value)
+    const { formattedDatetime, formattedDate } = formateDate(e.target.value)
+    setNewData({
+      ...newData,
+      date: formattedDatetime
+    })
+    setDate(formattedDate)
   }
 
   function handleInput (e) {
     const quant = e.target.value
     if (isNaN(quant)) return
-    setNewData({ ...newData, quantity: quant })
+    setNewData({ ...newData, quantity: Number(quant) || '' })
   }
 
   return (
@@ -227,81 +216,68 @@ const Input = ({ className }) => {
         >
           Gastos
         </a>
-        <a
-          className={typeSelected === 'saving' ? 'active' : ''}
-          onClick={() => handleType(categories.saving)}
-        >
-          Ahorros
-        </a>
-        <a
-          className={typeSelected === 'investment' ? 'active' : ''}
-          onClick={() => handleType(categories.investment)}
-        >
-          Inversión
-        </a>
       </nav>
-      {isInput && (
-        <form className='input-form'>
-          <div>
-            <select
-              className='truncate '
-              style={{ textAlign: 'center' }}
-              value={newData.category}
-              onChange={e =>
-                setNewData({ ...newData, category: e.target.value })
-              }
-              name='income-types'
-              id='income-types'
-            >
-              {categoriesSelected?.map(type => {
-                return (
-                  <option className='text-start' key={type} value={type}>
-                    {type}
-                  </option>
-                )
-              })}
-            </select>
-            <input
-              style={{ fontSize: '16px' }}
-              type='number'
-              pattern='[0-9,]*'
-              inputMode='decimal'
-              id='inputValue'
-              value={newData.quantity}
-              placeholder={`ej: 3200${currency}`}
-              onChange={handleInput}
-            />
-          </div>
-          {/* <div className='input-form__input-container'> */}
-          <div className='inputs--form'>
-            <input
-              type='text'
-              onChange={e =>
-                setNewData({ ...newData, description: e.target.value })
-              }
-              value={newData.description}
-              placeholder='Descripción'
-              style={{ fontSize: '16px' }}
-            />
-            <input
-              style={{ border: 'none' }}
-              type='date'
-              id='selected-date'
-              value={date}
-              onChange={e => handleDate(e)}
-            />
-          </div>
-          <div className='inputs--form'>
-            <MethodButtons />
-            <button onClick={addToList}>
-              {loading ? 'Cargando...' : addButton}
-            </button>
-          </div>
-          {/* </div> */}
+      <form className='input-form'>
+        <div>
+          <select
+            className='truncate '
+            style={{ textAlign: 'center' }}
+            value={newData.category}
+            onChange={e => setNewData({ ...newData, category: e.target.value })}
+            name='income-types'
+            id='income-types'
+          >
+            {categoriesSelected?.map(type => {
+              return (
+                <option className='text-start' key={type} value={type}>
+                  {type}
+                </option>
+              )
+            })}
+          </select>
+          <input
+            style={{ fontSize: '16px' }}
+            type='number'
+            pattern='[0-9,]*'
+            inputMode='decimal'
+            id='inputValue'
+            value={newData.quantity}
+            placeholder={`ej: 3200${currency}`}
+            onChange={handleInput}
+          />
+        </div>
+        {/* <div className='input-form__input-container'> */}
+        <div className='inputs--form'>
+          <input
+            type='text'
+            onChange={e =>
+              setNewData({
+                ...newData,
+                description: e.target.value.toLocaleUpperCase()
+              })
+            }
+            value={newData.description}
+            placeholder='Descripción'
+            style={{ fontSize: '16px' }}
+          />
+          <input
+            style={{ border: 'none' }}
+            type='date'
+            id='selected-date'
+            value={date}
+            onChange={e => handleDate(e)}
+          />
+        </div>
+        <div className='inputs--form'>
+          <MethodButtons />
+          <button onClick={addToList}>
+            {loading ? 'Cargando...' : addButton}
+          </button>
+        </div>
+        {/* </div> */}
 
-          {/* <textarea onChange={(e) => setNewData({ ...newData, description: e.target.value })} value={newData.description} name='description' id='description' cols='35' rows='4' placeholder='Describe tu ingreso' /> */}
-        </form>
-      )}
+        {/* <textarea onChange={(e) => setNewData({ ...newData, description: e.target.value })} value={newData.description} name='description' id='description' cols='35' rows='4' placeholder='Describe tu ingreso' /> */}
+      </form>
     </div>
   )
 }

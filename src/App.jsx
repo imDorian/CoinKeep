@@ -5,6 +5,7 @@ import Register from './pages/Register/Register'
 import Home from './pages/Home/Home'
 import Financial from './pages/Financial/Financial'
 import Profile from './pages/Profile/Profile'
+import ShareExpenses from './pages/ShareExpenses/ShareExpenses'
 
 function App () {
   return (
@@ -13,7 +14,8 @@ function App () {
         <Route path='/' element={<Login />} />
         <Route path='/signup' element={<Register />} />
         <Route path='/inicio' element={<Home />} />
-        <Route path='/misfinanzas' element={<Financial />} />
+        <Route path='/wallet' element={<Financial />} />
+        <Route path='/compartir' element={<ShareExpenses />} />
         <Route path='/perfil' element={<Profile />} />
       </Routes>
     </Router>
