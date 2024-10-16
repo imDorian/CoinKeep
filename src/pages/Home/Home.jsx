@@ -65,15 +65,7 @@ const HomePage = () => {
   return (
     <Container>
       <Welcome username={cookies?.user?.name} />
-      <h1
-        style={{
-          width: '100%',
-          textAlign: 'start',
-          fontSize: '30px',
-          paddingLeft: '25px',
-          fontWeight: '400'
-        }}
-      >
+      <h1 className='text-start p-0 m-0 ps-5 mb-3 w-full'>
         Bienvenido a <br /> CoinKeep <b>{cookies?.user?.name}</b>
       </h1>
       <IsModalUpdates />
