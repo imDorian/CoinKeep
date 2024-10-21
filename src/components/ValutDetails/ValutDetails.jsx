@@ -47,7 +47,7 @@ const ValutDetails = () => {
   }
 
   return (
-    <div className='h-[100vh] overflow-hidden w-[100vw] z-[99] absolute top-0 right-0 bg-neutral-900'>
+    <div className='h-[100vh] w-[100vw] z-[99] absolute top-0 right-0 bg-neutral-900'>
       <button onClick={exitValutDetails} className='absolute top-5 right-5'>
         <QuitIcon className='size-6 text-neutral-200' />
       </button>
