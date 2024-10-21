@@ -10,12 +10,13 @@ export const useStore = create(set => ({
   currency: '€',
   income: [],
   expense: [],
-  focusWidget: '',
-  isActiveWidget: false,
+  isValutDetails: false,
+  valutDetails: {},
   balance: {},
   isBlur: false,
   dateSelected: new Date(),
   isModalDelete: false,
+  isCreateValut: false,
 
   fetchLogin: async formData => {
     const url = import.meta.env.VITE_URL + '/users/login'

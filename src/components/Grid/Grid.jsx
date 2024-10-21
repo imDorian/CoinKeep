@@ -14,10 +14,15 @@ export function selectWidget (widget) {
   }
 }
 
-const Grid = ({ className, children, ...rest }) => {
+const Grid = ({ className, children, cols, ...rest }) => {
   return (
     <article
-      className='grid grid-cols-2 gap-x-2 gap-y-2 w-[100%] transition-all duration-300 items-start justify-center px-4'
+      className='grid gap-x-2 gap-y-2 w-[100%] transition-all duration-300 items-start justify-center px-4'
+      style={{
+        gridTemplateColumns: cols,
+        transformOrigin: 'center'
+        // overflow: 'hidden'
+      }}
       {...rest}
     >
       {children}

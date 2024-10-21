@@ -3,6 +3,16 @@ export const CATEGORIAS_AHORROS = [
   '✈️ Viajes',
   '🏠 Compra de Casa',
   '🎓 Educación',
+  '🚗 Compra de Coche',
+  '💼 Negocios',
+  '🛠 Reparaciones del Hogar',
+  '👶 Futuro de los Hijos',
+  '👗 Ropa',
+  '🏥 Salud',
+  '💍 Boda',
+  '📱 Tecnología',
+  '🚴‍♂️ Hobbies y Pasatiempos',
+  '🎁 Regalos',
   '📦 Otros'
 ]
 

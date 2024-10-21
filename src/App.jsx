@@ -6,6 +6,7 @@ import Home from './pages/Home/Home'
 import Financial from './pages/Financial/Financial'
 import Profile from './pages/Profile/Profile'
 import ShareExpenses from './pages/ShareExpenses/ShareExpenses'
+import ValutDetails from './components/ValutDetails/ValutDetails'
 
 function App () {
   return (
@@ -17,6 +18,7 @@ function App () {
         <Route path='/wallet' element={<Financial />} />
         <Route path='/compartir' element={<ShareExpenses />} />
         <Route path='/perfil' element={<Profile />} />
+        <Route path='/valut/:id' element={<ValutDetails />} />
       </Routes>
     </Router>
   )

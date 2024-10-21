@@ -4,7 +4,7 @@
     align-items: start;
     background-color: #303030;
     border-radius: 30px;
-    height: auto;
+    height: 100%;
     text-align: start;
     /* align-items: center; */
     /* max-height: 200px; */
@@ -13,9 +13,9 @@
     gap: 5px;
     box-sizing: border-box;
     position: relative;
-    transition: all;
+    transition: all ease-in-out;
     transition-duration: 300ms;
-    /* width: 100%; */
+    width: 100%;
 
     && h2{
         color:aquamarine;

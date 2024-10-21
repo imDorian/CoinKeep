@@ -6,7 +6,7 @@ const Article = ({ children, width, position, className, ...rest }) => {
   return (
     <article
       className={`article ${className}`}
-      style={{ width, position }}
+      // style={{ width, position }}
       {...rest}
     >
       {children}

@@ -26,7 +26,7 @@ const Types = {
   income: 'income',
   expense: 'expense'
 }
-const Method = {
+export const Method = {
   card: 'card',
   cash: 'cash'
 }
@@ -214,7 +214,7 @@ const List = () => {
           <option value={SORT.quantDown}>↓ Monto, el más bajo primero</option>
         </select>
       </span>
-      <ul className='flex flex-col px-1 h-[55vh] divide-y-[1px] divide-neutral-700 overflow-y-auto mb-3 mt-1'>
+      <ul className='flex flex-col px-1 h-[60vh] divide-y-[1px] divide-neutral-700 overflow-y-auto mb-3 mt-1'>
         {filteredData?.map((item, index) => {
           const {
             category,

@@ -4,8 +4,9 @@ import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 import { useEffect, useState } from 'react'
 import SwitchIcon from '../../icons/SwitchIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 
-const BalanceWidget = () => {
+const BalanceWidget = ({ className }) => {
   const { balance, currency, focusWidget } = useStore()
   const [isEdit, setIsEdit] = useState(false)
   const method = {
@@ -85,15 +86,17 @@ const BalanceWidget = () => {
 
   return (
     <Article
-      className={
-        isEdit && focusWidget !== 'balance'
-          ? 'h-[150px] opacity-70'
-          : isEdit
-          ? 'h-[200px] '
-          : 'h-[150px]'
-      }
-      width='100%'
+      className={isEdit ? 'mx-4 h-[180px] items-center' : 'mx-4 h-[150px]'}
     >
+      {!isEdit && (
+        <DotLottieReact
+          className='absolute top-0 right-[25%] size-[120px]'
+          src='/LottieAnimation/Balance.lottie'
+          autoplay='true'
+          //   playOnHover='true'
+          renderConfig={{ autoResize: 'true' }}
+        />
+      )}
       <button
         style={{
           display: focusWidget === 'personalBalance' ? 'none' : 'inline'
@@ -109,7 +112,7 @@ const BalanceWidget = () => {
         className={
           !isEdit
             ? 'flex flex-col'
-            : 'grid grid-cols-3 items-center justify-items-center w-full'
+            : 'grid grid-cols-3 items-center justify-items-center w-[70%]'
         }
       >
         <div className={!isEdit ? 'items-start' : 'items-center'}>
@@ -158,12 +161,12 @@ const BalanceWidget = () => {
         </div>
       </div>
       {isEdit && (
-        <div className='w-full flex flex-col items-center'>
+        <div className='flex flex-col items-center gap-1'>
           <input
             type='tel'
             pattern='[0-9]*'
             placeholder='ej. 420€'
-            className='text-center rounded-xl h-7 w-full'
+            className='text-center rounded-lg py-1'
             onChange={handleAmount}
             value={transfer.amount}
           />

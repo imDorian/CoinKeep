@@ -3,6 +3,12 @@ export const CATEGORIAS_INVERSION = [
   '💰 Bonos',
   '🏢 Bienes Raíces',
   '₿ Criptomonedas',
+  '💼 Fondos Mutuos',
+  '🌍 Inversiones Internacionales',
+  '🏦 Cuentas de Ahorro de Alto Rendimiento',
+  '⚡ Energías Renovables',
+  '🚀 Startups',
+  '🎨 Arte y Coleccionables',
   '📊 Otros'
 ]
 

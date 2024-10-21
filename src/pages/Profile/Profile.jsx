@@ -62,7 +62,10 @@ const Profile = () => {
         />
       </div>
       <Settings />
-      <button className='bg-red-500 rounded-xl' onClick={handleLogout}>
+      <button
+        className='bg-red-500 rounded-xl py-2 px-3'
+        onClick={handleLogout}
+      >
         Cerrar sesión
       </button>
       <NavBar />

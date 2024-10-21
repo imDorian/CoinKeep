@@ -1,10 +1,23 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 
-const HeadingIcon = ({ size, color }) => {
+const HeadingIcon = ({ className }) => {
   return (
-    <svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} fill={color} className='bi bi-caret-left-fill' viewBox='0 0 16 16'>
-      <path d='m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z' />
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='128'
+      height='128'
+      viewBox='0 0 1024 1024'
+      className={className}
+    >
+      <path
+        fill='currentColor'
+        d='M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64'
+      />
+      <path
+        fill='currentColor'
+        d='m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312z'
+      />
     </svg>
   )
 }

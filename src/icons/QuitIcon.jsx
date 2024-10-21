@@ -1,13 +1,13 @@
 import React from 'react'
 
-const QuitIcon = props => {
+const QuitIcon = ({ className, props }) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='50'
       height='50'
       fill='currentColor'
-      className='bi bi-x-circle-fill'
+      className={`bi bi-x-circle-fill ${className}`}
       viewBox='0 0 16 16'
       {...props}
     >
