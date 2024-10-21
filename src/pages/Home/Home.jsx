@@ -86,8 +86,8 @@ const HomePage = () => {
       <Container>
         {/* {isCreateValut && <CreateValut />} */}
         <Welcome username={cookies?.user?.name} />
-        <h1 className='text-start p-0 m-0 ps-5 mb-3 w-full'>
-          Bienvenido a <br /> CoinKeep <b>{cookies?.user?.name}</b>
+        <h1 className='text-start p-0 m-0 ps-5 mb-3 w-full text-lg'>
+          Bienvenido a KeepCoin <b>{cookies?.user?.name}</b>
         </h1>
         <IsModalUpdates />
         <BalanceWidget className='mx-4 h-[150px]' />
