@@ -47,11 +47,11 @@ const ValutDetails = () => {
   }
 
   return (
-    <div className='h-[100vh] w-[100vw] z-[99] absolute top-0 right-0 bg-neutral-900'>
-      <button onClick={exitValutDetails} className='fixed top-5 right-5'>
+    <div className='h-[100vh] overflow-hidden w-[100vw] z-[99] absolute top-0 right-0 bg-neutral-900'>
+      <button onClick={exitValutDetails} className='absolute top-5 right-5'>
         <QuitIcon className='size-6 text-neutral-200' />
       </button>
-      <span className='fixed top-6 left-5 text-sm bg-neutral-300 rounded-full px-2 text-neutral-800'>
+      <span className='absolute top-6 left-5 text-sm bg-neutral-300 rounded-full px-2 text-neutral-800'>
         Valut
       </span>
       <div className='p-5 flex flex-col gap-1 pt-12'>
