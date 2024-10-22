@@ -91,6 +91,8 @@ select {
 
   text-align: center;
   padding-block: 8px;
+  padding-inline: 1rem;
+  box-sizing: border-box;
   border-radius: 0.5rem;
   width: 100%;
   /* appearance: ; */
