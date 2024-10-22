@@ -7,6 +7,7 @@ import HeadingIcon from '../../icons/HeadingIcon'
 import { CURRENCIES } from '../../categories/CURRENCIES'
 import { addNewValut } from '../../functions/addNewValut'
 import { useNavigate } from 'react-router-dom'
+import './CreateValut.css'
 
 const CreateValut = () => {
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
@@ -165,12 +166,7 @@ const CreateValut = () => {
                 required
               />
               <select
-                className='rounded-lg py-2 w-full text-center bg-neutral-900'
-                style={{
-                  width: '100%',
-                  paddingBlock: '8px',
-                  textAlign: 'center'
-                }}
+                className=' bg-neutral-900 select-ios'
                 name='category'
                 id='category-valut'
                 value={newValut.category}
@@ -212,7 +208,7 @@ const CreateValut = () => {
               <select
                 name='currency'
                 id='currency-valut'
-                className='rounded-lg w-full py-2 text-center  bg-neutral-900'
+                className=' bg-neutral-900 select-ios'
                 style={{
                   width: '100%',
                   paddingBlock: '8px',
