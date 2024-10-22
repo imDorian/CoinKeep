@@ -16,7 +16,7 @@ const Login = () => {
         <img src='/KeepCoin.png' alt='KeepCoin Logo' className='size-28' />
         <h1 className='font-semibold mt-1 text-center'>Keep Coin</h1>
         <span className='text-center tracking-[0.11rem] text-neutral-300'>
-          Safe your money
+          Save your money
         </span>
       </div>
       <h2 className='text-2xl text-center text-neutral-300'>

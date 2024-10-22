@@ -11,9 +11,11 @@ import { Method } from '../List/List'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import { useNavigate, useParams } from 'react-router-dom'
+import { deleteValut } from '../../functions/deleteValut'
+import DropDown from '../DropDown/DropDown'
 
 const ValutDetails = () => {
-  const { valutDetails, isValutDetails } = useStore()
+  const { valutDetails, isValutDetails, valut } = useStore()
   const navigate = useNavigate()
   const { id } = useParams(':id')
   const {
@@ -61,6 +63,18 @@ const ValutDetails = () => {
     navigate(-1)
   }
 
+  async function fetchDeleteValut () {
+    const { res } = await deleteValut(id)
+    const newValut = valut?.filter(e => e._id !== id)
+    console.log(await res)
+    if ((await res.status) === 200) {
+      useStore.setState({
+        valut: newValut
+      })
+      navigate(-1)
+    }
+  }
+
   return (
     <div className='w-[100vw] h-[100vh] z-[99] bg-neutral-900 flex flex-col py-2'>
       <button onClick={exitValutDetails} className='absolute top-5 right-5'>
@@ -69,7 +83,7 @@ const ValutDetails = () => {
       <span className='absolute top-6 left-5 text-sm bg-neutral-300 rounded-full px-2 text-neutral-800'>
         Valut
       </span>
-      <div className='p-5 flex flex-col gap-1 pt-12'>
+      <div className='p-5 flex flex-col gap-1 pt-12 bg-neutral-900'>
         <span className='flex flex-row justify-center items-center gap-2'>
           <h1 className='font-semibold'>{title}</h1>
           <span>{category}</span>
@@ -160,6 +174,15 @@ const ValutDetails = () => {
             <span>Todavía no tienes ingresos en esta Valut</span>
           )}
         </ul>
+        {/* <button
+          onClick={fetchDeleteValut}
+          className='bg-red-500 rounded-lg my-5 py-2'
+        >
+          ¡Borrar Valut!
+        </button> */}
+        <span className='text-end mt-5'>
+          <DropDown deleteValut={fetchDeleteValut} />
+        </span>
       </div>
     </div>
   )

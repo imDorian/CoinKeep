@@ -71,6 +71,7 @@ const CreateValut = () => {
       useStore.setState({
         valut: [...valut, newValut]
       })
+      navigate(-1)
     } catch (error) {
       console.error(error)
     }
