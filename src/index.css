@@ -85,9 +85,15 @@ button:focus-visible {
 }
 
 select {
-  -webkit-appearance: none; /* Elimina el estilo predeterminado de iOS */
-  -moz-appearance: none; /* Para Firefox */
+  -webkit-appearance: none; 
+  -moz-appearance: none; 
   appearance: none;
+
+  text-align: center;
+  padding-block: 8px;
+  border-radius: 0.5rem;
+  width: 100%;
+  /* appearance: ; */
 }
 
 /* @media (prefers-color-scheme: white) {
