@@ -78,6 +78,10 @@ const CreateValut = () => {
     }
   }
 
+  useEffect(() => {
+    console.log(newValut)
+  }, [newValut])
+
   return (
     <dialog
       // ref={refDialog}
@@ -117,9 +121,11 @@ const CreateValut = () => {
                 required
               />
               <label
-                className={`py-2 w-full rounded-lg bg-neutral-700 border-2 border-transparent text-base ${
-                  newValut.model === 'saving' && 'border-neutral-300'
-                } `}
+                className={
+                  newValut?.model === 'saving'
+                    ? 'py-2 w-full rounded-lg bg-neutral-700 text-base border-2 border-neutral-300'
+                    : 'py-2 w-full rounded-lg bg-neutral-700 text-base border-2 border-transparent'
+                }
                 htmlFor='saving'
               >
                 💰 Ahorros
@@ -135,9 +141,11 @@ const CreateValut = () => {
                 onChange={handleTypeValut}
               />
               <label
-                className={`py-2 w-full rounded-lg bg-neutral-700 border-2 border-transparent text-base ${
-                  newValut.model === 'investment' && 'border-neutral-300'
-                } `}
+                className={
+                  newValut?.model === 'investment'
+                    ? 'py-2 w-full rounded-lg bg-neutral-700 text-base border-2 border-neutral-300'
+                    : 'py-2 w-full rounded-lg bg-neutral-700 text-base border-2 border-transparent'
+                }
                 htmlFor='investment'
               >
                 📈 Inversión
@@ -160,7 +168,7 @@ const CreateValut = () => {
               <input
                 type='text'
                 placeholder='por ejemplo, Universidad'
-                className='rounded-lg px-3 py-2 w-full'
+                className='rounded-lg px-3 py-2 w-full  bg-neutral-900'
                 value={newValut.title}
                 onChange={handleInput}
                 name='title'
@@ -168,7 +176,7 @@ const CreateValut = () => {
                 required
               />
               <select
-                className='rounded-lg py-2 w-full text-center'
+                className='rounded-lg py-2 w-full text-center bg-neutral-900'
                 name='category'
                 id='category-valut'
                 value={newValut.category}
@@ -190,7 +198,7 @@ const CreateValut = () => {
                   ))}
               </select>
               <textarea
-                className='w-auto h-20 rounded-lg px-3 py-1 resize-none p-0 m-0'
+                className='w-auto h-20 rounded-lg px-3 py-1 resize-none p-0 m-0  bg-neutral-900'
                 maxLength={150}
                 placeholder='(Opcional) Haz una descripción breve de lo que quieres conseguir con esta valut'
                 value={newValut.description}
@@ -210,7 +218,7 @@ const CreateValut = () => {
               <select
                 name='currency'
                 id='currency-valut'
-                className='rounded-lg w-full py-2 text-center'
+                className='rounded-lg w-full py-2 text-center  bg-neutral-900'
                 placeholder='por ejemplo, 4000€'
                 value={newValut.currency}
                 onChange={handleInput}
@@ -228,7 +236,7 @@ const CreateValut = () => {
                 type='number'
                 name='goal'
                 pattern='[0-9,]*'
-                className='w-full rounded-lg py-2 px-3 text-center'
+                className='w-full rounded-lg py-2 px-3 text-center  bg-neutral-900'
                 placeholder='por ejemplo, 4000€'
                 value={newValut.goal}
                 onChange={handleInput}
