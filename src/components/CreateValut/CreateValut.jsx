@@ -51,6 +51,7 @@ const CreateValut = () => {
       isCreateValut: false
     })
     setCurrentPage(0)
+    document.body.style.overflow = 'auto'
   }
 
   function handleBackPage () {
@@ -71,6 +72,7 @@ const CreateValut = () => {
         valut: [...valut, newValut],
         isCreateValut: false
       })
+      document.body.style.overflow = 'auto'
     } catch (error) {
       console.error(error)
     }

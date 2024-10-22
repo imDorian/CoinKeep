@@ -24,6 +24,7 @@ const ValutWidget = ({
 }) => {
   const navigate = useNavigate()
   function handleCreateValut () {
+    document.body.style.overflow = 'hidden'
     useStore.setState({
       isCreateValut: true
     })
