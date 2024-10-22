@@ -166,6 +166,11 @@ const CreateValut = () => {
               />
               <select
                 className='rounded-lg py-2 w-full text-center bg-neutral-900'
+                style={{
+                  width: '100%',
+                  paddingBlock: '8px',
+                  textAlign: 'center'
+                }}
                 name='category'
                 id='category-valut'
                 value={newValut.category}
@@ -208,6 +213,11 @@ const CreateValut = () => {
                 name='currency'
                 id='currency-valut'
                 className='rounded-lg w-full py-2 text-center  bg-neutral-900'
+                style={{
+                  width: '100%',
+                  paddingBlock: '8px',
+                  textAlign: 'center'
+                }}
                 placeholder='por ejemplo, 4000€'
                 value={newValut.currency}
                 onChange={handleInput}
