@@ -6,10 +6,12 @@ import { CATEGORIAS_INVERSION } from '../../categories/INVESTMENT_CATEGORIES'
 import HeadingIcon from '../../icons/HeadingIcon'
 import { CURRENCIES } from '../../categories/CURRENCIES'
 import { addNewValut } from '../../functions/addNewValut'
+import { useNavigate } from 'react-router-dom'
 
 const CreateValut = () => {
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
-  const { isCreateValut, valut } = useStore()
+  const navigate = useNavigate()
+  const { valut } = useStore()
   const [currentPage, setCurrentPage] = useState(0)
   const [newValut, setNewValut] = useState({
     title: '',
@@ -47,11 +49,8 @@ const CreateValut = () => {
   }
 
   function quitCreateValut () {
-    useStore.setState({
-      isCreateValut: false
-    })
-    setCurrentPage(0)
-    document.body.style.overflow = 'auto'
+    // setCurrentPage(0)
+    navigate(-1)
   }
 
   function handleBackPage () {
@@ -69,32 +68,22 @@ const CreateValut = () => {
       const json = await addNewValut(cookies.user.data, newValut)
       console.log(json)
       useStore.setState({
-        valut: [...valut, newValut],
-        isCreateValut: false
+        valut: [...valut, newValut]
       })
-      document.body.style.overflow = 'auto'
     } catch (error) {
       console.error(error)
     }
   }
 
-  useEffect(() => {
-    console.log(newValut)
-  }, [newValut])
-
   return (
-    <dialog
-      // ref={refDialog}
-      open={isCreateValut}
-      className='absolute top-0 w-full h-full bg-neutral-800 z-[99]'
-    >
+    <div className='absolute top-0 w-full h-full bg-neutral-800 z-[99]'>
       {(currentPage === 1 || currentPage === 2) && (
         <button onClick={handleBackPage}>
           <HeadingIcon className='absolute top-5 left-10 size-9' />
         </button>
       )}
       <button onClick={quitCreateValut}>
-        <QuitIcon className='absolute top-7 right-10 size-5' />
+        <QuitIcon className='absolute top-7 right-8 size-6' />
       </button>
       <div className='p-16 flex flex-col items-center justify-center'>
         <h3 className='text-xl text-neutral-300'>
@@ -236,7 +225,7 @@ const CreateValut = () => {
                 type='number'
                 name='goal'
                 pattern='[0-9,]*'
-                className='w-full rounded-lg py-2 px-3 text-center  bg-neutral-900'
+                className='w-full rounded-lg py-2 px-3 text-center bg-neutral-900'
                 placeholder='por ejemplo, 4000€'
                 value={newValut.goal}
                 onChange={handleInput}
@@ -249,7 +238,7 @@ const CreateValut = () => {
           )}
         </div>
       </div>
-    </dialog>
+    </div>
   )
 }
 

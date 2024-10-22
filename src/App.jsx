@@ -7,6 +7,7 @@ import Financial from './pages/Financial/Financial'
 import Profile from './pages/Profile/Profile'
 import ShareExpenses from './pages/ShareExpenses/ShareExpenses'
 import ValutDetails from './components/ValutDetails/ValutDetails'
+import CreateValut from './components/CreateValut/CreateValut'
 
 function App () {
   return (
@@ -19,6 +20,7 @@ function App () {
         <Route path='/compartir' element={<ShareExpenses />} />
         <Route path='/perfil' element={<Profile />} />
         <Route path='/valut/:id' element={<ValutDetails />} />
+        <Route path='/createvalut' element={<CreateValut />} />
       </Routes>
     </Router>
   )

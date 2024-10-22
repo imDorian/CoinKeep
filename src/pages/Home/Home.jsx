@@ -81,7 +81,6 @@ const HomePage = () => {
 
   return (
     <>
-      {isCreateValut && <CreateValut />}
       <Container>
         {/* {isCreateValut && <CreateValut />} */}
         <Welcome username={cookies?.user?.name} />
