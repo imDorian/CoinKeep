@@ -62,7 +62,7 @@ const ValutDetails = () => {
   }
 
   return (
-    <div className='w-[100vw] h-[100vh] z-[99] bg-neutral-900 flex flex-col'>
+    <div className='w-[100vw] h-[100vh] z-[99] bg-neutral-900 flex flex-col py-2'>
       <button onClick={exitValutDetails} className='absolute top-5 right-5'>
         <QuitIcon className='size-6 text-neutral-200' />
       </button>
@@ -125,7 +125,7 @@ const ValutDetails = () => {
           goal={goal}
           currency={currency?.slice(0, 1)}
         />
-        <ul className='bg-neutral-800 h-[400px] my-3 rounded-3xl border border-neutral-700 p-2 flex flex-col divide-y divide-neutral-700'>
+        <ul className='bg-neutral-800 h-[400px] mt-3 rounded-3xl border border-neutral-700 p-2 flex flex-col divide-y divide-neutral-700'>
           {data?.map(element => {
             const { quantity, method, createdAt, currency } = element
             return (
