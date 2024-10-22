@@ -89,9 +89,8 @@ const CreateValut = () => {
       <div className='p-16 flex flex-col items-center justify-center'>
         <h3 className='text-xl text-neutral-300'>
           {currentPage === 0 && 'Primero, elige qué tipo de Valut necesitas'}
-          {currentPage === 1 && 'Segundo, dale un nombre y una descripción'}
-          {currentPage === 2 &&
-            'Tercero, ten un objetivo y elige la moneda principal'}
+          {currentPage === 1 && 'Segundo, dale un nombre y elige una categoría'}
+          {currentPage === 2 && 'Tercero, escoge una moneda y pon un objetivo'}
         </h3>
         <div className='flex flex-row justify-evenly w-[80%] mt-7 text-sm'>
           {currentPage === 0 && (

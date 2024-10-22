@@ -32,6 +32,11 @@ a:hover {
 }
  input {
   box-sizing: border-box;
+  font-size: 16px;
+}
+
+textarea{
+  font-size: 16px;
 }
 
 * {
@@ -95,6 +100,7 @@ select {
   box-sizing: border-box;
   border-radius: 0.5rem;
   width: 100%;
+  font-size: 16px
   /* appearance: ; */
 }
 
