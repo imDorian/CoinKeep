@@ -10,9 +10,12 @@ import ArrowDownRightIcon from '../../icons/ArrowDownRightIcon'
 import { Method } from '../List/List'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const ValutDetails = () => {
   const { valutDetails, isValutDetails } = useStore()
+  const navigate = useNavigate()
+  const { id } = useParams(':id')
   const {
     model,
     title,
@@ -20,7 +23,6 @@ const ValutDetails = () => {
     category,
     goal,
     accumulatedData,
-    id,
     createdAt,
     currency
   } = valutDetails
@@ -30,11 +32,23 @@ const ValutDetails = () => {
 
     if (res.status === 200) {
       setData(json.data)
+      if (!model) {
+        useStore.setState({
+          valutDetails: json
+        })
+      }
     }
   }
   useEffect(() => {
-    if (id) {
-      fetchDetails()
+    console.log(valutDetails)
+  }, [valutDetails])
+  useEffect(() => {
+    try {
+      if (id) {
+        fetchDetails()
+      }
+    } catch (error) {
+      navigate(-1)
     }
   }, [])
 
@@ -44,10 +58,11 @@ const ValutDetails = () => {
         isValutDetails: false
       })
     }
+    navigate(-1)
   }
 
   return (
-    <div className='h-[100vh] w-[100vw] z-[99] absolute top-0 right-0 bg-neutral-900'>
+    <div className='w-[100vw] h-[100vh] z-[99] bg-neutral-900 flex flex-col'>
       <button onClick={exitValutDetails} className='absolute top-5 right-5'>
         <QuitIcon className='size-6 text-neutral-200' />
       </button>
@@ -108,9 +123,9 @@ const ValutDetails = () => {
           bgColor='bg-neutral-800'
           progress={accumulatedData}
           goal={goal}
-          currency={currency.slice(0, 1)}
+          currency={currency?.slice(0, 1)}
         />
-        <ul className='bg-neutral-800 h-[50vh] mt-3 rounded-3xl border border-neutral-700 p-2 flex flex-col divide-y divide-neutral-700'>
+        <ul className='bg-neutral-800 h-[400px] mt-3 rounded-3xl border border-neutral-700 p-2 flex flex-col divide-y divide-neutral-700'>
           {data?.map(element => {
             const { quantity, method, createdAt, currency } = element
             return (

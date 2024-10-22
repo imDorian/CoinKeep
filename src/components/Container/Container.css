@@ -6,9 +6,9 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 55px;
+    margin-bottom: 5rem;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: auto;
     padding-top: 5rem;
     /* padding: 5px; */
     position: relative;

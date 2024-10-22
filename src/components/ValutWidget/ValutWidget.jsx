@@ -5,6 +5,7 @@ import { useStore } from '../../stores/useStore'
 import IsBlurSpan from '../IsBlurSpan/IsBlurSpan'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import OpenIcon from '../../icons/OpenIcon'
+import { useNavigate } from 'react-router-dom'
 
 export const MODELS = {
   saving: 'saving',
@@ -21,6 +22,7 @@ const ValutWidget = ({
   accumulatedData,
   createdAt
 }) => {
+  const navigate = useNavigate()
   function handleCreateValut () {
     useStore.setState({
       isCreateValut: true
@@ -43,6 +45,7 @@ const ValutWidget = ({
           currency
         }
       })
+      navigate(`/valut/${id}`)
     }
   }
 

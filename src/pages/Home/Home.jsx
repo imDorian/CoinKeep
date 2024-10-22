@@ -81,7 +81,6 @@ const HomePage = () => {
 
   return (
     <>
-      {isValutDetails && <ValutDetails />}
       {isCreateValut && <CreateValut />}
       <Container>
         {/* {isCreateValut && <CreateValut />} */}
