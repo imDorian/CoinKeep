@@ -84,6 +84,12 @@ button:focus-visible {
   outline: 1px white -webkit-focus-ring-color;
 }
 
+select {
+  -webkit-appearance: none; /* Elimina el estilo predeterminado de iOS */
+  -moz-appearance: none; /* Para Firefox */
+  appearance: none;
+}
+
 /* @media (prefers-color-scheme: white) {
   :root {
     color: #213547;
