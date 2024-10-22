@@ -11,6 +11,7 @@ import './CreateValut.css'
 
 const CreateValut = () => {
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { valut } = useStore()
   const [currentPage, setCurrentPage] = useState(0)
@@ -65,15 +66,18 @@ const CreateValut = () => {
 
   async function createValut (e) {
     e.preventDefault()
+    setLoading(true)
     try {
       const json = await addNewValut(cookies.user.data, newValut)
       console.log(json)
       useStore.setState({
         valut: [...valut, newValut]
       })
+      setLoading(false)
       navigate(-1)
     } catch (error) {
       console.error(error)
+      setLoading(false)
     }
   }
 
@@ -227,18 +231,22 @@ const CreateValut = () => {
                 ))}
               </select>
               <input
-                step='0.01'
                 type='number'
-                name='goal'
                 pattern='[0-9,]*'
+                inputMode='decimal'
+                name='goal'
                 className='w-full rounded-lg py-2 px-3 text-center bg-neutral-900'
                 placeholder='por ejemplo, 4000€'
                 value={newValut.goal}
                 onChange={handleInput}
                 required
               />
-              <button className='py-2 px-3 bg-[#5f061f]' type='submit'>
-                Crear Valut
+              <button
+                disabled={loading}
+                className='py-2 px-3 bg-[#5f061f]'
+                type='submit'
+              >
+                {loading ? 'Creando Valut...' : 'Crear Valut'}
               </button>
             </form>
           )}

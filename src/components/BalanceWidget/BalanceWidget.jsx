@@ -163,8 +163,9 @@ const BalanceWidget = ({ className }) => {
       {isEdit && (
         <div className='flex flex-col items-center gap-1'>
           <input
-            type='tel'
-            pattern='[0-9]*'
+            type='number'
+            pattern='[0-9,]*'
+            inputMode='decimal'
             placeholder='ej. 420€'
             className='text-center rounded-lg py-1'
             onChange={handleAmount}
