@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const DropDown = ({ deleteValut }) => {
+const DropDown = ({ deleteValut, className }) => {
   // Estado para controlar si el menú está abierto o cerrado
   const [isOpen, setIsOpen] = useState(false)
 
@@ -13,7 +13,7 @@ const DropDown = ({ deleteValut }) => {
     <button
       id='dropdownMenuIconButton'
       onClick={toggleDropdown}
-      className='relative inline-flex items-center p-2 text-sm font-medium text-center text-neutral-400 bg-transparent rounded-lg focus:text-neutral-100 '
+      className='relative inline-flex items-center p-2 text-sm font-medium text-center text-neutral-400 bg-transparent rounded-lg focus:text-neutral-100'
       type='button'
     >
       <svg

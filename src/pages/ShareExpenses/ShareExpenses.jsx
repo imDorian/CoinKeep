@@ -16,13 +16,13 @@ const ShareExpenses = () => {
       <div className='flex flex-col w-full px-5 box-border'>
         <h2 className='text-lg text-start'>Invitaciones a grupos</h2>
         <ul className='flex flex-col items-center divide-y divide-neutral-700 max-h-[30vh] overflow-auto'>
-          <li className='grid grid-cols-[0.5fr_2fr_3fr] py-2 w-full justify-items-center items-center'>
+          <li className='grid grid-cols-[0.5fr_2fr_2.5fr] py-2 w-full justify-items-center items-center'>
             <div className='w-full flex justify-start'>
               <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
                 G
               </span>
             </div>
-            <div className='flex flex-col items-start text-nowrap w-full ps-3'>
+            <div className='flex flex-col items-start text-nowrap w-full ps-2'>
               <span>Nombre</span>
               <span className='text-neutral-400'>Creador: Dorian</span>
             </div>
@@ -35,13 +35,13 @@ const ShareExpenses = () => {
               </span>
             </div>
           </li>
-          <li className='grid grid-cols-[0.5fr_2fr_3fr] py-2 w-full justify-items-center items-center'>
+          <li className='grid grid-cols-[0.5fr_2fr_2.5fr] py-2 w-full justify-items-center items-center'>
             <div className='w-full flex justify-start'>
               <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
                 G
               </span>
             </div>
-            <div className='flex flex-col items-start text-nowrap w-full ps-3'>
+            <div className='flex flex-col items-start w-full ps-2'>
               <span>Nombre</span>
               <span className='text-neutral-400'>Creador: Dorian</span>
             </div>
@@ -62,56 +62,39 @@ const ShareExpenses = () => {
         <ul className='flex flex-col items-center divide-y divide-neutral-700'>
           <li
             onClick={() => openShareGroup('hola')}
-            className='grid grid-cols-[0.5fr_2fr_2fr] py-2 w-full justify-items-center items-center'
+            className='grid grid-cols-[0.5fr_2fr_1fr] py-2 w-full justify-items-center items-center'
           >
-            <div className='w-full flex justify-start'>
+            <div className='w-full flex justify-center'>
               <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
                 G
               </span>
             </div>
-            <div className='flex flex-col items-start text-nowrap w-full truncate ps-3'>
+            <div className='flex flex-col items-start text-nowrap w-full truncate'>
               <span>Nombre</span>
-              <span className='text-neutral-400 truncate w-full'>
+              <span className='text-neutral-400 truncate w-full text-start'>
                 Dorian, Marcos, Lucian
               </span>
             </div>
-            <div className='flex flex-col items-center w-full '>
+            <div className='flex flex-col items-center w-full'>
               Te deben
               <span className='text-green-200 font-medium'>5,55€</span>
             </div>
           </li>
-          <li className='grid grid-cols-[0.5fr_2fr_2fr] py-2 w-full justify-items-center items-center'>
-            <div className='w-full flex justify-start'>
+          <li className='grid grid-cols-[0.5fr_2fr_1fr] py-2 w-full justify-items-center items-center'>
+            <div className='w-full flex justify-center'>
               <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
                 G
               </span>
             </div>
-            <div className='flex flex-col items-start text-nowrap w-full truncate ps-3'>
+            <div className='flex flex-col items-start text-nowrap w-full truncate'>
               <span>Nombre</span>
-              <span className='text-neutral-400 truncate w-full'>
+              <span className='text-neutral-400 truncate w-full flex items-start'>
                 Dorian, Marcos, Lucian
               </span>
             </div>
             <div className='flex flex-col items-center w-full '>
               Debes
               <span className='text-red-300 font-medium'>5,55€</span>
-            </div>
-          </li>
-          <li className='grid grid-cols-[0.5fr_2fr_2fr] py-2 w-full justify-items-center items-center'>
-            <div className='w-full flex justify-start'>
-              <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
-                G
-              </span>
-            </div>
-            <div className='flex flex-col items-start text-nowrap w-full truncate ps-3'>
-              <span>Nombre</span>
-              <span className='text-neutral-400 truncate w-full'>
-                Dorian, Marcos, Lucian
-              </span>
-            </div>
-            <div className='flex flex-col items-center w-full '>
-              Saldado
-              <span className='text-neutral-400 font-medium'>0€</span>
             </div>
           </li>
         </ul>
