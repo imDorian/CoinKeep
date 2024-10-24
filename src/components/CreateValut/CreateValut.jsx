@@ -170,7 +170,7 @@ const CreateValut = () => {
                 required
               />
               <select
-                className=' bg-neutral-900 select-ios'
+                className='bg-neutral-900 py-2'
                 name='category'
                 id='category-valut'
                 value={newValut.category}

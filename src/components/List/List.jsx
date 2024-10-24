@@ -148,7 +148,7 @@ const List = () => {
   }
 
   return (
-    <div className='w-[90%] p-3 mx-4 my-1 bg-[var(--gray-color)] rounded-[30px] list flex flex-col gap-2'>
+    <div className='w-full px-3 my-1  rounded-[30px] list flex flex-col gap-2'>
       <div className='flex items-center justify-center py-2 md:py-8 flex-wrap text-sm gap-2'>
         <button
           onClick={e => handleTypes(e.target.name)}
@@ -214,7 +214,7 @@ const List = () => {
           <option value={SORT.quantDown}>↓ Monto, el más bajo primero</option>
         </select>
       </span>
-      <ul className='flex flex-col px-1 h-[60vh] divide-y-[1px] divide-neutral-700 overflow-y-auto mb-3 mt-1'>
+      <ul className='flex flex-col px-1 divide-y-[1px] divide-neutral-700 mb-3 mt-1'>
         {filteredData?.map((item, index) => {
           const {
             category,
@@ -233,7 +233,7 @@ const List = () => {
           })
           return (
             <li
-              className='w-full py-3 grid grid-cols-[1fr_2.5fr_1.5fr_1.5fr] justify-items-center'
+              className='w-full py-3 grid grid-cols-[0.5fr_2.5fr_1fr_1.5fr] justify-items-center'
               key={id}
             >
               <div className='flex items-center rounded-full justify-center text-center'>
@@ -241,7 +241,7 @@ const List = () => {
                   {category.slice(0, 2)}
                 </span>
               </div>
-              <div className='w-[90%] flex flex-col text-start items-start justify-between truncate'>
+              <div className='w-full flex flex-col text-start items-start truncate ps-3'>
                 <span className='w-full truncate'>{category.slice(2)}</span>
                 <span className='text-neutral-400 text-sm truncate'>
                   {description}
