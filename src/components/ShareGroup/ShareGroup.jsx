@@ -41,8 +41,8 @@ const ShareGroup = () => {
       <div
         className={
           !addTransaction
-            ? 'fixed bottom-10 right-5 transition-all duration-500 h-[3rem] w-[3rem] bg-transparent rounded-3xl z-50 overflow-hidden box-border'
-            : 'fixed bottom-10 right-5  transition-all duration-300  h-[90vh] w-[90vw] bg-[#3a3a3a] rounded-3xl z-50 box-border'
+            ? 'fixed bottom-0 right-5 transition-all duration-500 h-[3rem] w-[3rem] bg-transparent rounded-3xl z-50 overflow-hidden box-border'
+            : 'fixed bottom-0 right-5  transition-all duration-300  h-[90vh] w-[90vw] bg-[#3a3a3a] rounded-3xl rounded-b-none z-50 box-border'
         }
       >
         <div
