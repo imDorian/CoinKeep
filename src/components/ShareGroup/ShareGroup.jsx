@@ -41,8 +41,8 @@ const ShareGroup = () => {
       <div
         className={
           !addTransaction
-            ? 'fixed bottom-0 right-5 transition-all duration-500 h-[3rem] w-[3rem] bg-transparent rounded-3xl z-50 overflow-hidden box-border'
-            : 'fixed bottom-0 right-5  transition-all duration-300  h-[90vh] w-[90vw] bg-[#3a3a3a] rounded-3xl rounded-b-none z-50 box-border'
+            ? 'fixed bottom-10 right-5 transition-all duration-500 h-[3rem] w-[3rem] bg-transparent rounded-3xl z-50 overflow-hidden box-border'
+            : 'fixed bottom-10 right-5  transition-all duration-300  h-[75vh] w-[90vw] bg-[#3a3a3a] rounded-3xl z-50 box-border'
         }
       >
         <div
@@ -60,8 +60,8 @@ const ShareGroup = () => {
                 name='expense'
                 className={
                   navAdd === 'expense'
-                    ? 'p-0 text-emerald-400'
-                    : 'p-0 text-neutral-300'
+                    ? 'p-0 text-emerald-400 w-full px-5 truncate box-border transition-colors duration-300'
+                    : 'p-0 text-neutral-300 w-full px-5 truncate box-border transition-colors duration-300'
                 }
               >
                 Gasto
@@ -73,21 +73,21 @@ const ShareGroup = () => {
                 name='income'
                 className={
                   navAdd === 'income'
-                    ? 'p-0 text-emerald-400'
-                    : 'p-0 text-neutral-300'
+                    ? 'p-0 text-emerald-400 w-full px-5 truncate box-border transition-colors duration-300'
+                    : 'p-0 text-neutral-300 w-full px-5 truncate box-border transition-colors duration-300'
                 }
               >
                 Ingreso
               </button>
             </li>
-            <li className='w-full'>
+            <li className='w-full truncate'>
               <button
                 onClick={handleNavAdd}
                 name='transfer'
                 className={
                   navAdd === 'transfer'
-                    ? 'p-0 text-emerald-400'
-                    : 'p-0 text-neutral-300'
+                    ? 'p-0 text-emerald-400 w-full px-5 truncate box-border transition-colors duration-300'
+                    : 'p-0 text-neutral-300 w-full px-5 truncate box-border transition-colors duration-300'
                 }
               >
                 Transferencia
