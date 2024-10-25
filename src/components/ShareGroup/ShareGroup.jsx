@@ -249,16 +249,16 @@ const ShareGroup = () => {
         <button
           className={
             !addTransaction
-              ? 'fixed bottom-11 right-5 transition-all duration-300'
-              : 'fixed bottom-11 right-5 rotate-45 transition-all duration-300'
+              ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
+              : 'fixed bottom-10 right-5  transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
           }
           onClick={handleAddTransaction}
         >
           <AddIcon
             className={
               !addTransaction
-                ? 'size-10 text-[var(--brand-color)]'
-                : 'size-10 text-red-500'
+                ? 'size-12 text-[var(--brand-color)] transition-all duration-300 rounded-full'
+                : 'size-9 text-red-500 transition-all duration-300 rounded-full rotate-45'
             }
           />
         </button>
