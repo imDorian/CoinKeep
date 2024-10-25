@@ -41,8 +41,8 @@ const ShareGroup = () => {
       <div
         className={
           !addTransaction
-            ? 'fixed bottom-10 right-10 transition-all duration-500 h-[3rem] w-[3rem] bg-transparent rounded-3xl z-50 overflow-hidden box-border'
-            : 'fixed bottom-0 right-0 transition-all duration-300  h-[100vh] w-[100vw] bg-[#3a3a3a] rounded-3xl z-50 box-border'
+            ? 'fixed bottom-10 right-5 transition-all duration-500 h-[3rem] w-[3rem] bg-transparent rounded-3xl z-50 overflow-hidden box-border'
+            : 'fixed bottom-10 right-5  transition-all duration-300  h-[90vh] w-[90vw] bg-[#3a3a3a] rounded-3xl z-50 box-border'
         }
       >
         <div
@@ -249,8 +249,8 @@ const ShareGroup = () => {
         <button
           className={
             !addTransaction
-              ? 'fixed bottom-10 right-10 transition-all duration-300'
-              : 'fixed bottom-10 right-10 rotate-45 transition-all duration-300'
+              ? 'fixed bottom-11 right-5 transition-all duration-300'
+              : 'fixed bottom-11 right-5 rotate-45 transition-all duration-300'
           }
           onClick={handleAddTransaction}
         >
