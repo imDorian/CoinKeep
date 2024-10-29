@@ -100,7 +100,6 @@ const CreateValut = () => {
         <div className='flex flex-row justify-evenly w-[80%] mt-7 text-sm'>
           {currentPage === 0 && (
             <form
-              action='submit'
               className='flex flex-col gap-3 items-center w-full'
               onSubmit={handleNextPage}
             >

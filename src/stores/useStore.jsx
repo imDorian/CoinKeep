@@ -8,10 +8,12 @@ export const useStore = create(set => ({
   email: '',
   imageUrl: '',
   currency: '€',
+  username: '',
   income: [],
   expense: [],
-  isValutDetails: false,
+  share: [],
   valutDetails: {},
+  groupDetails: {},
   balance: {},
   isBlur: false,
   dateSelected: new Date(),
@@ -38,7 +40,8 @@ export const useStore = create(set => ({
       set({
         name: json.user.name,
         email: json.user.email,
-        image: json.user?.image
+        image: json.user?.image,
+        username: json.user.username
       })
 
       return { response, json }
@@ -60,8 +63,10 @@ export const useStore = create(set => ({
         income: json.income,
         expense: json.expense,
         balance: json.balance,
-        valut: json.valut
+        valut: json.valut,
+        share: json.share
       })
+      console.log(json)
       return { response, json }
     } catch (error) {
       googleLogout()

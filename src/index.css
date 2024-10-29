@@ -13,6 +13,7 @@
   --brand-color: aquamarine;
   --gray-color:#303030;
   --bg-color: #242424;
+  --red-wine-color: #5f061f;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -90,18 +91,13 @@ button:focus-visible {
 }
 
 select {
-  -webkit-appearance: none; 
+  /* -webkit-appearance: none;  */
   -moz-appearance: none; 
-  appearance: none;
-
-  text-align: center;
-  padding-block: 5px;
-  padding-inline: 1rem;
-  box-sizing: border-box;
+  /* appearance: none; */
   border-radius: 0.5rem;
-  width: 100%;
-  font-size: 16px
-  /* appearance: ; */
+  box-sizing: border-box;
+  padding-inline: 0.75rem;
+  /* font-size: 16px; */
 }
 
 /* @media (prefers-color-scheme: white) {

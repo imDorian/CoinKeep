@@ -49,11 +49,16 @@ const Profile = () => {
     navigate('/')
   }
   return (
-    <Container className='flex-col'>
+    <Container className='flex-col px-5'>
       <Welcome currency={currency} />
       <div className='flex items-stretch justify-evenly flex-row w-full'>
         <div className='flex flex-col text-start justify-center text-lg'>
-          <span className='font-semibold text-xl'>{cookies.user.name}</span>
+          <div className='flex flex-row items-center justify-between'>
+            <span className='font-semibold text-xl'>{cookies.user.name}</span>
+            <span className='text-base text-neutral-400'>
+              {cookies.user.username}
+            </span>
+          </div>
           <span>{cookies.user.email}</span>
         </div>
         <img
@@ -63,7 +68,7 @@ const Profile = () => {
       </div>
       <Settings />
       <button
-        className='bg-red-500 rounded-xl py-2 px-3'
+        className='bg-red-500 rounded-lg py-2 px-3 w-full box-border'
         onClick={handleLogout}
       >
         Cerrar sesión

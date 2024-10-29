@@ -9,6 +9,7 @@ import ShareExpenses from './pages/ShareExpenses/ShareExpenses'
 import ValutDetails from './components/ValutDetails/ValutDetails'
 import CreateValut from './components/CreateValut/CreateValut'
 import ShareGroup from './components/ShareGroup/ShareGroup'
+import CreateGroup from './components/CreateGroup/CreateGroup'
 
 function App () {
   return (
@@ -23,6 +24,7 @@ function App () {
         <Route path='/valut/:id' element={<ValutDetails />} />
         <Route path='/createvalut' element={<CreateValut />} />
         <Route path='/sharegroup/:id' element={<ShareGroup />} />
+        <Route path='/creategroup' element={<CreateGroup />} />
       </Routes>
     </Router>
   )
