@@ -258,7 +258,7 @@ const List = () => {
                 </span>
               </div>
               <div className='w-full flex flex-col text-end justify-between truncate'>
-                <span className={model !== 'income' && 'text-red-300'}>
+                <span className={model !== 'income' ? 'text-red-300' : ''}>
                   {model !== 'income' && '-'}
                   {isDecimal(quantity)}
                   {currency}

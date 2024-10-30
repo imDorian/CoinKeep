@@ -4,9 +4,6 @@ import HeadingIcon from '../../icons/HeadingIcon'
 import { useNavigate, useParams } from 'react-router-dom'
 import QuitIcon from '../../icons/QuitIcon'
 import DotsIcon from '../../icons/DotsIcon'
-import AddIcon from '../../icons/AddIcon'
-import { CATEGORIAS_GASTOS } from '../../categories/EXPENSES_CATEGORIES'
-import { CURRENCIES } from '../../categories/CURRENCIES'
 import { useStore } from '../../stores/useStore'
 import { SORT } from '../List/List'
 import AddShare from '../AddShare/AddShare'
@@ -247,9 +244,6 @@ const ShareGroup = () => {
     }
   }, [filter, filterDate])
 
-  useEffect(() => {
-    console.log(filter, filterDate)
-  }, [filter, filterDate])
   async function getGroup () {
     try {
       const url = import.meta.env.VITE_URL + `/data/getgroup/${idParams}`
@@ -264,6 +258,7 @@ const ShareGroup = () => {
         useStore.setState({
           groupDetails: json
         })
+        console.log(json)
       }
     } catch (error) {
       console.error(error)
@@ -273,10 +268,7 @@ const ShareGroup = () => {
   useEffect(() => {
     getGroup()
   }, [])
-  useEffect(() => {
-    console.log(groupDetails)
-  }, [groupDetails])
-  console.log(groupDetails)
+
   function back () {
     navigate(-1)
   }
@@ -367,40 +359,41 @@ const ShareGroup = () => {
       <div className='flex flex-col w-full px-5 box-border'>
         <h2 className='text-lg text-start'>Deudas activas</h2>
         <ul className='flex flex-col items-center divide-y divide-neutral-700 max-h-[30vh] overflow-auto'>
-          {debts?.length === 0 && (
+          {debts?.length === 0 ? (
             <span className='mt-3 text-neutral-300'>
               Todas las deudas están saldadas
             </span>
-          )}
-          {debts?.map(debt => {
-            const { fromUser, toUser, amount, status } = debt
-            return (
-              status === 'pending' && (
-                <li
-                  key={crypto.randomUUID()}
-                  className='grid grid-cols-[0.5fr_2.5fr_1fr] py-2 w-full justify-items-center items-center'
-                >
-                  <div className='w-full flex justify-start'>
-                    <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
-                      {fromUser.slice(0, 1).toUpperCase()}
+          ) : (
+            debts?.map(debt => {
+              const { fromUser, toUser, amount, status } = debt
+              return (
+                status === 'pending' && (
+                  <li
+                    key={crypto.randomUUID()}
+                    className='grid grid-cols-[0.5fr_2.5fr_1fr] py-2 w-full justify-items-center items-center'
+                  >
+                    <div className='w-full flex justify-start'>
+                      <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
+                        {fromUser.slice(0, 1).toUpperCase()}
+                      </span>
+                    </div>
+                    <div className='flex flex-col items-start text-nowrap w-full truncate ps-2'>
+                      <span>{fromUser}</span>
+                      <span className='text-neutral-400 truncate w-full text-start'>
+                        Debe <span className='font-medium'>{amount}</span> a{' '}
+                        <span className='font-medium'>{toUser}</span>
+                      </span>
+                    </div>
+                    <span className='w-full text-center'>
+                      <button onClick={handleResolve} className='bg-slate-600'>
+                        Resolver
+                      </button>
                     </span>
-                  </div>
-                  <div className='flex flex-col items-start text-nowrap w-full truncate ps-2'>
-                    <span>{fromUser}</span>
-                    <span className='text-neutral-400 truncate w-full text-start'>
-                      Debe <span className='font-medium'>{amount}</span> a{' '}
-                      <span className='font-medium'>{toUser}</span>
-                    </span>
-                  </div>
-                  <span className='w-full text-center'>
-                    <button onClick={handleResolve} className='bg-slate-600'>
-                      Resolver
-                    </button>
-                  </span>
-                </li>
+                  </li>
+                )
               )
-            )
-          })}
+            })
+          )}
         </ul>
       </div>
       <div className='w-full p-2 flex box-border'>
@@ -502,7 +495,6 @@ const ShareGroup = () => {
                   month: 'short',
                   year: '2-digit'
                 })
-              console.log(category)
               return (
                 <li
                   key={crypto.randomUUID()}

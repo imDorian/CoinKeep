@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Container from '../../components/Container/Container'
 import Welcome from '../../components/Welcome/Welcome'
 import NavBar from '../../components/NavBar/NavBar'
@@ -7,7 +7,7 @@ import { useStore } from '../../stores/useStore'
 
 const ShareExpenses = () => {
   const navigate = useNavigate()
-  const { share } = useStore()
+  const { share, fetchData, balance } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
 
   function openShareGroup (group) {
@@ -27,6 +27,18 @@ const ShareExpenses = () => {
   function openCreateGroup () {
     navigate('/creategroup')
   }
+
+  useEffect(() => {
+    if (!balance._id) {
+      try {
+        console.log('fetch')
+        fetchData(cookies.user.data)
+      } catch (error) {
+        console.error(error)
+        navigate('/')
+      }
+    }
+  }, [])
 
   return (
     <Container className='flex-col'>

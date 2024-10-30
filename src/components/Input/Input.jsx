@@ -18,7 +18,6 @@ const Input = ({ className }) => {
   const [loading, setLoading] = useState(false)
   const [method, setMethod] = useState('card')
   const newDatt = new Date().toISOString()
-  console.log(newDatt)
   const [date, setDate] = useState(newDatt.slice(0, 10))
   const addButton =
     typeSelected === 'income'
@@ -125,7 +124,7 @@ const Input = ({ className }) => {
   }
 
   const updateBalance = async (id, data, cat) => {
-    const { res, json } = putMethodSchema(id, data, cat)
+    putMethodSchema(id, data, cat)
   }
   useEffect(() => {
     setNewData({
@@ -143,7 +142,9 @@ const Input = ({ className }) => {
   }, [method])
 
   useEffect(() => {
-    updateBalance(balance._id, balance, 'balance')
+    if (balance._id) {
+      updateBalance(balance._id, balance, 'balance')
+    }
   }, [balance])
 
   const MethodButtons = () => {

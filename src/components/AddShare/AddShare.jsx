@@ -33,7 +33,6 @@ const AddShare = () => {
       const newDiv = { user: id, amount: 0, name }
       return newDiv
     })
-    console.log(divide)
     setFormData({
       ...formData,
       divide
@@ -41,8 +40,7 @@ const AddShare = () => {
   }
 
   useEffect(() => {
-    console.log(members)
-    if (members) {
+    if (members?.length > 0) {
       newDivide()
     }
   }, [members])
@@ -50,9 +48,6 @@ const AddShare = () => {
   useEffect(() => {
     console.log(formData)
   }, [formData])
-  useEffect(() => {
-    console.log(divideMethod)
-  }, [divideMethod])
 
   const categorySelected =
     navAdd === 'income' ? CATEGORIAS_INGRESOS : CATEGORIAS_GASTOS

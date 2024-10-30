@@ -17,38 +17,19 @@ import ValutDetails from '../../components/ValutDetails/ValutDetails'
 const HomePage = () => {
   const navigate = useNavigate()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
-  const { balance, fetchData, valut, isCreateValut, isValutDetails } =
-    useStore()
-  console.log(valut)
+  const { balance, fetchData, valut } = useStore()
 
   useEffect(() => {
-    const fetchDataUser = async () => {
-      const token = await verifyToken()
-      if (token.status !== 200) {
-        googleLogout()
-        navigate('/')
-      }
-      if (token.status === 200) {
-        fetchData(cookies.user.data)
-      }
-    }
-    if (cookies) {
+    if (!balance._id) {
       try {
-        fetchDataUser()
+        console.log('fetch')
+        fetchData(cookies.user.data)
       } catch (error) {
         console.error(error)
-        googleLogout()
         navigate('/')
       }
-    } else {
-      googleLogout()
-      navigate('/')
     }
   }, [])
-
-  useEffect(() => {
-    putMethodSchema(balance._id, balance, 'balance')
-  }, [balance])
 
   const mappedValuts = useMemo(() => {
     return valut?.map((item, index) => {

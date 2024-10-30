@@ -12,33 +12,17 @@ import { verifyToken } from '../../functions/verifyToken'
 const Profile = () => {
   const navigate = useNavigate()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
-  const { currency, fetchData } = useStore()
+  const { currency, fetchData, balance } = useStore()
 
   useEffect(() => {
-    const fetchDataUser = async () => {
-      const token = await verifyToken()
-      if (token.status !== 200) {
-        window.localStorage.removeItem('userdata')
-        googleLogout()
-        navigate('/')
-      }
-      if (token.status === 200) {
-        fetchData(cookies.user.data)
-      }
-    }
-    if (cookies) {
+    if (!balance._id) {
       try {
-        fetchDataUser()
+        console.log('fetch')
+        fetchData(cookies.user.data)
       } catch (error) {
         console.error(error)
-        window.localStorage.removeItem('userdata')
-        googleLogout()
         navigate('/')
       }
-    } else {
-      window.localStorage.removeItem('userdata')
-      googleLogout()
-      navigate('/')
     }
   }, [])
 

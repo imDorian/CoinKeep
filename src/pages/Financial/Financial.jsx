@@ -11,29 +11,18 @@ const Financial = () => {
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const navigate = useNavigate()
   // const fetchData = useStore(state => state.fetchData)
-  const { fetchData, income } = useStore()
+  const { fetchData, income, balance } = useStore()
   const currency = '€'
 
-  const fetchDataUser = async () => {
-    const data = await verifyToken()
-    if (data.status !== 200) {
-      navigate('/')
-    }
-    if (data.status === 200) {
-      await fetchData(cookies.user.data)
-    }
-  }
-
   useEffect(() => {
-    if (cookies) {
+    if (!balance._id) {
       try {
-        fetchDataUser()
+        console.log('fetch')
+        fetchData(cookies.user.data)
       } catch (error) {
         console.error(error)
         navigate('/')
       }
-    } else {
-      navigate('/')
     }
   }, [])
 

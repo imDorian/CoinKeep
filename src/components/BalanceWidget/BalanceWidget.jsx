@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react'
 import SwitchIcon from '../../icons/SwitchIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
+import { useNavigate } from 'react-router-dom'
 
 const BalanceWidget = ({ className }) => {
-  const { balance, currency, focusWidget } = useStore()
+  const { balance, currency } = useStore()
   const [isEdit, setIsEdit] = useState(false)
   const method = {
     card: 'card',
@@ -57,32 +58,8 @@ const BalanceWidget = ({ className }) => {
   }
 
   const handleEdit = () => {
-    if (!isEdit) {
-      const WIDGET = 'balance'
-      setIsEdit(true)
-      useStore.setState({ focusWidget: WIDGET })
-      return
-    }
-    setIsEdit(false)
-    useStore.setState({ focusWidget: '' })
+    setIsEdit(!isEdit)
   }
-  function controllerWidgets () {
-    if (focusWidget === 'personalBalance') {
-      setIsEdit(false)
-    }
-  }
-
-  useEffect(() => {
-    controllerWidgets()
-  }, [focusWidget])
-
-  useEffect(() => {
-    if (balance._id) {
-      putMethodSchema(balance._id, balance, 'balance')
-    } else {
-      console.error('error', balance)
-    }
-  }, [balance])
 
   return (
     <Article
@@ -98,9 +75,6 @@ const BalanceWidget = ({ className }) => {
         />
       )}
       <button
-        style={{
-          display: focusWidget === 'personalBalance' ? 'none' : 'inline'
-        }}
         className='absolute bottom-4 right-4 opacity-85 text-neutral-800 border-1 bg-neutral-400 border-neutral-400 rounded-full p-0 px-1 text-[12px] tracking-wide font-medium'
         onClick={handleEdit}
       >

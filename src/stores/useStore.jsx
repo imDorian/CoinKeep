@@ -1,7 +1,8 @@
-import { redirect } from 'react-router-dom'
+import { redirect, useNavigate } from 'react-router-dom'
 import { create } from 'zustand'
 
 import { googleLogout } from '@react-oauth/google'
+import { verifyToken } from '../functions/verifyToken'
 
 export const useStore = create(set => ({
   name: '',
@@ -52,27 +53,34 @@ export const useStore = create(set => ({
   },
 
   fetchData: async dataId => {
-    const urlData = import.meta.env.VITE_URL + `/data/get/${dataId}`
-    try {
-      const response = await window.fetch(urlData, { method: 'GET' })
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`)
+    const token = await verifyToken()
+    if (token.status === 200) {
+      const urlData = import.meta.env.VITE_URL + `/data/get/${dataId}`
+      try {
+        const response = await window.fetch(urlData, { method: 'GET' })
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`)
+        }
+        const json = await response.json()
+        set({
+          income: json.income,
+          expense: json.expense,
+          balance: json.balance,
+          valut: json.valut,
+          share: json.share
+        })
+        console.log(json)
+        return { response, json }
+      } catch (error) {
+        googleLogout()
+        window.localStorage.removeItem('userdata')
+        console.error('Error al cargar los datos:', error)
       }
-      const json = await response.json()
-      set({
-        income: json.income,
-        expense: json.expense,
-        balance: json.balance,
-        valut: json.valut,
-        share: json.share
-      })
-      console.log(json)
-      return { response, json }
-    } catch (error) {
+    } else {
+      console.error('token no valido')
       googleLogout()
       window.localStorage.removeItem('userdata')
-      redirect('/', 404)
-      console.error('Error al cargar los datos:', error)
+      console.error('Token inválido, vuelve a inciar sesión')
     }
   }
 }))
