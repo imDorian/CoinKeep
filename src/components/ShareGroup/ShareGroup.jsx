@@ -8,29 +8,248 @@ import AddIcon from '../../icons/AddIcon'
 import { CATEGORIAS_GASTOS } from '../../categories/EXPENSES_CATEGORIES'
 import { CURRENCIES } from '../../categories/CURRENCIES'
 import { useStore } from '../../stores/useStore'
+import { SORT } from '../List/List'
+import AddShare from '../AddShare/AddShare'
+
+const expenses = [
+  {
+    title: 'Cena en grupo',
+    amount: 100,
+    method: 'card',
+    category: '💰 Food',
+    type: 'expense',
+    group: 'group_id_123',
+    fromUser: 'user_id_1',
+    members: ['user_id_2', 'user_id_3'],
+    divide: [
+      { user: 'user_id_1', amount: 40, settled: true },
+      { user: 'user_id_2', amount: 30, settled: false },
+      { user: 'user_id_3', amount: 30, settled: false }
+    ],
+    date: '2024-10-29T14:00:00Z',
+    createdAt: '2024-10-29T14:00:00Z',
+    updatedAt: '2024-10-29T14:00:00Z'
+  },
+  {
+    title: 'Pago de alquiler',
+    amount: 1200,
+    method: 'cash',
+    category: '💰 Housing',
+    type: 'expense',
+    group: 'group_id_789',
+    fromUser: 'user_id_2',
+    members: ['user_id_3', 'user_id_4'],
+    divide: [
+      { user: 'user_id_2', amount: 400, settled: true },
+      { user: 'user_id_3', amount: 400, settled: false },
+      { user: 'user_id_4', amount: 400, settled: false }
+    ],
+    date: '2024-10-25T10:30:00Z',
+    createdAt: '2024-10-25T10:30:00Z',
+    updatedAt: '2024-10-25T10:30:00Z'
+  },
+  {
+    title: 'Cena en restaurante',
+    amount: 300,
+    method: 'card',
+    category: '💰 Entertainment',
+    type: 'expense',
+    group: 'group_id_456',
+    fromUser: 'user_id_5',
+    members: ['user_id_6', 'user_id_7'],
+    divide: [
+      { user: 'user_id_5', amount: 100, settled: true },
+      { user: 'user_id_6', amount: 100, settled: false },
+      { user: 'user_id_7', amount: 100, settled: false }
+    ],
+    date: '2024-10-27T20:00:00Z',
+    createdAt: '2024-10-27T20:00:00Z',
+    updatedAt: '2024-10-27T20:00:00Z'
+  }
+]
+const incomes = [
+  {
+    title: 'Ingreso por proyecto compartido',
+    amount: 1000,
+    method: 'bank_transfer',
+    category: '💰 Freelance',
+    type: 'income',
+    group: 'group_id_321',
+    fromUser: 'user_id_1',
+    members: ['user_id_2', 'user_id_3'],
+    divide: [
+      { user: 'user_id_1', amount: 400, settled: true },
+      { user: 'user_id_2', amount: 300, settled: false },
+      { user: 'user_id_3', amount: 300, settled: false }
+    ],
+    date: '2024-10-22T15:00:00Z',
+    createdAt: '2024-10-22T15:00:00Z',
+    updatedAt: '2024-10-22T15:00:00Z'
+  },
+  {
+    title: 'Pago de alquiler de inquilino',
+    amount: 800,
+    method: 'bank_transfer',
+    category: '💰 Rental Income',
+    type: 'income',
+    group: 'group_id_321',
+    fromUser: 'user_id_14',
+    members: ['user_id_15'],
+    divide: [{ user: 'user_id_14', amount: 800, settled: true }],
+    date: '2024-10-05T12:00:00Z',
+    createdAt: '2024-10-05T12:00:00Z',
+    updatedAt: '2024-10-05T12:00:00Z'
+  },
+  {
+    title: 'Regalo de cumpleaños de familiares',
+    amount: 200,
+    method: 'cash',
+    category: '💰 Gift',
+    type: 'income',
+    group: 'group_id_456',
+    fromUser: 'user_id_4',
+    members: ['user_id_5', 'user_id_6'],
+    divide: [
+      { user: 'user_id_4', amount: 100, settled: true },
+      { user: 'user_id_5', amount: 50, settled: false },
+      { user: 'user_id_6', amount: 50, settled: false }
+    ],
+    date: '2024-10-20T19:00:00Z',
+    createdAt: '2024-10-20T19:00:00Z',
+    updatedAt: '2024-10-20T19:00:00Z'
+  }
+]
+const transfers = [
+  {
+    group: 'group_id_123',
+    fromUser: 'user_id_1',
+    toUser: 'user_id_2',
+    amount: 50,
+    date: '2024-10-29T14:00:00Z',
+    note: 'Devolución de gastos compartidos',
+    createdAt: '2024-10-29T14:00:00Z',
+    updatedAt: '2024-10-29T14:00:00Z'
+  },
+  {
+    group: 'group_id_123',
+    fromUser: 'user_id_1',
+    toUser: 'user_id_2',
+    amount: 100,
+    date: '2024-10-29T14:00:00Z',
+    note: 'Reembolso de compra de comestibles',
+    createdAt: '2024-10-29T14:00:00Z',
+    updatedAt: '2024-10-29T14:00:00Z'
+  },
+  {
+    group: 'group_id_456',
+    fromUser: 'user_id_3',
+    toUser: 'user_id_4',
+    amount: 250,
+    date: '2024-10-28T12:00:00Z',
+    note: 'Parte del alquiler del mes',
+    createdAt: '2024-10-28T12:00:00Z',
+    updatedAt: '2024-10-28T12:00:00Z'
+  },
+  {
+    group: 'group_id_789',
+    fromUser: 'user_id_5',
+    toUser: 'user_id_6',
+    amount: 75,
+    date: '2024-10-29T08:30:00Z',
+    note: 'Gastos de transporte durante el viaje',
+    createdAt: '2024-10-29T08:30:00Z',
+    updatedAt: '2024-10-29T08:30:00Z'
+  }
+]
+const diasSemana = [
+  'domingo',
+  'lunes',
+  'martes',
+  'miércoles',
+  'jueves',
+  'viernes',
+  'sábado'
+]
 
 const ShareGroup = () => {
   const [navGroup, setNavGroup] = useState('transactions')
   const [groupSett, setGroupSett] = useState(false)
-  const [addTransaction, setAddTransaction] = useState(false)
-  const [navAdd, setNavAdd] = useState('expense')
   const [isResolve, setIsResolve] = useState(false)
   const { groupDetails } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
+  const [allTypes, setAllTypes] = useState()
+  const [filter, setFilter] = useState('')
+  const [filterDate, setFilterDate] = useState(SORT.dateUp)
   const {
     _id: id,
     title,
     balances,
     members,
     currency,
-    debts,
-    incomes,
-    expenses,
-    transfers
+    debts
+    // incomes,
+    // expenses,
+    // transfers
   } = groupDetails
   const { id: idParams } = useParams()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if (filter === 'incomes') {
+      if (filterDate === SORT.dateUp) {
+        setAllTypes(incomes.sort((a, b) => new Date(b.date) - new Date(a.date)))
+      }
+      if (filterDate === SORT.dateDown) {
+        setAllTypes(incomes.sort((a, b) => new Date(a.date) - new Date(b.date)))
+      }
+    }
+    if (filter === 'expenses') {
+      if (filterDate === SORT.dateUp) {
+        setAllTypes(
+          expenses.sort((a, b) => new Date(b.date) - new Date(a.date))
+        )
+      }
+      if (filterDate === SORT.dateDown) {
+        setAllTypes(
+          expenses.sort((a, b) => new Date(a.date) - new Date(b.date))
+        )
+      }
+    }
+    if (filter === 'transfers') {
+      if (filterDate === SORT.dateUp) {
+        setAllTypes(
+          transfers.sort((a, b) => new Date(b.date) - new Date(a.date))
+        )
+      }
+      if (filterDate === SORT.dateDown) {
+        setAllTypes(
+          transfers.sort((a, b) => new Date(a.date) - new Date(b.date))
+        )
+      }
+    }
+    if (filter === '') {
+      if (filterDate === SORT.dateUp) {
+        setAllTypes(
+          incomes
+            .concat(expenses)
+            .concat(transfers)
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+        )
+      }
+      if (filterDate === SORT.dateDown) {
+        setAllTypes(
+          incomes
+            .concat(expenses)
+            .concat(transfers)
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
+        )
+      }
+    }
+  }, [filter, filterDate])
+
+  useEffect(() => {
+    console.log(filter, filterDate)
+  }, [filter, filterDate])
   async function getGroup () {
     try {
       const url = import.meta.env.VITE_URL + `/data/getgroup/${idParams}`
@@ -70,16 +289,16 @@ const ShareGroup = () => {
     setGroupSett(!groupSett)
   }
 
-  function handleAddTransaction () {
-    setAddTransaction(!addTransaction)
-  }
-
-  function handleNavAdd (e) {
-    setNavAdd(e.target.name)
-  }
-
   function handleResolve () {
     setIsResolve(!isResolve)
+  }
+
+  function handleFilter (e) {
+    setFilter(e.target.value)
+  }
+
+  function handleFilterDate (e) {
+    setFilterDate(e.target.value)
   }
 
   return (
@@ -99,291 +318,7 @@ const ShareGroup = () => {
           </div>
         </div>
       </dialog>
-      <div
-        className={
-          !addTransaction
-            ? 'fixed bottom-10 right-5 transition-all duration-500 h-[3rem] w-[3rem] bg-transparent rounded-3xl z-50 overflow-hidden box-border'
-            : 'fixed bottom-10 right-5  transition-all duration-300  h-[75vh] w-[90vw] bg-[#3a3a3a] rounded-3xl z-50 box-border overflow-y-auto overflow-x-hidden'
-        }
-      >
-        <div
-          className={
-            !addTransaction
-              ? 'opacity-0 transition-all duration-300'
-              : 'opacity-100  transition-all duration-500 flex flex-col p-5 gap-5'
-          }
-        >
-          <h1>Añadir</h1>
-          <ul className='flex flex-row divide-x divide-neutral-400 font-medium text-base w-full justify-between items-center text-center'>
-            <li className='w-full'>
-              <button
-                onClick={handleNavAdd}
-                name='expense'
-                className={
-                  navAdd === 'expense'
-                    ? 'p-0 text-emerald-400 w-full px-5 truncate box-border transition-colors duration-300'
-                    : 'p-0 text-neutral-300 w-full px-5 truncate box-border transition-colors duration-300'
-                }
-              >
-                Gasto
-              </button>
-            </li>
-            <li className='w-full'>
-              <button
-                onClick={handleNavAdd}
-                name='income'
-                className={
-                  navAdd === 'income'
-                    ? 'p-0 text-emerald-400 w-full px-5 truncate box-border transition-colors duration-300'
-                    : 'p-0 text-neutral-300 w-full px-5 truncate box-border transition-colors duration-300'
-                }
-              >
-                Ingreso
-              </button>
-            </li>
-            <li className='w-full truncate'>
-              <button
-                onClick={handleNavAdd}
-                name='transfer'
-                className={
-                  navAdd === 'transfer'
-                    ? 'p-0 text-emerald-400 w-full px-5 truncate box-border transition-colors duration-300'
-                    : 'p-0 text-neutral-300 w-full px-5 truncate box-border transition-colors duration-300'
-                }
-              >
-                Transferencia
-              </button>
-            </li>
-          </ul>
-          <form action='submit' className='flex flex-col gap-2 w-full'>
-            <div className='flex flex-row items-end gap-3'>
-              <label
-                htmlFor='title-add'
-                className='flex flex-col justify-center items-start text-lg'
-              >
-                Título
-                <input
-                  id='title-add'
-                  type='text'
-                  placeholder='Por ejemplo, Restaurante'
-                  className='rounded-lg py-1 px-3 bg-neutral-900'
-                />
-              </label>
-              <label
-                htmlFor='category-add'
-                className='h-full flex items-center justify-center w-10 text-lg text-center'
-              >
-                {/* Categoría */}
-                <select
-                  id='category-add'
-                  type='text'
-                  placeholder='Por ejemplo, Restaurante'
-                  className='rounded-lg py-1 px-2 bg-neutral-900 w-full'
-                >
-                  <option value=''>😀</option>
-                  {CATEGORIAS_GASTOS?.map(item => (
-                    <option key={crypto.randomUUID()} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <div className='flex flex-row gap-3 items-end'>
-              <label
-                htmlFor='quantity-add'
-                className='flex flex-col justify-center items-start text-lg'
-              >
-                Cantidad
-                <input
-                  id='quantity-add'
-                  type='number'
-                  pattern='[0-9,]*'
-                  inputMode='decimal'
-                  placeholder='Por ejemplo, 33€'
-                  className='rounded-lg py-1 px-3 bg-neutral-900'
-                />
-              </label>
-              <label
-                htmlFor='currency-add'
-                className='h-full flex flex-col text-lg w-10 items-center'
-              >
-                <select
-                  id='currency-add'
-                  type='text'
-                  placeholder='Por ejemplo, Restaurante'
-                  className='rounded-lg py-1 px-3 bg-neutral-900 text-center'
-                >
-                  {CURRENCIES?.map(item => (
-                    <option key={crypto.randomUUID()} value={item}>
-                      {item.slice(0, 2)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <div className='w-full flex flex-col'>
-              <span className='text-start w-full text-lg'>Modalidad</span>
-              <div className='flex flex-row w-fit rounded-lg bg-neutral-900 text-lg'>
-                <input
-                  name='modality-add'
-                  type='radio'
-                  value='Card'
-                  id='card-add'
-                  className='peer/card hidden'
-                  checked
-                />
-                <label
-                  className='peer-checked/card:bg-blue-500 py-1 px-3 rounded-lg transition-colors duration-300'
-                  htmlFor='card-add'
-                >
-                  Tarjeta
-                </label>
-                <input
-                  name='modality-add'
-                  type='radio'
-                  value='Cash'
-                  id='cash-add'
-                  className='peer/cash hidden'
-                />
-                <label
-                  htmlFor='cash-add'
-                  className='peer-checked/cash:bg-blue-500 py-1 px-3 rounded-lg transition-colors duration-300'
-                >
-                  Efectivo
-                </label>
-              </div>
-            </div>
-            <div className='w-full flex fex-row gap-3 items-center'>
-              <label
-                htmlFor='paid-for-add'
-                className='flex flex-col text-lg items-start w-[50%]'
-              >
-                {navAdd === 'expense' && 'Pagado por'}
-                {navAdd === 'income' && 'Recibido por'}
-                {navAdd === 'transfer' && 'Desde'}
-                <select
-                  id='paid-for-add'
-                  type='text'
-                  placeholder='Por ejemplo, Restaurante'
-                  className='rounded-lg py-1 px-3 bg-neutral-900 text-start w-full'
-                >
-                  <option value=''>Dorian</option>
-                  <option value=''>Lucian</option>
-                  <option value=''>Marcos</option>
-                </select>
-              </label>
-              <label
-                htmlFor='date-add'
-                className='flex flex-col text-lg items-start'
-              >
-                Cuando
-                <input
-                  id='date-add'
-                  type='date'
-                  placeholder='Por ejemplo, Restaurante'
-                  className='rounded-lg  bg-neutral-900 py-1 h-9 px-3'
-                />
-              </label>
-            </div>
-            {navAdd !== 'transfer' && (
-              <div className='flex flex-col gap-3'>
-                <h2 className='text-start text-lg font-medium'>Dividir</h2>
-                <ul className='divide-y divide-neutral-600 bg-neutral-800 rounded-xl px-2 py-1'>
-                  <li className='w-full py-2'>
-                    <label
-                      htmlFor='Dorian'
-                      className='grid grid-cols-[0.5fr_2fr_1fr] text-lg items-center justify-items-center'
-                    >
-                      <input
-                        checked
-                        id='Dorian'
-                        type='checkbox'
-                        className='size-5 text-end'
-                      />
-                      <span className='text-start w-full'>Dorian</span>
-                      <span>0,00€</span>
-                    </label>
-                  </li>
-                  <li className='w-full py-2'>
-                    <label
-                      htmlFor='Lucian'
-                      className='grid grid-cols-[0.5fr_2fr_1fr] text-lg items-center justify-items-center'
-                    >
-                      <input
-                        checked
-                        id='Lucian'
-                        type='checkbox'
-                        className='size-5'
-                      />
-                      <span className='text-start w-full'>Lucian</span>
-                      <span>0,00€</span>
-                    </label>
-                  </li>
-                  <li className='w-full py-2'>
-                    <label
-                      htmlFor='Marcos'
-                      className='grid grid-cols-[0.5fr_2fr_1fr] text-lg items-center justify-items-center'
-                    >
-                      <input
-                        checked
-                        id='Marcos'
-                        type='checkbox'
-                        className='size-5'
-                      />
-                      <span className='text-start w-full'>Marcos</span>
-                      <span>0,00€</span>
-                    </label>
-                  </li>
-                </ul>
-              </div>
-            )}
-            {navAdd === 'transfer' && (
-              <div className='w-full flex flex-col'>
-                <label
-                  htmlFor='transfer-to-add'
-                  className='flex flex-col items-start justify-start text-lg'
-                >
-                  Transferir a
-                  <select
-                    name='transfer-to-add'
-                    id='transfer-to-add'
-                    className='px-3 py-1 bg-neutral-900 text-start w-full'
-                  >
-                    <option value='Lucian'>Lucian</option>
-                    <option value='Marcos'>Marcos</option>
-                  </select>
-                </label>
-              </div>
-            )}
-            <button
-              type='submit'
-              className='w-full py-2 bg-emerald-800 box-border mt-3'
-            >
-              {navAdd === 'expense' && 'Añadir Gasto'}
-              {navAdd === 'income' && 'Añadir Ingreso'}
-              {navAdd === 'transfer' && 'Transferir'}
-            </button>
-          </form>
-        </div>
-
-        <button
-          className={
-            !addTransaction
-              ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
-              : 'fixed bottom-10 right-5  transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
-          }
-          onClick={handleAddTransaction}
-        >
-          <AddIcon
-            className={
-              !addTransaction
-                ? 'size-12 text-[var(--brand-color)] transition-all duration-300 rounded-full'
-                : 'size-9 text-red-500 transition-all duration-300 rounded-full rotate-45'
-            }
-          />
-        </button>
-      </div>
+      <AddShare members={members} currency={currency} />
       <dialog
         open={groupSett}
         className='w-[100vw] h-[100vh] z-50 top-0 left-0 right-0 bottom-0 fixed bg-neutral-900'
@@ -501,84 +436,121 @@ const ShareGroup = () => {
       {navGroup === 'transactions' && (
         <div className='flex flex-col w-full px-5 box-border'>
           <span className='flex flex-row justify-between items-center'>
-            <h2 className='text-lg text-start'>Transacciones</h2>
-            <select
-              className='w-16 bg-neutral-700 rounded-lg border border-neutral-500 truncate text-center p-0'
-              name='sort-group'
-              id='sort-group'
-            >
-              <option value='' className=''>
-                Filtrar
-              </option>
-              <option value='expenses' className=''>
-                📉Gastos
-              </option>
-              <option value='incomes' className=''>
-                📈Ingresos
-              </option>
-              <option value='transfers' className=''>
-                🧾 Transferencias
-              </option>
-            </select>
+            <div className='grid grid-cols-[1.5fr_1fr_1fr] w-full gap-2'>
+              <input
+                type='search'
+                name=''
+                id=''
+                placeholder='Buscar'
+                className='w-full rounded-lg border-neutral-600 border bg-neutral-800 py-1 p-0 m-0 px-2'
+              />
+              <select
+                className=' bg-neutral-800 rounded-lg border border-neutral-600 truncate p-0 py-1 px-1 w-full'
+                name='sort-group'
+                id='sort-group'
+                onChange={handleFilter}
+                value={filter}
+              >
+                <option value='' className=''>
+                  Tipo
+                </option>
+                <option value='expenses' className=''>
+                  📉Gastos
+                </option>
+                <option value='incomes' className=''>
+                  📈Ingresos
+                </option>
+                <option value='transfers' className=''>
+                  🧾 Transferencias
+                </option>
+              </select>
+              <select
+                className=' bg-neutral-800 rounded-lg border border-neutral-600 truncate p-0 py-1 w-full'
+                name='sort-group'
+                id='sort-group'
+                onChange={handleFilterDate}
+                value={filterDate}
+              >
+                <option value={SORT.dateUp}>
+                  ↑ Fecha, la más reciente primero
+                </option>
+                <option value={SORT.dateDown}>
+                  ↓ Fecha, la más antigua primero
+                </option>
+              </select>
+            </div>
           </span>
-          <ul className='flex flex-col items-center divide-y divide-neutral-700 max-h-[30vh] overflow-auto'>
-            <li className='w-full py-3 grid grid-cols-[0.5fr_2fr_2fr] items-center'>
-              <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
-                📚
-              </span>
-              <div className='w-[90%] flex flex-col text-start items-start justify-between truncate ps-2'>
-                <span className='w-full truncate'>Título</span>
-                <span className='text-neutral-400  truncate'>
-                  Pagado por <span className='font-medium'>Lucian</span>
-                </span>
-              </div>
-              <div className='w-full flex flex-col text-end justify-between truncate'>
-                <span className='font-medium'>30€</span>
-                <span className='text-end text-neutral-400 truncate'>
-                  Mier, 2 ene 2025
-                </span>
-              </div>
-            </li>
-            <li className='w-full py-3 grid grid-cols-[0.5fr_2fr_2fr] items-center'>
-              <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
-                📚
-              </span>
-              <div className='w-[90%] flex flex-col text-start items-start justify-between truncate ps-2'>
-                <span className='w-full truncate'>Título</span>
-                <span className='text-neutral-400  truncate'>
-                  Pagado por <span className='font-medium'>Lucian</span>
-                </span>
-              </div>
-              <div className='w-full flex flex-col text-end justify-between truncate'>
-                <span className='font-medium'>30€</span>
-                <span className='text-end text-neutral-400 truncate'>
-                  Mier, 2 ene 2025
-                </span>
-              </div>
-            </li>
-            <li className='w-full py-3 grid grid-cols-[0.5fr_2fr_2fr] items-center'>
-              <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
-                📚
-              </span>
-              <div className='w-[90%] flex flex-col text-start items-start justify-between truncate ps-2'>
-                <span className='w-full truncate'>Título</span>
-                <span className='text-neutral-400  truncate'>
-                  Pagado por <span className='font-medium'>Lucian</span>
-                </span>
-              </div>
-              <div className='w-full flex flex-col text-end justify-between truncate'>
-                <span className='font-medium'>30€</span>
-                <span className='text-end text-neutral-400 truncate'>
-                  Mier, 2 ene 2025
-                </span>
-              </div>
-            </li>
+          <ul className='flex flex-col items-center divide-y divide-neutral-700'>
+            {allTypes?.map(transaction => {
+              const {
+                category = '',
+                fromUser = null,
+                toUser = null,
+                type = '',
+                amount,
+                date,
+                note = '',
+                divide = [],
+                members = [],
+                title = ''
+              } = transaction
+              const fecha =
+                diasSemana[new Date(date).getDay()].slice(0, 3) +
+                ' ' +
+                new Date(date).toLocaleDateString('es-Es', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: '2-digit'
+                })
+              console.log(category)
+              return (
+                <li
+                  key={crypto.randomUUID()}
+                  className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center'
+                >
+                  <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
+                    {!category ? '↘️' : category.slice(0, 2)}
+                  </span>
+                  <div className='w-[90%] flex flex-col text-start items-start justify-between truncate ps-2'>
+                    <span className='w-full truncate'>
+                      {title || 'Transferencia'}
+                    </span>
+                    <span className='text-neutral-400 truncate w-full'>
+                      {type === 'income' ? (
+                        `Recibido por ${fromUser}`
+                      ) : type === 'expense' ? (
+                        <>
+                          Pagado por{' '}
+                          <span className='font-medium'>{fromUser}</span>
+                        </>
+                      ) : (
+                        !type && (
+                          <>
+                            De <span className='font-medium'>{fromUser}</span> a{' '}
+                            <span className='font-medium'>{toUser}</span>
+                          </>
+                        )
+                      )}
+                    </span>
+                  </div>
+                  <div className='w-full flex flex-col text-end justify-between truncate'>
+                    <span className='font-medium'>
+                      {amount}
+                      {currency?.slice(0, 2)}
+                    </span>
+                    <span className='text-end text-neutral-400 truncate'>
+                      {fecha}
+                    </span>
+                  </div>
+                </li>
+              )
+            })}
           </ul>
         </div>
       )}
       {navGroup === 'balances' && (
         <div className='flex flex-col w-full px-5 box-border'>
-          <h2 className='text-lg text-start'>Saldos</h2>
+          <h2 className='text-lg text-start'>Balances</h2>
           <ul className='flex flex-col divide-y divide-neutral-700'>
             {balances?.map(balance => {
               const { user, card, cash } = balance
@@ -587,7 +559,7 @@ const ShareGroup = () => {
               return (
                 <li
                   key={crypto.randomUUID()}
-                  className='w-full py-3 grid grid-cols-[0.5fr_2fr_2fr] items-center pe-10 box-border'
+                  className='w-full py-2 grid grid-cols-[0.5fr_2fr_2fr] items-center pe-10 box-border'
                 >
                   <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
                     {name.slice(0, 1)}

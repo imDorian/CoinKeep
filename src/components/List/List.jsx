@@ -30,7 +30,7 @@ export const Method = {
   card: 'card',
   cash: 'cash'
 }
-const SORT = {
+export const SORT = {
   dateUp: 'dateUp',
   dateDown: 'dateDown',
   quantUp: 'quantUp',
@@ -177,7 +177,7 @@ const List = () => {
           </button>
         ))}
       </div>
-      <span className='grid grid-cols-[1.5fr_1fr_1fr] gap-4 justify-items-center items-stretch w-full'>
+      <span className='grid grid-cols-[1.5fr_1fr_1fr] gap-2 justify-items-center items-stretch w-full'>
         <input
           onChange={handleSearch}
           value={search.search}
