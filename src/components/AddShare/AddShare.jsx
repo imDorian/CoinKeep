@@ -95,6 +95,11 @@ const AddShare = () => {
     setDivideMethod(e.target.value)
   }
 
+  function submitData (e) {
+    e.preventDefault()
+    setAddTransaction(!addTransaction)
+  }
+
   return (
     <div
       className={
@@ -152,7 +157,7 @@ const AddShare = () => {
             </button>
           </li>
         </ul>
-        <form action='submit' className='flex flex-col gap-1 w-full'>
+        <form onSubmit={submitData} className='flex flex-col gap-1 w-full'>
           <div className='grid grid-cols-[3fr_62px_0.5fr] gap-2 items-end'>
             <label
               htmlFor='title-add'
@@ -399,7 +404,7 @@ const AddShare = () => {
         className={
           !addTransaction
             ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 '
-            : 'fixed bottom-[630px] right-8 z-50 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
+            : 'fixed bottom-8 right-3 z-50 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
         }
         onClick={handleAddTransaction}
       >
