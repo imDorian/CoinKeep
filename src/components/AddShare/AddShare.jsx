@@ -139,7 +139,7 @@ const AddShare = () => {
     setFormData(prev => ({
       ...prev,
       divide: prev.divide.map(d =>
-        d.user === id ? { ...d, amount: d.amount.toFixed(2) } : d
+        d.user === id ? { ...d, amount: Number(d.amount)?.toFixed(2) } : d
       )
     }))
   }
