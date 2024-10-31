@@ -503,13 +503,16 @@ const ShareGroup = () => {
                   <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
                     {!category ? '↘️' : category.slice(0, 2)}
                   </span>
-                  <div className='w-[90%] flex flex-col text-start items-start justify-between truncate ps-2'>
+                  <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
                     <span className='w-full truncate'>
                       {title || 'Transferencia'}
                     </span>
-                    <span className='text-neutral-400 truncate w-full'>
+                    <span className='text-neutral-400 truncate w-full text-sm'>
                       {type === 'income' ? (
-                        `Recibido por ${fromUser}`
+                        <>
+                          Recibido por{' '}
+                          <span className='font-medium'>{fromUser}</span>
+                        </>
                       ) : type === 'expense' ? (
                         <>
                           Pagado por{' '}
