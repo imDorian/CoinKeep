@@ -295,6 +295,7 @@ const ShareGroup = () => {
 
   return (
     <Container className='flex-col py-10 gap-4'>
+      <AddShare members={members} currency={currency} />
       <dialog
         open={isResolve}
         className='bg-neutral-800 rounded-xl border-neutral-600 border shadow-md shadow-neutral-900'
@@ -310,12 +311,11 @@ const ShareGroup = () => {
           </div>
         </div>
       </dialog>
-      <AddShare members={members} currency={currency} />
       <dialog
         open={groupSett}
         className='w-[100vw] h-[100vh] z-50 top-0 left-0 right-0 bottom-0 fixed bg-neutral-900'
       >
-        <button onClick={handleGroupSett} className='absolute top-3 right-3'>
+        <button onClick={handleGroupSett} className='absolute top-5 right-3'>
           <QuitIcon className='size-6' />
         </button>
         <div className='p-5 py-10 w-full box-border mt-5'>
@@ -352,13 +352,13 @@ const ShareGroup = () => {
       <button onClick={handleGroupSett} className='absolute top-4 right-3'>
         <DotsIcon className='size-6' />
       </button>
-      <span className='flex flex-col'>
+      <span className='flex flex-col h-full w-full'>
         <h1 className=''>{title}</h1>
         <span>{currency}</span>
       </span>
       <div className='flex flex-col w-full px-5 box-border'>
         <h2 className='text-lg text-start'>Deudas activas</h2>
-        <ul className='flex flex-col items-center divide-y divide-neutral-700 max-h-[30vh] overflow-auto'>
+        <ul className='flex flex-col items-center divide-y divide-neutral-700 max-h-[30vh] min-h-[5vh] overflow-auto'>
           {debts?.length === 0 ? (
             <span className='mt-3 text-neutral-300'>
               Todas las deudas están saldadas

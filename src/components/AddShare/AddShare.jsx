@@ -27,27 +27,37 @@ const AddShare = () => {
   })
   const [divideMethod, setDivideMethod] = useState('equal')
 
+  const filteredMembers = members?.filter(
+    member => member._id !== formData.fromUser
+  )
+
   function newDivide () {
     const divide = members?.map(member => {
       const { name, _id: id } = member
-      const newDiv = { user: id, amount: 0, name }
+      const newDiv = { user: id, amount: (0).toFixed(2), name, checked: true }
       return newDiv
     })
-    setFormData({
-      ...formData,
+    setFormData(prevData => ({
+      ...prevData,
       divide
-    })
+    }))
   }
 
   useEffect(() => {
-    if (members?.length > 0) {
+    if (members?.length > 0 && formData.divide.length === 0) {
       newDivide()
     }
   }, [members])
 
   useEffect(() => {
-    console.log(formData)
-  }, [formData])
+    if (members) {
+      setFormData(prev => ({
+        ...prev,
+        fromUser: members[0]._id,
+        toUser: members[1]._id
+      }))
+    }
+  }, [members])
 
   const categorySelected =
     navAdd === 'income' ? CATEGORIAS_INGRESOS : CATEGORIAS_GASTOS
@@ -61,30 +71,51 @@ const AddShare = () => {
   }
 
   function handleFormData (e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+    setFormData(prevData => {
+      return {
+        ...prevData,
+        [e.target.name]: e.target.value || ''
+      }
     })
   }
 
-  function handleDivide (e, name, id, amount) {
-    if (e.target.checked) {
-      const newDivide = {
-        name,
-        user: id,
-        amount
+  async function handleDivide (id, e) {
+    setFormData(prevData => {
+      return {
+        ...prevData,
+        divide: prevData.divide.map(div =>
+          div.user === id
+            ? {
+                ...div,
+                checked: e.target.checked,
+                amount: e.target.checked ? div.amount : (0).toFixed(2)
+              }
+            : div
+        )
       }
-      setFormData({
-        ...formData,
-        divide: [...formData.divide, newDivide]
-      })
-    } else {
-      setFormData({
-        ...formData,
-        divide: formData.divide.filter(div => div.user !== id)
+    })
+    handleAmounts()
+  }
+
+  function handleAmounts () {
+    if (divideMethod === 'equal') {
+      setFormData(prevData => {
+        const activeMembers = prevData.divide.filter(d => d.checked).length
+        const total = Number(prevData.amount) / Number(activeMembers)
+        return {
+          ...prevData,
+          divide: prevData.divide.map(d =>
+            d.checked
+              ? { ...d, amount: total?.toFixed(2) }
+              : { ...d, amount: 0 }
+          )
+        }
       })
     }
   }
+  useEffect(() => {
+    handleAmounts()
+  }, [formData.amount, divideMethod])
 
   function handleDivideMethod (e) {
     setDivideMethod(e.target.value)
@@ -93,6 +124,31 @@ const AddShare = () => {
   function submitData (e) {
     e.preventDefault()
     setAddTransaction(!addTransaction)
+  }
+
+  function handleDivideAmount (e, id) {
+    setFormData(prev => ({
+      ...prev,
+      divide: prev.divide.map(d =>
+        d.user === id ? { ...d, amount: Number(e.target.value) || '' } : d
+      )
+    }))
+  }
+
+  function handleBlurDivideAmount (id) {
+    setFormData(prev => ({
+      ...prev,
+      divide: prev.divide.map(d =>
+        d.user === id ? { ...d, amount: d.amount.toFixed(2) } : d
+      )
+    }))
+  }
+
+  function handleBlurAmount () {
+    setFormData(prev => ({
+      ...prev,
+      amount: Number(prev.amount).toFixed(2)
+    }))
   }
 
   return (
@@ -166,6 +222,7 @@ const AddShare = () => {
                 className='rounded-lg px-3 py-1 h-9 bg-neutral-900 w-full'
                 name='title'
                 onChange={handleFormData}
+                value={formData.title}
               />
             </label>
             <label
@@ -176,10 +233,10 @@ const AddShare = () => {
               <select
                 id='category-add'
                 type='text'
-                placeholder='Por ejemplo, Restaurante'
                 className='rounded-lg py-1 px-2 h-9 bg-neutral-900 w-full'
                 name='category'
                 onChange={handleFormData}
+                value={formData.category}
               >
                 {categorySelected?.map(item => (
                   <option key={crypto.randomUUID()} value={item}>
@@ -204,6 +261,8 @@ const AddShare = () => {
                 className='rounded-lg py-1 px-3 bg-neutral-900 w-full'
                 name='amount'
                 onChange={handleFormData}
+                value={formData.amount}
+                onBlur={handleBlurAmount}
               />
             </label>
             <label
@@ -213,9 +272,9 @@ const AddShare = () => {
               <select
                 id='currency-add'
                 type='text'
-                placeholder='Por ejemplo, Restaurante'
-                className='rounded-lg py-1 px-3 bg-neutral-900 text-center w-full h-9'
+                className='rounded-lg px-0 py-1 bg-neutral-900 text-center w-full h-9'
                 onChange={handleFormData}
+                value={formData.currency}
                 name='currency'
               >
                 {CURRENCIES?.map(item => (
@@ -277,15 +336,13 @@ const AddShare = () => {
                 name='fromUser'
                 value={formData.fromUser}
               >
-                {members?.map(member => (
-                  <option
-                    className=''
-                    key={crypto.randomUUID()}
-                    value={member.name}
-                  >
-                    {member.name}
-                  </option>
-                ))}
+                {members?.map(member => {
+                  return (
+                    <option key={member._id} value={member._id}>
+                      {member.name}
+                    </option>
+                  )
+                })}
               </select>
             </label>
             <label
@@ -320,26 +377,23 @@ const AddShare = () => {
                 </select>
               </div>
               <ul className='divide-y divide-neutral-600 bg-neutral-800 rounded-xl px-2 py-1'>
-                {groupDetails.members?.map(member => {
-                  const { _id: id, name } = member
-                  const { amount: total } = formData
-                  const amount = formData.divide?.some(d => d.user === id)
-                    ? total / formData.divide.length
-                    : 0
+                {formData.divide?.map((div, i) => {
+                  const { user, name, checked } = div
+
                   return (
-                    <li key={crypto.randomUUID()} className='w-full py-2'>
+                    <li key={user} className='w-full py-2'>
                       <label
-                        htmlFor={id}
+                        htmlFor={user}
                         className='grid grid-cols-[0.5fr_2fr_1fr] text-lg items-center justify-items-center'
                       >
                         <input
-                          id={id}
+                          id={user}
                           type='checkbox'
                           className='size-5 text-end'
-                          value={id}
-                          checked={formData.divide?.some(d => d.user === id)}
-                          onChange={e => handleDivide(e, name, id, amount)}
-                          disabled={id === cookies.user._id}
+                          value={user}
+                          checked={checked}
+                          onChange={e => handleDivide(user, e)}
+                          disabled={user === cookies.user._id}
                           //   value={}
                         />
                         <span className='text-start w-full'>{name}</span>
@@ -350,12 +404,12 @@ const AddShare = () => {
                             className='w-full text-center rounded-lg h-max'
                             pattern='[0-9,]*'
                             inputMode='decimal'
-                            disabled={divideMethod === 'equal'}
-                            placeholder={
-                              amount.toFixed(2) + currency.slice(0, 2)
-                            }
+                            disabled={divideMethod === 'equal' || !checked}
+                            // placeholder={}
                             name='amount'
-                            onChange={handleFormData}
+                            value={formData.divide[i].amount}
+                            onChange={e => handleDivideAmount(e, user, i)}
+                            onBlur={() => handleBlurDivideAmount(user)}
                           />
                           {divideMethod === 'custom' && currency.slice(0, 2)}
                         </span>
@@ -378,8 +432,9 @@ const AddShare = () => {
                   id='transfer-to-add'
                   className='px-3 py-1 bg-neutral-900 text-start w-full h-9'
                 >
-                  <option value='Lucian'>Lucian</option>
-                  <option value='Marcos'>Marcos</option>
+                  {filteredMembers?.map(m => (
+                    <option key={m._id}>{m.name}</option>
+                  ))}
                 </select>
               </label>
             </div>

@@ -20,6 +20,7 @@ export const useStore = create(set => ({
   dateSelected: new Date(),
   isModalDelete: false,
   isCreateValut: false,
+  // isLoading: false,
 
   fetchLogin: async formData => {
     const url = import.meta.env.VITE_URL + '/users/login'
