@@ -411,7 +411,7 @@ const AddShare = () => {
                             onChange={e => handleDivideAmount(e, user, i)}
                             onBlur={() => handleBlurDivideAmount(user)}
                           />
-                          {divideMethod === 'custom' && currency.slice(0, 2)}
+                          {currency.slice(0, 2)}
                         </span>
                       </label>
                     </li>
@@ -453,7 +453,7 @@ const AddShare = () => {
       <button
         className={
           !addTransaction
-            ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 '
+            ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 z-50 '
             : 'fixed bottom-8 right-3 z-50 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
         }
         onClick={handleAddTransaction}
