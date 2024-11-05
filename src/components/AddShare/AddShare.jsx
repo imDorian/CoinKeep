@@ -4,20 +4,23 @@ import { CATEGORIAS_GASTOS } from '../../categories/EXPENSES_CATEGORIES'
 import { CURRENCIES } from '../../categories/CURRENCIES'
 import { CATEGORIAS_INGRESOS } from '../../categories/INCOME_CATEGORIES'
 import { useStore } from '../../stores/useStore'
+import { useParams } from 'react-router-dom'
 
 const AddShare = () => {
-  const { groupDetails } = useStore()
-  const { members, currency } = groupDetails
+  const { groupDetails, share } = useStore()
+  const { members, currency, _id: groupId } = groupDetails
+  const { id } = useParams()
   const [navAdd, setNavAdd] = useState('expense')
   const [addTransaction, setAddTransaction] = useState(false)
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
     amount: '',
     category: CATEGORIAS_GASTOS[0],
     currency: CURRENCIES[0],
-    type: '',
-    group: '',
+    type: navAdd,
+    group: id,
     fromUser: '',
     toUser: '',
     date: new Date().toISOString().slice(0, 10),
@@ -53,11 +56,19 @@ const AddShare = () => {
     if (members) {
       setFormData(prev => ({
         ...prev,
-        fromUser: members[0]._id,
-        toUser: members[1]._id
+        fromUser: members[0]._id
       }))
     }
   }, [members])
+
+  useEffect(() => {
+    if (formData.fromUser === formData.toUser) {
+      setFormData(prev => ({
+        ...prev,
+        toUser: ''
+      }))
+    }
+  }, [formData.fromUser])
 
   const categorySelected =
     navAdd === 'income' ? CATEGORIAS_INGRESOS : CATEGORIAS_GASTOS
@@ -68,6 +79,10 @@ const AddShare = () => {
 
   function handleNavAdd (e) {
     setNavAdd(e.target.name)
+    setFormData(prev => ({
+      ...prev,
+      type: e.target.name
+    }))
   }
 
   function handleFormData (e) {
@@ -121,9 +136,54 @@ const AddShare = () => {
     setDivideMethod(e.target.value)
   }
 
-  function submitData (e) {
+  function typeFormatt (e) {
+    if (e === 'income') return 'incomes'
+    if (e === 'expense') return 'expenses'
+    if (e === 'transfer') return 'transfers'
+  }
+
+  const type = typeFormatt(formData.type)
+
+  async function submitData (e) {
     e.preventDefault()
-    setAddTransaction(!addTransaction)
+    setLoading(true)
+    if (formData.amount > 0) {
+      try {
+        const url =
+          import.meta.env.VITE_URL +
+          `/data/postgrouptransaction/${groupDetails._id}`
+        const res = await window.fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+            // Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(formData)
+        })
+        console.log(res)
+        if (res.status === 200) {
+          console.log('Transaction added successfully')
+          const json = await res.json()
+          console.log(json)
+          console.log(type)
+          useStore.setState({
+            groupDetails: {
+              ...groupDetails,
+              [type]: [...groupDetails[type], json.transaction],
+              debts: json.debts
+            }
+          })
+          setLoading(false)
+          setAddTransaction(!addTransaction)
+        } else {
+          console.log('Error adding transaction')
+          setLoading(false)
+        }
+      } catch (error) {
+        console.error(error)
+        setLoading(false)
+      }
+    }
   }
 
   function handleDivideAmount (e, id) {
@@ -166,7 +226,7 @@ const AddShare = () => {
             : 'opacity-100  transition-all duration-500 flex flex-col p-5 gap-5'
         }
       >
-        <h1>Añadir</h1>
+        <h1 className='text-xl p-0 m-0 font-medium'>Añadir</h1>
         <ul className='flex flex-row divide-x divide-neutral-400 font-medium text-base w-full justify-between items-center text-center'>
           <li className='w-full'>
             <button
@@ -223,6 +283,7 @@ const AddShare = () => {
                 name='title'
                 onChange={handleFormData}
                 value={formData.title}
+                required
               />
             </label>
             <label
@@ -253,6 +314,7 @@ const AddShare = () => {
             >
               Cantidad
               <input
+                required
                 id='quantity-add'
                 type='number'
                 pattern='[0-9,]*'
@@ -286,7 +348,12 @@ const AddShare = () => {
             </label>
           </div>
           <div className='w-full flex flex-col'>
-            <span className='text-start w-full text-lg'>Modalidad</span>
+            <span
+              title='Modalidad preferida de vuelta'
+              className='text-start w-full text-lg'
+            >
+              Modalidad
+            </span>
             <div className='flex flex-row w-fit rounded-lg bg-neutral-900 text-lg h-9'>
               <input
                 name='method'
@@ -339,7 +406,7 @@ const AddShare = () => {
                 {members?.map(member => {
                   return (
                     <option key={member._id} value={member._id}>
-                      {member.name}
+                      {member.username}
                     </option>
                   )
                 })}
@@ -428,12 +495,20 @@ const AddShare = () => {
               >
                 Transferir a
                 <select
-                  name='transfer-to-add'
+                  name='toUser'
                   id='transfer-to-add'
                   className='px-3 py-1 bg-neutral-900 text-start w-full h-9'
+                  value={formData.toUser}
+                  onChange={handleFormData}
+                  required
                 >
+                  <option name='' id='' value=''>
+                    Participantes
+                  </option>
                   {filteredMembers?.map(m => (
-                    <option key={m._id}>{m.name}</option>
+                    <option key={m._id} value={m._id}>
+                      {m.username}
+                    </option>
                   ))}
                 </select>
               </label>

@@ -117,6 +117,13 @@ const CreateGroup = () => {
       if (res.status === 200) {
         const json = await res.json()
         console.log(json)
+        useStore.setState({
+          share: {
+            ...share,
+            groups: [...share.groups, json]
+          }
+        })
+        navigate('/compartir')
       }
     } catch (error) {
       console.error(error)

@@ -7,157 +7,168 @@ import DotsIcon from '../../icons/DotsIcon'
 import { useStore } from '../../stores/useStore'
 import { SORT } from '../List/List'
 import AddShare from '../AddShare/AddShare'
+import ResolveDialog from '../ResolveDialog/ResolveDialog'
 
-const expenses = [
-  {
-    title: 'Cena en grupo',
-    amount: 100,
-    method: 'card',
-    category: '💰 Food',
-    type: 'expense',
-    group: 'group_id_123',
-    fromUser: 'user_id_1',
-    members: ['user_id_2', 'user_id_3'],
-    divide: [
-      { user: 'user_id_1', amount: 40, settled: true },
-      { user: 'user_id_2', amount: 30, settled: false },
-      { user: 'user_id_3', amount: 30, settled: false }
-    ],
-    date: '2024-10-29T14:00:00Z',
-    createdAt: '2024-10-29T14:00:00Z',
-    updatedAt: '2024-10-29T14:00:00Z'
-  },
-  {
-    title: 'Pago de alquiler',
-    amount: 1200,
-    method: 'cash',
-    category: '💰 Housing',
-    type: 'expense',
-    group: 'group_id_789',
-    fromUser: 'user_id_2',
-    members: ['user_id_3', 'user_id_4'],
-    divide: [
-      { user: 'user_id_2', amount: 400, settled: true },
-      { user: 'user_id_3', amount: 400, settled: false },
-      { user: 'user_id_4', amount: 400, settled: false }
-    ],
-    date: '2024-10-25T10:30:00Z',
-    createdAt: '2024-10-25T10:30:00Z',
-    updatedAt: '2024-10-25T10:30:00Z'
-  },
-  {
-    title: 'Cena en restaurante',
-    amount: 300,
-    method: 'card',
-    category: '💰 Entertainment',
-    type: 'expense',
-    group: 'group_id_456',
-    fromUser: 'user_id_5',
-    members: ['user_id_6', 'user_id_7'],
-    divide: [
-      { user: 'user_id_5', amount: 100, settled: true },
-      { user: 'user_id_6', amount: 100, settled: false },
-      { user: 'user_id_7', amount: 100, settled: false }
-    ],
-    date: '2024-10-27T20:00:00Z',
-    createdAt: '2024-10-27T20:00:00Z',
-    updatedAt: '2024-10-27T20:00:00Z'
-  }
-]
-const incomes = [
-  {
-    title: 'Ingreso por proyecto compartido',
-    amount: 1000,
-    method: 'bank_transfer',
-    category: '💰 Freelance',
-    type: 'income',
-    group: 'group_id_321',
-    fromUser: 'user_id_1',
-    members: ['user_id_2', 'user_id_3'],
-    divide: [
-      { user: 'user_id_1', amount: 400, settled: true },
-      { user: 'user_id_2', amount: 300, settled: false },
-      { user: 'user_id_3', amount: 300, settled: false }
-    ],
-    date: '2024-10-22T15:00:00Z',
-    createdAt: '2024-10-22T15:00:00Z',
-    updatedAt: '2024-10-22T15:00:00Z'
-  },
-  {
-    title: 'Pago de alquiler de inquilino',
-    amount: 800,
-    method: 'bank_transfer',
-    category: '💰 Rental Income',
-    type: 'income',
-    group: 'group_id_321',
-    fromUser: 'user_id_14',
-    members: ['user_id_15'],
-    divide: [{ user: 'user_id_14', amount: 800, settled: true }],
-    date: '2024-10-05T12:00:00Z',
-    createdAt: '2024-10-05T12:00:00Z',
-    updatedAt: '2024-10-05T12:00:00Z'
-  },
-  {
-    title: 'Regalo de cumpleaños de familiares',
-    amount: 200,
-    method: 'cash',
-    category: '💰 Gift',
-    type: 'income',
-    group: 'group_id_456',
-    fromUser: 'user_id_4',
-    members: ['user_id_5', 'user_id_6'],
-    divide: [
-      { user: 'user_id_4', amount: 100, settled: true },
-      { user: 'user_id_5', amount: 50, settled: false },
-      { user: 'user_id_6', amount: 50, settled: false }
-    ],
-    date: '2024-10-20T19:00:00Z',
-    createdAt: '2024-10-20T19:00:00Z',
-    updatedAt: '2024-10-20T19:00:00Z'
-  }
-]
-const transfers = [
-  {
-    group: 'group_id_123',
-    fromUser: 'user_id_1',
-    toUser: 'user_id_2',
-    amount: 50,
-    date: '2024-10-29T14:00:00Z',
-    note: 'Devolución de gastos compartidos',
-    createdAt: '2024-10-29T14:00:00Z',
-    updatedAt: '2024-10-29T14:00:00Z'
-  },
-  {
-    group: 'group_id_123',
-    fromUser: 'user_id_1',
-    toUser: 'user_id_2',
-    amount: 100,
-    date: '2024-10-29T14:00:00Z',
-    note: 'Reembolso de compra de comestibles',
-    createdAt: '2024-10-29T14:00:00Z',
-    updatedAt: '2024-10-29T14:00:00Z'
-  },
-  {
-    group: 'group_id_456',
-    fromUser: 'user_id_3',
-    toUser: 'user_id_4',
-    amount: 250,
-    date: '2024-10-28T12:00:00Z',
-    note: 'Parte del alquiler del mes',
-    createdAt: '2024-10-28T12:00:00Z',
-    updatedAt: '2024-10-28T12:00:00Z'
-  },
-  {
-    group: 'group_id_789',
-    fromUser: 'user_id_5',
-    toUser: 'user_id_6',
-    amount: 75,
-    date: '2024-10-29T08:30:00Z',
-    note: 'Gastos de transporte durante el viaje',
-    createdAt: '2024-10-29T08:30:00Z',
-    updatedAt: '2024-10-29T08:30:00Z'
-  }
-]
+// const expenses = [
+//   {
+//     title: 'Cena en grupo',
+//     amount: 100,
+//     method: 'card',
+//     category: '💰 Food',
+//     type: 'expense',
+//     group: 'group_id_123',
+//     fromUser: 'user_id_1',
+//     members: ['user_id_2', 'user_id_3'],
+//     divide: [
+//       { user: 'user_id_1', amount: 40, settled: true },
+//       { user: 'user_id_2', amount: 30, settled: false },
+//       { user: 'user_id_3', amount: 30, settled: false }
+//     ],
+//     date: '2024-10-29T14:00:00Z',
+//     createdAt: '2024-10-29T14:00:00Z',
+//     updatedAt: '2024-10-29T14:00:00Z',
+//     _id: 'uiahsbiucdhcuihdbscixassaxrcdzx'
+//   },
+//   {
+//     title: 'Pago de alquiler',
+//     amount: 1200,
+//     method: 'cash',
+//     category: '💰 Housing',
+//     type: 'expense',
+//     group: 'group_id_789',
+//     fromUser: 'user_id_2',
+//     members: ['user_id_3', 'user_id_4'],
+//     divide: [
+//       { user: 'user_id_2', amount: 400, settled: true },
+//       { user: 'user_id_3', amount: 400, settled: false },
+//       { user: 'user_id_4', amount: 400, settled: false }
+//     ],
+//     date: '2024-10-25T10:30:00Z',
+//     createdAt: '2024-10-25T10:30:00Z',
+//     updatedAt: '2024-10-25T10:30:00Z',
+//     _id: 'uiahsbiucdeify74fb9y384xnmkx'
+//   },
+//   {
+//     title: 'Cena en restaurante',
+//     amount: 300,
+//     method: 'card',
+//     category: '💰 Entertainment',
+//     type: 'expense',
+//     group: 'group_id_456',
+//     fromUser: 'user_id_5',
+//     members: ['user_id_6', 'user_id_7'],
+//     divide: [
+//       { user: 'user_id_5', amount: 100, settled: true },
+//       { user: 'user_id_6', amount: 100, settled: false },
+//       { user: 'user_id_7', amount: 100, settled: false }
+//     ],
+//     date: '2024-10-27T20:00:00Z',
+//     createdAt: '2024-10-27T20:00:00Z',
+//     updatedAt: '2024-10-27T20:00:00Z',
+//     _id: 'uiah7293784827423823nx9aswedckx'
+//   }
+// ]
+// const incomes = [
+//   {
+//     title: 'Ingreso por proyecto compartido',
+//     amount: 1000,
+//     method: 'bank_transfer',
+//     category: '💰 Freelance',
+//     type: 'income',
+//     group: 'group_id_321',
+//     fromUser: 'user_id_1',
+//     members: ['user_id_2', 'user_id_3'],
+//     divide: [
+//       { user: 'user_id_1', amount: 400, settled: true },
+//       { user: 'user_id_2', amount: 300, settled: false },
+//       { user: 'user_id_3', amount: 300, settled: false }
+//     ],
+//     date: '2024-10-22T15:00:00Z',
+//     createdAt: '2024-10-22T15:00:00Z',
+//     updatedAt: '2024-10-22T15:00:00Z',
+//     _id: 'ui35465743675gdhjchyicbhdiejudkx'
+//   },
+//   {
+//     title: 'Pago de alquiler de inquilino',
+//     amount: 800,
+//     method: 'bank_transfer',
+//     category: '💰 Rental Income',
+//     type: 'income',
+//     group: 'group_id_321',
+//     fromUser: 'user_id_14',
+//     members: ['user_id_15'],
+//     divide: [{ user: 'user_id_14', amount: 800, settled: true }],
+//     date: '2024-10-05T12:00:00Z',
+//     createdAt: '2024-10-05T12:00:00Z',
+//     updatedAt: '2024-10-05T12:00:00Z',
+//     _id: 'ui35486854958489585kskdjcbshhdejudkx'
+//   },
+//   {
+//     title: 'Regalo de cumpleaños de familiares',
+//     amount: 200,
+//     method: 'cash',
+//     category: '💰 Gift',
+//     type: 'income',
+//     group: 'group_id_456',
+//     fromUser: 'user_id_4',
+//     members: ['user_id_5', 'user_id_6'],
+//     divide: [
+//       { user: 'user_id_4', amount: 100, settled: true },
+//       { user: 'user_id_5', amount: 50, settled: false },
+//       { user: 'user_id_6', amount: 50, settled: false }
+//     ],
+//     date: '2024-10-20T19:00:00Z',
+//     createdAt: '2024-10-20T19:00:00Z',
+//     updatedAt: '2024-10-20T19:00:00Z',
+//     _id: 'ui354869987788877765554c334gcgx'
+//   }
+// ]
+// const transfers = [
+//   {
+//     group: 'group_id_123',
+//     fromUser: 'user_id_1',
+//     toUser: 'user_id_2',
+//     amount: 50,
+//     date: '2024-10-29T14:00:00Z',
+//     note: 'Devolución de gastos compartidos',
+//     createdAt: '2024-10-29T14:00:00Z',
+//     updatedAt: '2024-10-29T14:00:00Z',
+//     _id: 'uiudchbischdihcishcishcuihb74y7peijwpix'
+//   },
+//   {
+//     group: 'group_id_123',
+//     fromUser: 'user_id_1',
+//     toUser: 'user_id_2',
+//     amount: 100,
+//     date: '2024-10-29T14:00:00Z',
+//     note: 'Reembolso de compra de comestibles',
+//     createdAt: '2024-10-29T14:00:00Z',
+//     updatedAt: '2024-10-29T14:00:00Z',
+//     _id: 'ui663542434368594yxnhfyrndhhsljhs'
+//   },
+//   {
+//     group: 'group_id_456',
+//     fromUser: 'user_id_3',
+//     toUser: 'user_id_4',
+//     amount: 250,
+//     date: '2024-10-28T12:00:00Z',
+//     note: 'Parte del alquiler del mes',
+//     createdAt: '2024-10-28T12:00:00Z',
+//     updatedAt: '2024-10-28T12:00:00Z',
+//     _id: '834r347bx4ryb0843y0ubx80ry9yr9byx'
+//   },
+//   {
+//     group: 'group_id_789',
+//     fromUser: 'user_id_5',
+//     toUser: 'user_id_6',
+//     amount: 75,
+//     date: '2024-10-29T08:30:00Z',
+//     note: 'Gastos de transporte durante el viaje',
+//     createdAt: '2024-10-29T08:30:00Z',
+//     updatedAt: '2024-10-29T08:30:00Z',
+//     _id: '8765456787654jhdgyhhdgtdyhsjidkisji'
+//   }
+// ]
 const diasSemana = [
   'domingo',
   'lunes',
@@ -172,55 +183,61 @@ const ShareGroup = () => {
   const [navGroup, setNavGroup] = useState('transactions')
   const [groupSett, setGroupSett] = useState(false)
   const [isResolve, setIsResolve] = useState(false)
-  const { groupDetails } = useStore()
+  const { groupDetails, share } = useStore()
+  const { groups } = share
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const [allTypes, setAllTypes] = useState()
   const [filter, setFilter] = useState('')
   const [filterDate, setFilterDate] = useState(SORT.dateUp)
+  const [search, setSearch] = useState('')
   const {
-    _id: id,
     title,
     balances,
     members,
     currency,
-    debts
-    // incomes,
-    // expenses,
-    // transfers
+    debts,
+    incomes,
+    expenses,
+    transfers
   } = groupDetails
   const { id: idParams } = useParams()
   const navigate = useNavigate()
+  const debtsEmpty = debts?.find(debt => debt.status === 'pending')
 
   useEffect(() => {
     if (filter === 'incomes') {
       if (filterDate === SORT.dateUp) {
-        setAllTypes(incomes.sort((a, b) => new Date(b.date) - new Date(a.date)))
+        setAllTypes(
+          incomes?.sort((a, b) => new Date(b.date) - new Date(a.date))
+        )
       }
       if (filterDate === SORT.dateDown) {
-        setAllTypes(incomes.sort((a, b) => new Date(a.date) - new Date(b.date)))
+        setAllTypes(
+          incomes?.sort((a, b) => new Date(a.date) - new Date(b.date))
+        )
       }
     }
     if (filter === 'expenses') {
       if (filterDate === SORT.dateUp) {
         setAllTypes(
-          expenses.sort((a, b) => new Date(b.date) - new Date(a.date))
+          expenses?.sort((a, b) => new Date(b.date) - new Date(a.date))
         )
       }
       if (filterDate === SORT.dateDown) {
         setAllTypes(
-          expenses.sort((a, b) => new Date(a.date) - new Date(b.date))
+          expenses?.sort((a, b) => new Date(a.date) - new Date(b.date))
         )
       }
     }
     if (filter === 'transfers') {
       if (filterDate === SORT.dateUp) {
         setAllTypes(
-          transfers.sort((a, b) => new Date(b.date) - new Date(a.date))
+          transfers?.sort((a, b) => new Date(b.date) - new Date(a.date))
         )
       }
       if (filterDate === SORT.dateDown) {
         setAllTypes(
-          transfers.sort((a, b) => new Date(a.date) - new Date(b.date))
+          transfers?.sort((a, b) => new Date(a.date) - new Date(b.date))
         )
       }
     }
@@ -228,21 +245,30 @@ const ShareGroup = () => {
       if (filterDate === SORT.dateUp) {
         setAllTypes(
           incomes
-            .concat(expenses)
-            .concat(transfers)
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            ?.concat(expenses)
+            ?.concat(transfers)
+            ?.sort((a, b) => new Date(b.date) - new Date(a.date))
         )
       }
       if (filterDate === SORT.dateDown) {
         setAllTypes(
           incomes
-            .concat(expenses)
-            .concat(transfers)
+            ?.concat(expenses)
+            ?.concat(transfers)
             .sort((a, b) => new Date(a.date) - new Date(b.date))
         )
       }
     }
-  }, [filter, filterDate])
+  }, [filter, filterDate, incomes, expenses, transfers])
+
+  const filteredData = allTypes
+  allTypes?.filter(
+    item =>
+      item.category?.toLowerCase().includes(search.toLowerCase()) ||
+      item.fromUser?.username?.toLowerCase().includes(search.toLowerCase()) ||
+      item.toUser?.username?.toLowerCase().includes(search.toLowerCase()) ||
+      item.title?.toLowerCase().includes(search.toLowerCase())
+  )
 
   async function getGroup () {
     try {
@@ -281,7 +307,10 @@ const ShareGroup = () => {
     setGroupSett(!groupSett)
   }
 
-  function handleResolve () {
+  function handleResolve (id, fromUser, toUser, amount, currency) {
+    useStore.setState({
+      resolveDetails: { id, fromUser, toUser, amount, currency }
+    })
     setIsResolve(!isResolve)
   }
 
@@ -293,24 +322,40 @@ const ShareGroup = () => {
     setFilterDate(e.target.value)
   }
 
+  async function deleteGroup () {
+    try {
+      const url =
+        import.meta.env.VITE_URL + `/data/deletegroup/${groupDetails._id}`
+      const res = await window.fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      if (res.status === 200) {
+        useStore.setState({
+          share: {
+            ...share,
+            groups: groups?.filter(g => g._id !== groupDetails._id)
+          }
+        })
+        navigate('/compartir')
+      } else {
+        console.error('no se ha podido borrar el grupo')
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <Container className='flex-col py-10 gap-4'>
       <AddShare members={members} currency={currency} />
-      <dialog
-        open={isResolve}
-        className='bg-neutral-800 rounded-xl border-neutral-600 border shadow-md shadow-neutral-900'
-      >
-        <div className='flex flex-col p-5 gap-1'>
-          <span>Marcos le va a transferir 35,40€ a Lucian</span>
-          <span>¿Estás de acuerdo?</span>
-          <div className='mt-3 flex flex-row justify-evenly'>
-            <button onClick={handleResolve} className='text-red-400'>
-              Cancelar
-            </button>
-            <button className='bg-emerald-600 text-neutral-200'>Aceptar</button>
-          </div>
-        </div>
-      </dialog>
+      <ResolveDialog
+        isResolve={isResolve}
+        handleResolve={handleResolve}
+        setIsResolve={setIsResolve}
+      />
       <dialog
         open={groupSett}
         className='w-[100vw] h-[100vh] z-50 top-0 left-0 right-0 bottom-0 fixed bg-neutral-900'
@@ -337,7 +382,10 @@ const ShareGroup = () => {
           </form>
           <div className='w-full mt-10'>
             <h2 className='text-xl text-center'>Mas opciones</h2>
-            <button className='bg-red-400 w-full box-border mt-2 text-start'>
+            <button
+              onClick={deleteGroup}
+              className='bg-red-400 w-full box-border mt-2 text-start'
+            >
               <span className=''>¡Borrar grupo!</span>
               <p className='text-red-100'>
                 Se eliminarán todos los datos del grupo de forma permanente.
@@ -359,41 +407,70 @@ const ShareGroup = () => {
       <div className='flex flex-col w-full px-5 box-border'>
         <h2 className='text-lg text-start'>Deudas activas</h2>
         <ul className='flex flex-col items-center divide-y divide-neutral-700 max-h-[30vh] min-h-[5vh] overflow-auto'>
-          {debts?.length === 0 ? (
-            <span className='mt-3 text-neutral-300'>
-              Todas las deudas están saldadas
-            </span>
-          ) : (
-            debts?.map(debt => {
-              const { fromUser, toUser, amount, status } = debt
-              return (
-                status === 'pending' && (
-                  <li
-                    key={crypto.randomUUID()}
-                    className='grid grid-cols-[0.5fr_2.5fr_1fr] py-2 w-full justify-items-center items-center'
-                  >
-                    <div className='w-full flex justify-start'>
-                      <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
-                        {fromUser.slice(0, 1).toUpperCase()}
-                      </span>
-                    </div>
-                    <div className='flex flex-col items-start text-nowrap w-full truncate ps-2'>
-                      <span>{fromUser}</span>
-                      <span className='text-neutral-400 truncate w-full text-start'>
-                        Debe <span className='font-medium'>{amount}</span> a{' '}
-                        <span className='font-medium'>{toUser}</span>
-                      </span>
-                    </div>
-                    <span className='w-full text-center'>
-                      <button onClick={handleResolve} className='bg-slate-600'>
-                        Resolver
-                      </button>
-                    </span>
-                  </li>
-                )
-              )
-            })
+          {!debtsEmpty && (
+            <span className='mt-3'>Todas las deudas están pagadas</span>
           )}
+          {debts?.map(debt => {
+            const { fromUser, toUser, amount, status, _id: id } = debt
+            const {
+              name: fromUserName,
+              _id: fromUserId,
+              username: fromUserUsername
+            } = fromUser
+            const {
+              name: toUserName,
+              _id: toUserId,
+              username: toUserUsername
+            } = toUser
+            // if (debt.status === 'pending') {
+            return (
+              status === 'pending' && (
+                <li
+                  key={id}
+                  className='grid grid-cols-[0.5fr_2.5fr_1fr] py-2 w-full justify-items-center items-center'
+                >
+                  <div className='w-full flex justify-start'>
+                    <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
+                      {fromUserName?.slice(0, 1).toUpperCase()}
+                    </span>
+                  </div>
+                  <div className='flex flex-col items-start text-nowrap w-full truncate ps-2'>
+                    <span>
+                      {fromUserName}
+                      <span className='text-xs text-neutral-400'>
+                        {fromUserUsername?.slice(-5)}
+                      </span>
+                    </span>
+                    <span className='text-neutral-400 truncate w-full text-start'>
+                      Debe{' '}
+                      <span className='font-medium'>
+                        {amount}
+                        {currency?.slice(0, 2)}
+                      </span>{' '}
+                      a{' '}
+                      <span className='font-medium'>
+                        {toUserName}
+                        <span className='text-xs'>
+                          {toUserUsername?.slice(-5)}
+                        </span>
+                      </span>
+                    </span>
+                  </div>
+                  <span className='w-full text-center'>
+                    <button
+                      type='button'
+                      onClick={() =>
+                        handleResolve(id, fromUser, toUser, amount, currency)
+                      }
+                      className='bg-slate-600'
+                    >
+                      Resolver
+                    </button>
+                  </span>
+                </li>
+              )
+            )
+          })}
         </ul>
       </div>
       <div className='w-full p-2 flex box-border'>
@@ -436,6 +513,8 @@ const ShareGroup = () => {
                 id=''
                 placeholder='Buscar'
                 className='w-full rounded-lg border-neutral-600 border bg-neutral-800 py-1 p-0 m-0 px-2'
+                onChange={e => setSearch(e.target.value)}
+                value={search}
               />
               <select
                 className=' bg-neutral-800 rounded-lg border border-neutral-600 truncate p-0 py-1 px-1 w-full'
@@ -474,18 +553,18 @@ const ShareGroup = () => {
             </div>
           </span>
           <ul className='flex flex-col items-center divide-y divide-neutral-700'>
-            {allTypes?.map(transaction => {
+            {filteredData?.map(transaction => {
               const {
-                category = '',
+                category = null,
                 fromUser = null,
                 toUser = null,
                 type = '',
                 amount,
                 date,
-                note = '',
                 divide = [],
                 members = [],
-                title = ''
+                title = '',
+                _id: id
               } = transaction
               const fecha =
                 diasSemana[new Date(date).getDay()].slice(0, 3) +
@@ -497,7 +576,7 @@ const ShareGroup = () => {
                 })
               return (
                 <li
-                  key={crypto.randomUUID()}
+                  key={id}
                   className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center'
                 >
                   <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
@@ -511,18 +590,38 @@ const ShareGroup = () => {
                       {type === 'income' ? (
                         <>
                           Recibido por{' '}
-                          <span className='font-medium'>{fromUser}</span>
+                          <span className='font-medium'>
+                            {fromUser.name}
+                            <span className='text-xs'>
+                              {fromUser.username.slice(-5)}
+                            </span>
+                          </span>
                         </>
                       ) : type === 'expense' ? (
                         <>
                           Pagado por{' '}
-                          <span className='font-medium'>{fromUser}</span>
+                          <span className='font-medium'>
+                            {fromUser.name}
+                            <span className='text-xs'>
+                              {fromUser.username?.slice(-5)}
+                            </span>
+                          </span>
                         </>
                       ) : (
                         !type && (
                           <>
-                            De <span className='font-medium'>{fromUser}</span> a{' '}
-                            <span className='font-medium'>{toUser}</span>
+                            De{' '}
+                            <span className='font-medium'>
+                              {fromUser.name}
+                              <span className='text-xs'>
+                                {fromUser.username.slice(-5)}
+                              </span>
+                            </span>{' '}
+                            a{' '}
+                            <span className='font-medium'>
+                              {toUser.name}
+                              {toUser.username.slice(-5)}
+                            </span>
                           </>
                         )
                       )}
