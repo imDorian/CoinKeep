@@ -173,6 +173,7 @@ const AddShare = () => {
               debts: json.debts
             }
           })
+          setFormData({ ...formData, amount: 0, title: '' })
           setLoading(false)
           setAddTransaction(!addTransaction)
         } else {
@@ -529,7 +530,7 @@ const AddShare = () => {
         className={
           !addTransaction
             ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 z-50 '
-            : 'fixed bottom-8 right-3 z-50 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
+            : 'fixed bottom-8 right-3 z-[99] transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
         }
         onClick={handleAddTransaction}
       >
