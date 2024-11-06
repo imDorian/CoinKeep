@@ -106,7 +106,8 @@ const CreateGroup = () => {
   async function createGroup (e) {
     e.preventDefault()
     try {
-      const url = import.meta.env.VITE_URL + `/data/creategroup/${share._id}`
+      const url =
+        import.meta.env.VITE_URL + `/data/creategroup/${cookies.shareId}`
       const res = await window.fetch(url, {
         method: 'POST',
         headers: {

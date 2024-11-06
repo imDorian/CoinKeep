@@ -15,6 +15,7 @@ const LoginGoogle = ({ className, title }) => {
       const response = await googleLogin(res.access_token)
       if (response.res.status === 200) {
         const json = response.json
+        console.log(json)
         window.localStorage.setItem('userdata', JSON.stringify(json))
         setLoading(false)
         navigate('/inicio')

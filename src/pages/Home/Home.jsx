@@ -26,6 +26,22 @@ const HomePage = () => {
         fetchData(cookies.user.data)
       } catch (error) {
         console.error(error)
+        window.localStorage.removeItem('userdata')
+        useStore.setState({
+          name: '',
+          email: '',
+          imageUrl: '',
+          currency: '€',
+          username: '',
+          income: [],
+          expense: [],
+          share: {},
+          valutDetails: {},
+          resolveDetails: {},
+          groupDetails: {},
+          balance: {}
+        })
+        googleLogout()
         navigate('/')
       }
     }
