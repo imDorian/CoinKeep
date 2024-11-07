@@ -60,7 +60,7 @@ const ShareExpenses = () => {
               <li
                 key={crypto.randomUUID()}
                 onClick={() => openShareGroup(group)}
-                className='grid grid-cols-[0.5fr_2fr_1fr] py-3 w-full justify-items-center items-center'
+                className='grid grid-cols-[0.5fr_2fr_1fr] py-3 w-full justify-items-center items-center cursor-pointer'
               >
                 <div className='w-full flex justify-center'>
                   <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
