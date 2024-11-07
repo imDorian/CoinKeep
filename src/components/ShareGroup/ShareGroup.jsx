@@ -207,67 +207,55 @@ const ShareGroup = () => {
   useEffect(() => {
     if (filter === 'incomes') {
       if (filterDate === SORT.dateUp) {
+        const newIncomes = [...incomes]
+        newIncomes.reverse()
+        setAllTypes(newIncomes)
+      } else if (filterDate === SORT.dateDown) {
         setAllTypes(
-          incomes?.sort((a, b) => new Date(b.date) - new Date(a.date))
+          incomes?.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
         )
       }
-      if (filterDate === SORT.dateDown) {
-        setAllTypes(
-          incomes?.sort((a, b) => new Date(a.date) - new Date(b.date))
-        )
-      }
-    }
-    if (filter === 'expenses') {
+    } else if (filter === 'expenses') {
       if (filterDate === SORT.dateUp) {
-        setAllTypes(
-          expenses?.sort((a, b) => new Date(b.date) - new Date(a.date))
-        )
+        const newExpenses = [...expenses]
+        newExpenses.reverse()
+        setAllTypes(newExpenses)
+      } else if (filterDate === SORT.dateDown) {
+        setAllTypes(expenses)
       }
-      if (filterDate === SORT.dateDown) {
-        setAllTypes(
-          expenses?.sort((a, b) => new Date(a.date) - new Date(b.date))
-        )
-      }
-    }
-    if (filter === 'transfers') {
+    } else if (filter === 'transfers') {
       if (filterDate === SORT.dateUp) {
-        setAllTypes(
-          transfers?.sort((a, b) => new Date(b.date) - new Date(a.date))
-        )
+        const newTransfers = [...transfers]
+        newTransfers.reverse()
+        setAllTypes(newTransfers)
+      } else if (filterDate === SORT.dateDown) {
+        setAllTypes(transfers)
       }
-      if (filterDate === SORT.dateDown) {
-        setAllTypes(
-          transfers?.sort((a, b) => new Date(a.date) - new Date(b.date))
-        )
-      }
-    }
-    if (filter === '') {
+    } else if (filter === '') {
       if (filterDate === SORT.dateUp) {
         setAllTypes(
           incomes
             ?.concat(expenses)
             ?.concat(transfers)
-            ?.sort((a, b) => new Date(b.date) - new Date(a.date))
+            ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         )
-      }
-      if (filterDate === SORT.dateDown) {
+      } else if (filterDate === SORT.dateDown) {
         setAllTypes(
           incomes
             ?.concat(expenses)
             ?.concat(transfers)
-            .sort((a, b) => new Date(a.date) - new Date(b.date))
+            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
         )
       }
     }
   }, [filter, filterDate, incomes, expenses, transfers])
 
-  const filteredData = allTypes
-  allTypes?.filter(
+  const filteredData = allTypes?.filter(
     item =>
+      item.title?.toLowerCase().includes(search.toLowerCase()) ||
       item.category?.toLowerCase().includes(search.toLowerCase()) ||
       item.fromUser?.username?.toLowerCase().includes(search.toLowerCase()) ||
-      item.toUser?.username?.toLowerCase().includes(search.toLowerCase()) ||
-      item.title?.toLowerCase().includes(search.toLowerCase())
+      item.toUser?.username?.toLowerCase().includes(search.toLowerCase())
   )
 
   async function getGroup () {
@@ -360,28 +348,65 @@ const ShareGroup = () => {
         open={groupSett}
         className='w-[100vw] h-[100vh] z-50 top-0 left-0 right-0 bottom-0 fixed bg-neutral-900'
       >
-        <button onClick={handleGroupSett} className='absolute top-5 right-3'>
+        <button onClick={handleGroupSett} className='absolute top-10 right-5'>
           <QuitIcon className='size-6' />
         </button>
-        <div className='p-5 py-10 w-full box-border mt-5'>
+        <div className='p-5 py-10 w-full box-border mt-10'>
           <h1>Ajustes del grupo</h1>
-          <form className='w-full mt-5' action=''>
+          <form className='w-full mt-5 flex flex-col gap-3' action=''>
             <label
-              className='flex flex-row w-full justify-around items-center text-lg'
+              htmlFor='group-name'
+              className='flex flex-col text-lg text-start gap-1'
+            >
+              Nombre
+              <input
+                type='text'
+                className='h-9 rounded-lg bg-neutral-800 px-2'
+                value={groupDetails.title}
+                id='group-name'
+              />
+            </label>
+            <label
+              htmlFor='group-description'
+              className='flex flex-col text-lg text-start gap-1'
+            >
+              Descripción
+              <textarea
+                type='text'
+                className='rounded-lg bg-neutral-800 px-2 h-24 resize-none'
+                // value={groupDetails.description}
+                id='group-description'
+                maxLength={150}
+                placeholder='Añade una descripción del grupo.'
+              />
+            </label>
+            <h2 className='text-xl font-medium mb-1'>
+              Permisos para participantes
+            </h2>
+            <label
+              className='flex flex-row w-full justify-between items-center text-lg'
               htmlFor='check-resolve'
             >
               Los participantes pueden resolver
               <input id='check-resolve' type='checkbox' className='size-5' />
             </label>
+            <label
+              className='flex flex-row w-full justify-between items-center text-lg'
+              htmlFor='check-resolve'
+            >
+              Cambiar título del grupo
+              <input id='check-resolve' type='checkbox' className='size-5' />
+            </label>
             <button
-              className='mt-5 bg-green-700 rounded-lg w-full py-2 box-border'
+              className='mt-5 bg-green-700 rounded-lg w-full py-2 box-border disabled:opacity-50'
               type='submit'
+              disabled
             >
               Guardar
             </button>
           </form>
           <div className='w-full mt-10'>
-            <h2 className='text-xl text-center'>Mas opciones</h2>
+            <h2 className='text-xl font-medium'>Mas opciones</h2>
             <button
               onClick={deleteGroup}
               className='bg-red-400 w-full box-border mt-2 text-start'
@@ -405,7 +430,7 @@ const ShareGroup = () => {
         <span>{currency}</span>
       </span>
       <div className='flex flex-col w-full px-5 box-border'>
-        <h2 className='text-lg text-start'>Deudas activas</h2>
+        <h2 className='text-lg font-medium text-start'>Deudas activas</h2>
         <ul className='flex flex-col items-center divide-y divide-neutral-700 max-h-[30vh] min-h-[5vh] overflow-auto'>
           {!debtsEmpty && (
             <span className='mt-3'>Todas las deudas están pagadas</span>
@@ -544,10 +569,10 @@ const ShareGroup = () => {
                 value={filterDate}
               >
                 <option value={SORT.dateUp}>
-                  ↑ Fecha, la más reciente primero
+                  ↑ Fecha creación, la más reciente primero
                 </option>
                 <option value={SORT.dateDown}>
-                  ↓ Fecha, la más antigua primero
+                  ↓ Fecha creación, la más antigua primero
                 </option>
               </select>
             </div>
@@ -583,7 +608,7 @@ const ShareGroup = () => {
                     {!category ? '↘️' : category.slice(0, 2)}
                   </span>
                   <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
-                    <span className='w-full truncate'>
+                    <span className='w-full truncate text-base'>
                       {title || 'Transferencia'}
                     </span>
                     <span className='text-neutral-400 truncate w-full text-sm'>
@@ -620,7 +645,9 @@ const ShareGroup = () => {
                             a{' '}
                             <span className='font-medium'>
                               {toUser.name}
-                              {toUser.username.slice(-5)}
+                              <span className='text-xs'>
+                                {toUser.username.slice(-5)}
+                              </span>
                             </span>
                           </>
                         )
@@ -629,7 +656,7 @@ const ShareGroup = () => {
                   </div>
                   <div className='w-full flex flex-col text-end justify-between truncate'>
                     <span className='font-medium'>
-                      {amount}
+                      {amount?.toFixed(2)}
                       {currency?.slice(0, 2)}
                     </span>
                     <span className='text-end text-neutral-400 truncate'>

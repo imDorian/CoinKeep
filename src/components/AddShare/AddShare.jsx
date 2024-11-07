@@ -36,8 +36,14 @@ const AddShare = () => {
 
   function newDivide () {
     const divide = members?.map(member => {
-      const { name, _id: id } = member
-      const newDiv = { user: id, amount: (0).toFixed(2), name, checked: true }
+      const { username, _id: id, name } = member
+      const newDiv = {
+        user: id,
+        amount: (0).toFixed(2),
+        username,
+        name,
+        checked: true
+      }
       return newDiv
     })
     setFormData(prevData => ({
@@ -56,7 +62,7 @@ const AddShare = () => {
     if (members) {
       setFormData(prev => ({
         ...prev,
-        fromUser: members[0]._id
+        fromUser: members.find(m => m._id === cookies.user._id)._id
       }))
     }
   }, [members])
@@ -81,7 +87,11 @@ const AddShare = () => {
     setNavAdd(e.target.name)
     setFormData(prev => ({
       ...prev,
-      type: e.target.name
+      type: e.target.name,
+      category:
+        e.target.name === 'income'
+          ? CATEGORIAS_INGRESOS[0]
+          : CATEGORIAS_GASTOS[0]
     }))
   }
 
@@ -446,7 +456,7 @@ const AddShare = () => {
               </div>
               <ul className='divide-y divide-neutral-600 bg-neutral-800 rounded-xl px-2 py-1'>
                 {formData.divide?.map((div, i) => {
-                  const { user, name, checked } = div
+                  const { user, name, checked, username } = div
 
                   return (
                     <li key={user} className='w-full py-2'>
@@ -464,7 +474,12 @@ const AddShare = () => {
                           disabled={user === cookies.user._id}
                           //   value={}
                         />
-                        <span className='text-start w-full'>{name}</span>
+                        <span className='text-start w-full'>
+                          {name}
+                          <span className='text-sm text-neutral-400'>
+                            {username.slice(-5)}
+                          </span>
+                        </span>
 
                         <span className='w-full flex flex-row items-center gap-2'>
                           <input
@@ -529,8 +544,8 @@ const AddShare = () => {
       <button
         className={
           !addTransaction
-            ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 z-50 '
-            : 'fixed bottom-8 right-3 z-[99] transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
+            ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 z-[100]'
+            : 'fixed bottom-8 right-3 z-[100] transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
         }
         onClick={handleAddTransaction}
       >

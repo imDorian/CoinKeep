@@ -49,7 +49,7 @@ const ShareExpenses = () => {
       <div className='flex flex-col w-full px-5 box-border'>
         <h2 className='text-xl text-start font-medium'>Grupos</h2>
         <ul className='flex flex-col items-center divide-y divide-neutral-700'>
-          {share.groups.length === 0 && (
+          {share.groups?.length === 0 && (
             <span className='p-8 text-neutral-300'>
               Todavía no estás en ningún grupo, puedes unirte o crear uno.
             </span>
