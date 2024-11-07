@@ -440,7 +440,7 @@ const AddShare = () => {
             </label>
           </div>
           {navAdd !== 'transfer' && (
-            <div className='flex flex-col gap-2 mt-2'>
+            <div className='flex flex-col gap-2 mt-2 w-full'>
               <div className='w-full flex flex-row justify-between items-end'>
                 <h2 className='text-start text-lg font-medium'>Dividir</h2>
                 <select
@@ -544,8 +544,8 @@ const AddShare = () => {
       <button
         className={
           !addTransaction
-            ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 z-[100]'
-            : 'fixed bottom-8 right-3 z-[100] transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
+            ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 z-[999]'
+            : 'fixed bottom-8 right-3 z-[999] transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
         }
         onClick={handleAddTransaction}
       >
