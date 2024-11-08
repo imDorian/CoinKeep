@@ -11,7 +11,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
 
   return (
-    <div className='flex flex-col items-center py-6 gap-6 justify-center'>
+    <div className='flex flex-col items-center py-6 gap-6 justify-center fade-in'>
       <div className='flex flex-col items-center'>
         <img src='/KeepCoin.png' alt='KeepCoin Logo' className='size-28' />
         <h1 className='font-semibold mt-1 text-center'>Keep Coin</h1>
