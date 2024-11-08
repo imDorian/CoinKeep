@@ -72,10 +72,10 @@ const BalanceWidget = () => {
     >
       {!isEdit && (
         <DotLottieReact
-          className='absolute top-0 right-[25%] size-[120px]'
+          className='absolute top-0 right-[30%] size-[120px] opacity-65'
           src='/LottieAnimation/Balance.lottie'
           autoplay='true'
-          //   playOnHover='true'
+          // playOnHover='true'
           renderConfig={{ autoResize: 'true' }}
         />
       )}
