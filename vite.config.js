@@ -23,7 +23,7 @@ export default defineConfig({
         short_name: 'KeepCoin',
         description:
           'Maneja tus gastos diarios, ahorros e inversiones. Comparte gastos con tus amigos mediante grupos.',
-        theme_color: '#000',
+        theme_color: '#242424',
         icons: [
           {
             // src: 'icon-192x192.png',

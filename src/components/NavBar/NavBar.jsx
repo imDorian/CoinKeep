@@ -17,7 +17,7 @@ const NavBar = () => {
   }
   return (
     <div className='fixed bottom-0 left-0 z-50 w-full h-16  bg-[var(--bg-color)]'>
-      <div className='grid h-full max-w-lg grid-cols-4 mx-auto font-medium items-center'>
+      <div className='grid h-full max-w-lg grid-cols-4 mx-auto font-medium items-start'>
         <NavLink to='/inicio' className={isActive}>
           <button
             type='button'
