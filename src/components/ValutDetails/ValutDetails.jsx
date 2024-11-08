@@ -76,7 +76,7 @@ const ValutDetails = () => {
   }
 
   return (
-    <div className='w-[100vw] h-[100vh] z-[99] bg-neutral-900 flex flex-col py-2'>
+    <div className='w-[100vw] h-[100vh] z-[99] bg-neutral-900 flex flex-col py-2 fade-in'>
       <button onClick={exitValutDetails} className='absolute top-5 right-5'>
         <QuitIcon className='size-6 text-neutral-200' />
       </button>
