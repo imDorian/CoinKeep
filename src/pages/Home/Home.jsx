@@ -77,23 +77,20 @@ const HomePage = () => {
   }, [valut])
 
   return (
-    <>
-      <Container>
-        {/* {isCreateValut && <CreateValut />} */}
-        <Welcome username={cookies?.user?.name} />
-        <h1 className='text-start p-0 m-0 ps-5 mb-3 w-full text-lg'>
-          Bienvenido a KeepCoin <b>{cookies?.user?.name}</b>
-        </h1>
-        <IsModalUpdates />
-        <BalanceWidget className='mx-4 h-[150px]' />
-        <Grid cols='1fr 1fr'>
-          {mappedValuts}
-          <ValutWidget />
-        </Grid>
+    <Container>
+      <Welcome username={cookies?.user?.name} className='fade-in' />
+      <h1 className='text-start p-0 m-0 ps-5 mb-3 w-full text-lg'>
+        Bienvenido a KeepCoin <b>{cookies?.user?.name}</b>
+      </h1>
+      <IsModalUpdates />
+      <BalanceWidget className='mx-4 h-[150px]' />
+      <Grid cols='1fr 1fr'>
+        {mappedValuts}
+        <ValutWidget />
+      </Grid>
 
-        <NavBar />
-      </Container>
-    </>
+      <NavBar />
+    </Container>
   )
 }
 

@@ -51,7 +51,7 @@ const ValutWidget = ({
     <Article
       // style={{ position: 'absolute', top: '100px' }}
       key={id}
-      className='h-[150px] cursor-pointer'
+      className='h-[150px] cursor-pointer fade-in'
     >
       {model && model === MODELS.saving ? (
         <DotLottieReact

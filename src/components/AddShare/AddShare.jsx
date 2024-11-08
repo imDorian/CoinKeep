@@ -6,7 +6,7 @@ import { CATEGORIAS_INGRESOS } from '../../categories/INCOME_CATEGORIES'
 import { useStore } from '../../stores/useStore'
 import { useParams } from 'react-router-dom'
 
-const AddShare = () => {
+const AddShare = ({ isLoading }) => {
   const { groupDetails, share } = useStore()
   const { members, currency, _id: groupId } = groupDetails
   const { id } = useParams()
@@ -226,10 +226,21 @@ const AddShare = () => {
     <div
       className={
         !addTransaction
-          ? 'fixed bottom-10 right-5 transition-all duration-500 h-[3rem] w-[3rem] bg-transparent rounded-3xl overflow-hidden box-border'
+          ? 'fixed bottom-10 right-5 transition-all duration-500 h-0 w-0 bg-transparent rounded-3xl overflow-hidden box-border'
           : 'fixed bottom-10 right-5  transition-all duration-300  h-[75vh] w-[90vw] bg-[#3a3a3a] rounded-3xl  box-border overflow-y-auto overflow-x-hidden backdrop:blur-md'
       }
     >
+      <button
+        className={
+          addTransaction
+            ? 'absolute top-5 right-3 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 opacity-100'
+            : 'absolute top-5 right-3 transition-all duration-500 rounded-full p-0 shadow-lg shadow-neutral-950 opacity-0 '
+        }
+        onClick={handleAddTransaction}
+        // disabled={addTransaction}
+      >
+        <AddIcon className='size-8 text-red-500  rounded-full rotate-45' />
+      </button>
       <div
         className={
           !addTransaction
@@ -532,7 +543,8 @@ const AddShare = () => {
           )}
           <button
             type='submit'
-            className='w-full py-2 bg-emerald-800 box-border mt-3'
+            className='w-full py-2 bg-emerald-800 box-border mt-3 disabled:opacity-50'
+            disabled={isLoading}
           >
             {navAdd === 'expense' && 'Añadir Gasto'}
             {navAdd === 'income' && 'Añadir Ingreso'}
@@ -544,16 +556,17 @@ const AddShare = () => {
       <button
         className={
           !addTransaction
-            ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 z-[999]'
-            : 'fixed bottom-8 right-3 z-[999] transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950'
+            ? 'fixed bottom-10 right-5 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 z-[999] opacity-100'
+            : 'fixed bottom-10 right-3 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 opacity-0'
         }
         onClick={handleAddTransaction}
+        disabled={addTransaction}
       >
         <AddIcon
           className={
             !addTransaction
-              ? 'size-12 text-[var(--brand-color)] transition-all duration-300 rounded-full'
-              : 'size-8 text-red-500 transition-all duration-300 rounded-full rotate-45  '
+              ? 'size-12 text-[var(--brand-color)] rounded-full transition-all duration-300'
+              : 'size-8 text-red-500  rounded-full rotate-45 transition-all duration-300'
           }
         />
       </button>

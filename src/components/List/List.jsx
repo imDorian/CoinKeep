@@ -233,7 +233,7 @@ const List = () => {
           })
           return (
             <li
-              className='w-full py-3 grid grid-cols-[0.5fr_2.5fr_1fr_1.5fr] justify-items-center'
+              className='w-full py-3 grid grid-cols-[0.5fr_2.5fr_1fr_1.5fr] justify-items-center fade-in'
               key={id}
             >
               <div className='flex items-center rounded-full justify-center text-center'>

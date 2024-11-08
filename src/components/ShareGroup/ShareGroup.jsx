@@ -9,166 +9,6 @@ import { SORT } from '../List/List'
 import AddShare from '../AddShare/AddShare'
 import ResolveDialog from '../ResolveDialog/ResolveDialog'
 
-// const expenses = [
-//   {
-//     title: 'Cena en grupo',
-//     amount: 100,
-//     method: 'card',
-//     category: '💰 Food',
-//     type: 'expense',
-//     group: 'group_id_123',
-//     fromUser: 'user_id_1',
-//     members: ['user_id_2', 'user_id_3'],
-//     divide: [
-//       { user: 'user_id_1', amount: 40, settled: true },
-//       { user: 'user_id_2', amount: 30, settled: false },
-//       { user: 'user_id_3', amount: 30, settled: false }
-//     ],
-//     date: '2024-10-29T14:00:00Z',
-//     createdAt: '2024-10-29T14:00:00Z',
-//     updatedAt: '2024-10-29T14:00:00Z',
-//     _id: 'uiahsbiucdhcuihdbscixassaxrcdzx'
-//   },
-//   {
-//     title: 'Pago de alquiler',
-//     amount: 1200,
-//     method: 'cash',
-//     category: '💰 Housing',
-//     type: 'expense',
-//     group: 'group_id_789',
-//     fromUser: 'user_id_2',
-//     members: ['user_id_3', 'user_id_4'],
-//     divide: [
-//       { user: 'user_id_2', amount: 400, settled: true },
-//       { user: 'user_id_3', amount: 400, settled: false },
-//       { user: 'user_id_4', amount: 400, settled: false }
-//     ],
-//     date: '2024-10-25T10:30:00Z',
-//     createdAt: '2024-10-25T10:30:00Z',
-//     updatedAt: '2024-10-25T10:30:00Z',
-//     _id: 'uiahsbiucdeify74fb9y384xnmkx'
-//   },
-//   {
-//     title: 'Cena en restaurante',
-//     amount: 300,
-//     method: 'card',
-//     category: '💰 Entertainment',
-//     type: 'expense',
-//     group: 'group_id_456',
-//     fromUser: 'user_id_5',
-//     members: ['user_id_6', 'user_id_7'],
-//     divide: [
-//       { user: 'user_id_5', amount: 100, settled: true },
-//       { user: 'user_id_6', amount: 100, settled: false },
-//       { user: 'user_id_7', amount: 100, settled: false }
-//     ],
-//     date: '2024-10-27T20:00:00Z',
-//     createdAt: '2024-10-27T20:00:00Z',
-//     updatedAt: '2024-10-27T20:00:00Z',
-//     _id: 'uiah7293784827423823nx9aswedckx'
-//   }
-// ]
-// const incomes = [
-//   {
-//     title: 'Ingreso por proyecto compartido',
-//     amount: 1000,
-//     method: 'bank_transfer',
-//     category: '💰 Freelance',
-//     type: 'income',
-//     group: 'group_id_321',
-//     fromUser: 'user_id_1',
-//     members: ['user_id_2', 'user_id_3'],
-//     divide: [
-//       { user: 'user_id_1', amount: 400, settled: true },
-//       { user: 'user_id_2', amount: 300, settled: false },
-//       { user: 'user_id_3', amount: 300, settled: false }
-//     ],
-//     date: '2024-10-22T15:00:00Z',
-//     createdAt: '2024-10-22T15:00:00Z',
-//     updatedAt: '2024-10-22T15:00:00Z',
-//     _id: 'ui35465743675gdhjchyicbhdiejudkx'
-//   },
-//   {
-//     title: 'Pago de alquiler de inquilino',
-//     amount: 800,
-//     method: 'bank_transfer',
-//     category: '💰 Rental Income',
-//     type: 'income',
-//     group: 'group_id_321',
-//     fromUser: 'user_id_14',
-//     members: ['user_id_15'],
-//     divide: [{ user: 'user_id_14', amount: 800, settled: true }],
-//     date: '2024-10-05T12:00:00Z',
-//     createdAt: '2024-10-05T12:00:00Z',
-//     updatedAt: '2024-10-05T12:00:00Z',
-//     _id: 'ui35486854958489585kskdjcbshhdejudkx'
-//   },
-//   {
-//     title: 'Regalo de cumpleaños de familiares',
-//     amount: 200,
-//     method: 'cash',
-//     category: '💰 Gift',
-//     type: 'income',
-//     group: 'group_id_456',
-//     fromUser: 'user_id_4',
-//     members: ['user_id_5', 'user_id_6'],
-//     divide: [
-//       { user: 'user_id_4', amount: 100, settled: true },
-//       { user: 'user_id_5', amount: 50, settled: false },
-//       { user: 'user_id_6', amount: 50, settled: false }
-//     ],
-//     date: '2024-10-20T19:00:00Z',
-//     createdAt: '2024-10-20T19:00:00Z',
-//     updatedAt: '2024-10-20T19:00:00Z',
-//     _id: 'ui354869987788877765554c334gcgx'
-//   }
-// ]
-// const transfers = [
-//   {
-//     group: 'group_id_123',
-//     fromUser: 'user_id_1',
-//     toUser: 'user_id_2',
-//     amount: 50,
-//     date: '2024-10-29T14:00:00Z',
-//     note: 'Devolución de gastos compartidos',
-//     createdAt: '2024-10-29T14:00:00Z',
-//     updatedAt: '2024-10-29T14:00:00Z',
-//     _id: 'uiudchbischdihcishcishcuihb74y7peijwpix'
-//   },
-//   {
-//     group: 'group_id_123',
-//     fromUser: 'user_id_1',
-//     toUser: 'user_id_2',
-//     amount: 100,
-//     date: '2024-10-29T14:00:00Z',
-//     note: 'Reembolso de compra de comestibles',
-//     createdAt: '2024-10-29T14:00:00Z',
-//     updatedAt: '2024-10-29T14:00:00Z',
-//     _id: 'ui663542434368594yxnhfyrndhhsljhs'
-//   },
-//   {
-//     group: 'group_id_456',
-//     fromUser: 'user_id_3',
-//     toUser: 'user_id_4',
-//     amount: 250,
-//     date: '2024-10-28T12:00:00Z',
-//     note: 'Parte del alquiler del mes',
-//     createdAt: '2024-10-28T12:00:00Z',
-//     updatedAt: '2024-10-28T12:00:00Z',
-//     _id: '834r347bx4ryb0843y0ubx80ry9yr9byx'
-//   },
-//   {
-//     group: 'group_id_789',
-//     fromUser: 'user_id_5',
-//     toUser: 'user_id_6',
-//     amount: 75,
-//     date: '2024-10-29T08:30:00Z',
-//     note: 'Gastos de transporte durante el viaje',
-//     createdAt: '2024-10-29T08:30:00Z',
-//     updatedAt: '2024-10-29T08:30:00Z',
-//     _id: '8765456787654jhdgyhhdgtdyhsjidkisji'
-//   }
-// ]
 const diasSemana = [
   'domingo',
   'lunes',
@@ -190,6 +30,7 @@ const ShareGroup = () => {
   const [filter, setFilter] = useState('')
   const [filterDate, setFilterDate] = useState(SORT.dateUp)
   const [search, setSearch] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const {
     title,
     balances,
@@ -259,6 +100,7 @@ const ShareGroup = () => {
   )
 
   async function getGroup () {
+    setIsLoading(true)
     try {
       const url = import.meta.env.VITE_URL + `/data/getgroup/${idParams}`
       const res = await window.fetch(url, {
@@ -272,10 +114,11 @@ const ShareGroup = () => {
         useStore.setState({
           groupDetails: json
         })
-        console.log(json)
+        setIsLoading(false)
       }
     } catch (error) {
       console.error(error)
+      setIsLoading(false)
     }
   }
 
@@ -336,9 +179,17 @@ const ShareGroup = () => {
     }
   }
 
+  function Loading ({ width, height }) {
+    return (
+      <div
+        className={`transition-opacity duration-300 opacity-100 animate-pulse ${width} rounded-xl bg-neutral-700 ${height} -z-[10]`}
+      />
+    )
+  }
+
   return (
-    <Container className='flex-col py-10 gap-4'>
-      <AddShare members={members} currency={currency} />
+    <Container className='flex-col py-10 gap-2'>
+      <AddShare isLoading={isLoading} />
       <ResolveDialog
         isResolve={isResolve}
         handleResolve={handleResolve}
@@ -425,81 +276,93 @@ const ShareGroup = () => {
       <button onClick={handleGroupSett} className='absolute top-4 right-3'>
         <DotsIcon className='size-6' />
       </button>
-      <span className='flex flex-col h-full w-full'>
-        <h1 className=''>{title}</h1>
-        <span>{currency}</span>
+      <span className='flex flex-col h-full w-full items-center fade-in'>
+        {isLoading ? (
+          <Loading height='h-[7vh]' width='w-36' />
+        ) : (
+          <>
+            <h1 className=''>{title}</h1>
+            <span>{currency}</span>
+          </>
+        )}
       </span>
       <div className='flex flex-col w-full px-5 box-border'>
         <h2 className='text-lg font-medium text-start'>Deudas activas</h2>
-        <ul className='flex flex-col items-center divide-y divide-neutral-700 max-h-[30vh] min-h-[5vh] overflow-auto'>
-          {!debtsEmpty && (
+        <ul className='flex flex-col items-center justify-center divide-y divide-neutral-700 max-h-[30vh] min-h-[10vh] overflow-auto mt-1 fade-in'>
+          {!isLoading && !debtsEmpty ? (
             <span className='mt-3'>Todas las deudas están pagadas</span>
+          ) : (
+            ''
           )}
-          {debts?.map(debt => {
-            const { fromUser, toUser, amount, status, _id: id } = debt
-            const {
-              name: fromUserName,
-              _id: fromUserId,
-              username: fromUserUsername
-            } = fromUser
-            const {
-              name: toUserName,
-              _id: toUserId,
-              username: toUserUsername
-            } = toUser
-            // if (debt.status === 'pending') {
-            return (
-              status === 'pending' && (
-                <li
-                  key={id}
-                  className='grid grid-cols-[0.5fr_2.5fr_1fr] py-2 w-full justify-items-center items-center'
-                >
-                  <div className='w-full flex justify-start'>
-                    <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
-                      {fromUserName?.slice(0, 1).toUpperCase()}
-                    </span>
-                  </div>
-                  <div className='flex flex-col items-start text-nowrap w-full truncate ps-2'>
-                    <span>
-                      {fromUserName}
-                      <span className='text-xs text-neutral-400'>
-                        {fromUserUsername?.slice(-5)}
+          {isLoading ? (
+            <Loading height='h-[10vh]' width='w-full' />
+          ) : (
+            debts?.map(debt => {
+              const { fromUser, toUser, amount, status, _id: id } = debt
+              const {
+                name: fromUserName,
+                _id: fromUserId,
+                username: fromUserUsername
+              } = fromUser
+              const {
+                name: toUserName,
+                _id: toUserId,
+                username: toUserUsername
+              } = toUser
+              // if (debt.status === 'pending') {
+              return (
+                status === 'pending' && (
+                  <li
+                    key={id}
+                    className='grid grid-cols-[0.5fr_2.5fr_1fr] py-2 w-full justify-items-center items-center'
+                  >
+                    <div className='w-full flex justify-start'>
+                      <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
+                        {fromUserName?.slice(0, 1).toUpperCase()}
                       </span>
-                    </span>
-                    <span className='text-neutral-400 truncate w-full text-start'>
-                      Debe{' '}
-                      <span className='font-medium'>
-                        {amount}
-                        {currency?.slice(0, 2)}
-                      </span>{' '}
-                      a{' '}
-                      <span className='font-medium'>
-                        {toUserName}
-                        <span className='text-xs'>
-                          {toUserUsername?.slice(-5)}
+                    </div>
+                    <div className='flex flex-col items-start text-nowrap w-full truncate ps-2'>
+                      <span>
+                        {fromUserName}
+                        <span className='text-xs text-neutral-400'>
+                          {fromUserUsername?.slice(-5)}
                         </span>
                       </span>
+                      <span className='text-neutral-400 truncate w-full text-start'>
+                        Debe{' '}
+                        <span className='font-medium'>
+                          {amount}
+                          {currency?.slice(0, 2)}
+                        </span>{' '}
+                        a{' '}
+                        <span className='font-medium'>
+                          {toUserName}
+                          <span className='text-xs'>
+                            {toUserUsername?.slice(-5)}
+                          </span>
+                        </span>
+                      </span>
+                    </div>
+                    <span className='w-full text-center'>
+                      <button
+                        type='button'
+                        onClick={() =>
+                          handleResolve(id, fromUser, toUser, amount, currency)
+                        }
+                        className='bg-slate-600'
+                      >
+                        Resolver
+                      </button>
                     </span>
-                  </div>
-                  <span className='w-full text-center'>
-                    <button
-                      type='button'
-                      onClick={() =>
-                        handleResolve(id, fromUser, toUser, amount, currency)
-                      }
-                      className='bg-slate-600'
-                    >
-                      Resolver
-                    </button>
-                  </span>
-                </li>
+                  </li>
+                )
               )
-            )
-          })}
+            })
+          )}
         </ul>
       </div>
       <div className='w-full p-2 flex box-border'>
-        <ul className='flex flex-row justify-around w-full divide-x divide-neutral-400 my-1'>
+        <ul className='flex flex-row justify-around w-full divide-x divide-neutral-400'>
           <li className='w-full'>
             <button
               name='transactions'
@@ -577,95 +440,99 @@ const ShareGroup = () => {
               </select>
             </div>
           </span>
-          <ul className='flex flex-col items-center divide-y divide-neutral-700'>
-            {filteredData?.map(transaction => {
-              const {
-                category = null,
-                fromUser = null,
-                toUser = null,
-                type = '',
-                amount,
-                date,
-                divide = [],
-                members = [],
-                title = '',
-                _id: id
-              } = transaction
-              const fecha =
-                diasSemana[new Date(date).getDay()].slice(0, 3) +
-                ' ' +
-                new Date(date).toLocaleDateString('es-Es', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: '2-digit'
-                })
-              return (
-                <li
-                  key={id}
-                  className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center'
-                >
-                  <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
-                    {!category ? '↘️' : category.slice(0, 2)}
-                  </span>
-                  <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
-                    <span className='w-full truncate text-base'>
-                      {title || 'Transferencia'}
+          <ul className='flex flex-col items-center divide-y divide-neutral-700 mt-3 fade-in'>
+            {isLoading ? (
+              <Loading width='w-full' height='h-[40vh]' />
+            ) : (
+              filteredData?.map(transaction => {
+                const {
+                  category = null,
+                  fromUser = null,
+                  toUser = null,
+                  type = '',
+                  amount,
+                  date,
+                  divide = [],
+                  members = [],
+                  title = '',
+                  _id: id
+                } = transaction
+                const fecha =
+                  diasSemana[new Date(date).getDay()].slice(0, 3) +
+                  ' ' +
+                  new Date(date).toLocaleDateString('es-Es', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: '2-digit'
+                  })
+                return (
+                  <li
+                    key={id}
+                    className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center'
+                  >
+                    <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
+                      {!category ? '↘️' : category.slice(0, 2)}
                     </span>
-                    <span className='text-neutral-400 truncate w-full text-sm'>
-                      {type === 'income' ? (
-                        <>
-                          Recibido por{' '}
-                          <span className='font-medium'>
-                            {fromUser.name}
-                            <span className='text-xs'>
-                              {fromUser.username.slice(-5)}
-                            </span>
-                          </span>
-                        </>
-                      ) : type === 'expense' ? (
-                        <>
-                          Pagado por{' '}
-                          <span className='font-medium'>
-                            {fromUser.name}
-                            <span className='text-xs'>
-                              {fromUser.username?.slice(-5)}
-                            </span>
-                          </span>
-                        </>
-                      ) : (
-                        !type && (
+                    <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
+                      <span className='w-full truncate text-base'>
+                        {title || 'Transferencia'}
+                      </span>
+                      <span className='text-neutral-400 truncate w-full text-sm'>
+                        {type === 'income' ? (
                           <>
-                            De{' '}
+                            Recibido por{' '}
                             <span className='font-medium'>
                               {fromUser.name}
                               <span className='text-xs'>
                                 {fromUser.username.slice(-5)}
                               </span>
-                            </span>{' '}
-                            a{' '}
+                            </span>
+                          </>
+                        ) : type === 'expense' ? (
+                          <>
+                            Pagado por{' '}
                             <span className='font-medium'>
-                              {toUser.name}
+                              {fromUser.name}
                               <span className='text-xs'>
-                                {toUser.username.slice(-5)}
+                                {fromUser.username?.slice(-5)}
                               </span>
                             </span>
                           </>
-                        )
-                      )}
-                    </span>
-                  </div>
-                  <div className='w-full flex flex-col text-end justify-between truncate'>
-                    <span className='font-medium'>
-                      {amount?.toFixed(2)}
-                      {currency?.slice(0, 2)}
-                    </span>
-                    <span className='text-end text-neutral-400 truncate'>
-                      {fecha}
-                    </span>
-                  </div>
-                </li>
-              )
-            })}
+                        ) : (
+                          !type && (
+                            <>
+                              De{' '}
+                              <span className='font-medium'>
+                                {fromUser.name}
+                                <span className='text-xs'>
+                                  {fromUser.username.slice(-5)}
+                                </span>
+                              </span>{' '}
+                              a{' '}
+                              <span className='font-medium'>
+                                {toUser.name}
+                                <span className='text-xs'>
+                                  {toUser.username.slice(-5)}
+                                </span>
+                              </span>
+                            </>
+                          )
+                        )}
+                      </span>
+                    </div>
+                    <div className='w-full flex flex-col text-end justify-between truncate'>
+                      <span className='font-medium'>
+                        {amount?.toFixed(2)}
+                        {currency?.slice(0, 2)}
+                      </span>
+                      <span className='text-end text-neutral-400 truncate'>
+                        {fecha}
+                      </span>
+                    </div>
+                  </li>
+                )
+              })
+            )}
           </ul>
         </div>
       )}

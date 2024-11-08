@@ -63,6 +63,7 @@ const Welcome = () => {
         </button>
       </div>
       <Input
+        setIsExpanded={setIsExpanded}
         className={
           !isExpanded
             ? 'truncate transition-all duration-300'

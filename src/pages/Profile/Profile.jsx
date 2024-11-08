@@ -49,7 +49,7 @@ const Profile = () => {
   return (
     <Container className='flex-col px-5'>
       <Welcome currency={currency} />
-      <div className='flex items-stretch justify-evenly flex-row w-full'>
+      <div className='flex items-stretch justify-evenly flex-row w-full fade-in'>
         <div className='flex flex-col text-start justify-center text-lg'>
           <div className='flex flex-row items-center justify-between'>
             <span className='font-semibold text-xl'>{cookies.user.name}</span>
@@ -66,7 +66,7 @@ const Profile = () => {
       </div>
       <Settings />
       <button
-        className='bg-red-500 rounded-lg py-2 px-3 w-full box-border'
+        className='bg-red-500 rounded-lg py-2 px-3 w-full box-border fade-in'
         onClick={handleLogout}
       >
         Cerrar sesión

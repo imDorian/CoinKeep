@@ -11,7 +11,7 @@ import { useStore } from '../../stores/useStore'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
-const Input = ({ className }) => {
+const Input = ({ className, setIsExpanded }) => {
   const { setTypeSelected, typeSelected } = useContext(userDataContext)
   const { balance, currency } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
@@ -76,7 +76,6 @@ const Input = ({ className }) => {
     e.preventDefault()
     if (newData.quantity !== '' && newData.quantity > 0) {
       setLoading(true)
-      console.log(newData.date)
       try {
         const newBalance = {
           ...balance,
@@ -115,6 +114,7 @@ const Input = ({ className }) => {
         console.error(error)
       } finally {
         setLoading(false)
+        setIsExpanded(false)
       }
     }
   }
@@ -206,13 +206,21 @@ const Input = ({ className }) => {
     <div className={className}>
       <nav id='handle-type'>
         <a
-          className={typeSelected === 'income' ? 'active' : ''}
+          className={
+            typeSelected === 'income'
+              ? 'active cursor-pointer'
+              : 'cursor-pointer'
+          }
           onClick={() => handleType(categories.income)}
         >
           Ingresos
         </a>
         <a
-          className={typeSelected === 'expense' ? 'active' : ''}
+          className={
+            typeSelected === 'expense'
+              ? 'active cursor-pointer'
+              : 'cursor-pointer'
+          }
           onClick={() => handleType(categories.expense)}
         >
           Gastos
@@ -275,9 +283,6 @@ const Input = ({ className }) => {
             {loading ? 'Cargando...' : addButton}
           </button>
         </div>
-        {/* </div> */}
-
-        {/* <textarea onChange={(e) => setNewData({ ...newData, description: e.target.value })} value={newData.description} name='description' id='description' cols='35' rows='4' placeholder='Describe tu ingreso' /> */}
       </form>
     </div>
   )

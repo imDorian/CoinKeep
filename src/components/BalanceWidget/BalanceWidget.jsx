@@ -7,7 +7,7 @@ import { putMethodSchema } from '../../functions/putMethodSchema'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import { useNavigate } from 'react-router-dom'
 
-const BalanceWidget = ({ className }) => {
+const BalanceWidget = () => {
   const { balance, currency } = useStore()
   const [isEdit, setIsEdit] = useState(false)
   const method = {
@@ -63,7 +63,12 @@ const BalanceWidget = ({ className }) => {
 
   return (
     <Article
-      className={isEdit ? 'mx-4 h-[180px] items-center' : 'mx-4 h-[150px]'}
+      className={
+        isEdit
+          ? 'mx-4 h-[180px] items-center overflow-hidden'
+          : 'mx-4 h-[150px] '
+      }
+      // className='h-auto mx-4 flex flex-col items-center transition-all duration-300'
     >
       {!isEdit && (
         <DotLottieReact
