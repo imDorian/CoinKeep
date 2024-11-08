@@ -51,11 +51,11 @@ const ValutWidget = ({
     <Article
       // style={{ position: 'absolute', top: '100px' }}
       key={id}
-      className='h-[150px] cursor-pointer fade-in'
+      className='h-[150px] cursor-pointer fade-in bg-gradient-to-br from-neutral-700 to-[#303030] '
     >
       {model && model === MODELS.saving ? (
         <DotLottieReact
-          className='size-[60px] absolute top-11 right-7 opacity-65'
+          className='size-[60px] absolute top-11 right-7 '
           autoplay='true'
           segment={[0, 30]}
           src='/LottieAnimation/PigSaves.lottie'
@@ -64,7 +64,7 @@ const ValutWidget = ({
         />
       ) : model && model === MODELS.investment ? (
         <DotLottieReact
-          className='size-[60px] absolute top-11 right-7 opacity-55'
+          className='size-[60px] absolute top-11 right-7 opacity-65'
           autoplay='true'
           src='/LottieAnimation/InvestMoney.lottie'
           //   playOnHover='true'

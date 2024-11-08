@@ -65,8 +65,8 @@ const BalanceWidget = () => {
     <Article
       className={
         isEdit
-          ? 'mx-4 h-[180px] items-center overflow-hidden'
-          : 'mx-4 h-[150px] '
+          ? 'mx-4 h-[180px] items-center overflow-hidden  bg-gradient-to-br from-neutral-700 to-[#303030]'
+          : 'mx-4 h-[150px]  bg-gradient-to-br from-neutral-700 to-[#303030]'
       }
       // className='h-auto mx-4 flex flex-col items-center transition-all duration-300'
     >

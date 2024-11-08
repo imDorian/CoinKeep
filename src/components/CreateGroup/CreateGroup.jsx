@@ -4,6 +4,9 @@ import HeadingIcon from '../../icons/HeadingIcon'
 import { useNavigate } from 'react-router-dom'
 import { CURRENCIES } from '../../categories/CURRENCIES'
 import { useStore } from '../../stores/useStore'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react'
+import SearchIcon from '../../icons/SearchIcon'
+import { Suspense } from 'react'
 
 const CreateGroup = () => {
   const { share } = useStore()
@@ -41,20 +44,22 @@ const CreateGroup = () => {
   }, [formData])
 
   async function getSearchUsers () {
-    const url =
-      import.meta.env.VITE_URL +
-      `/data/getsearchusers/${search}/${cookies.user._id}`
-    const res = await window.fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
+    if (search) {
+      const url =
+        import.meta.env.VITE_URL +
+        `/data/getsearchusers/${search}/${cookies.user._id}`
+      const res = await window.fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      if (res.status === 200) {
+        const data = await res.json()
+        setMembers(data)
+      } else {
+        console.log('error al encontrar el usuario')
       }
-    })
-    if (res.status === 200) {
-      const data = await res.json()
-      setMembers(data)
-    } else {
-      console.log('error al encontrar el usuario')
     }
   }
 
@@ -130,18 +135,42 @@ const CreateGroup = () => {
     }
   }
   return (
-    <div className='p-16 mt-10'>
+    <div className='p-14 fade-in'>
       {currentPage === 0 && (
-        <h2 className='text-xl'>Primero, dale un nombre a tu grupo</h2>
+        <div className='w-full flex flex-col items-center mt-5'>
+          <h2 className='text-xl'>
+            Primero, dale un <b>nombre</b> a tu grupo.
+          </h2>
+          <DotLottieReact
+            className='size-52'
+            loop
+            autoplay='true'
+            renderConfig={{ autoResize: 'true' }}
+            src='/LottieAnimation/ShareFriends.lottie'
+          />
+        </div>
       )}
       {currentPage === 1 && (
-        <h2 className='text-xl'>Segundo, elige la moneda principal</h2>
+        <div className='w-full flex flex-col items-center mt-5'>
+          <h2 className='text-xl'>
+            Segundo, elige la <b>moneda</b> principal.
+          </h2>
+          <DotLottieReact
+            src='/LottieAnimation/Currencies.lottie'
+            loop
+            autoplay='true'
+            renderConfig={{ autoResize: 'true' }}
+            className='size-52'
+          />
+        </div>
       )}
       {currentPage === 2 && (
-        <h2 className='text-xl'>Tercero, invita a tus amigos</h2>
+        <h2 className='text-xl mt-5'>
+          Tercero, <b>invita</b> a tus amigos.
+        </h2>
       )}
       {currentPage === 3 && (
-        <h2 className='text-xl'>Asegurate de que estén todos</h2>
+        <h2 className='text-xl mt-5'>Asegurate de que estén todos</h2>
       )}
       <button onClick={quitCreateGroup} className='absolute top-5 right-5'>
         <QuitIcon className='size-7' />
@@ -153,7 +182,7 @@ const CreateGroup = () => {
       )}
       <form
         onSubmit={nextPage}
-        className='w-full flex flex-col items-center justify-start mt-5'
+        className='w-full flex flex-col items-center justify-start'
       >
         {currentPage === 0 && (
           <input
@@ -162,7 +191,7 @@ const CreateGroup = () => {
             id='title-group'
             name='title'
             placeholder='Nombre del grupo'
-            className='rounded-lg px-3 py-2 w-full'
+            className='rounded-lg px-3 py-2 w-full h-10 bg-neutral-900'
             value={formData.title}
             onChange={handleForm}
           />
@@ -172,7 +201,7 @@ const CreateGroup = () => {
             <select
               name='currency'
               id='currency-group'
-              className='py-2 px-3 rounded-lg w-full'
+              className='py-2 px-3 rounded-lg w-full h-10 bg-neutral-900'
               value={formData.currency}
               onChange={handleForm}
             >
@@ -185,19 +214,19 @@ const CreateGroup = () => {
           </div>
         )}
         {currentPage === 2 && (
-          <div className='flex flex-col gap-3 w-full items-center'>
+          <div className='flex flex-col gap-3 w-full items-center mt-5'>
             <div className='flex flex-row w-full'>
               <input
                 type='search'
                 name='searchMembers'
                 id='search-users'
                 placeholder='Por ej. Dorian#1234'
-                className='py-2 px-3 rounded-lg w-full'
+                className='py-2 px-3 rounded-lg w-full h-10 bg-neutral-900'
                 value={search}
                 onChange={handleSearch}
               />
               <button type='button' onClick={getSearchUsers}>
-                B
+                <SearchIcon className='size-5' />
               </button>
             </div>
             <ul className='w-full flex flex-col divide-y divide-neutral-700'>
@@ -205,11 +234,12 @@ const CreateGroup = () => {
                 const { name, username, _id: id, image } = member
                 return (
                   <li
-                    key={crypto.randomUUID()}
+                    key={id}
                     className='grid grid-cols-[0.5fr_2fr_0.5fr] items-center py-1'
                   >
                     {image ? (
                       <img
+                        loading='lazy'
                         src={image}
                         alt={`Foto de ${name}`}
                         className='rounded-full'
@@ -246,7 +276,7 @@ const CreateGroup = () => {
           </div>
         )}
         {currentPage === 3 && (
-          <div className='w-full'>
+          <div className='w-full mt-5'>
             <ul className='w-full flex flex-col divide-y divide-neutral-700'>
               {formData.members?.map(member => {
                 const { name, username, id, image } = member
