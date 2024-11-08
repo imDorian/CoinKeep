@@ -227,7 +227,7 @@ const AddShare = ({ isLoading }) => {
       className={
         !addTransaction
           ? 'fixed bottom-10 right-5 transition-all duration-500 h-0 w-0 bg-transparent rounded-3xl overflow-hidden box-border'
-          : 'fixed bottom-10 right-5  transition-all duration-300  h-[75vh] w-[90vw] bg-[#3a3a3a] rounded-3xl  box-border overflow-y-auto overflow-x-hidden backdrop:blur-md'
+          : 'fixed bottom-10 right-5  transition-all duration-300  h-[75vh] w-[90vw] bg-[#3a3a3a] rounded-3xl  box-border overflow-y-auto overflow-x-hidden z-50'
       }
     >
       <button
