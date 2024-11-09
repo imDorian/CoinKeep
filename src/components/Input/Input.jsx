@@ -1,18 +1,39 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './Input.css'
 import { CATEGORIAS_INGRESOS } from '../../categories/INCOME_CATEGORIES'
 import { CATEGORIAS_GASTOS } from '../../categories/EXPENSES_CATEGORIES'
 import { TIPOS_INGRESOS } from '../../categories/INCOME_TYPES'
 import { putData } from '../../functions/putData'
-import { userDataContext } from '../../contexts/ContextProvider'
+// import { userDataContext } from '../../contexts/ContextProvider'
 import { useStore } from '../../stores/useStore'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import { putMethodSchema } from '../../functions/putMethodSchema'
+
+export function formateDate (e) {
+  const newDate = new Date(e).toISOString()
+  console.log(newDate)
+  const today = new Date()
+  const year = newDate.slice(0, 4)
+  const month = newDate.slice(5, 7)
+  const day = newDate.slice(8, 10)
+
+  let hours = today.getHours()
+  hours = hours < 10 ? `0${hours}` : hours // Agrega un cero a la hora si es necesario
+  let minutes = today.getMinutes()
+  minutes = minutes < 10 ? `0${minutes}` : minutes // Agrega un cero a los minutos si es necesario
+  let seconds = today.getSeconds()
+  seconds = seconds < 10 ? `0${seconds}` : seconds // Agrega un cero a los segundos si es necesario
+
+  const formattedDatetime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+  const formattedDate = `${year}-${month}-${day}`
+  console.log(formattedDate, formattedDatetime)
+  return { formattedDate, formattedDatetime }
+}
 const Input = ({ className, setIsExpanded }) => {
-  const { setTypeSelected, typeSelected } = useContext(userDataContext)
+  const [typeSelected, setTypeSelected] = useState('income')
   const { balance, currency } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const [loading, setLoading] = useState(false)
@@ -49,27 +70,6 @@ const Input = ({ className, setIsExpanded }) => {
 
   const handleMethod = e => {
     setMethod(e)
-  }
-
-  function formateDate (e) {
-    const newDate = new Date(e).toISOString()
-    console.log(newDate)
-    const today = new Date()
-    const year = newDate.slice(0, 4)
-    const month = newDate.slice(5, 7)
-    const day = newDate.slice(8, 10)
-
-    let hours = today.getHours()
-    hours = hours < 10 ? `0${hours}` : hours // Agrega un cero a la hora si es necesario
-    let minutes = today.getMinutes()
-    minutes = minutes < 10 ? `0${minutes}` : minutes // Agrega un cero a los minutos si es necesario
-    let seconds = today.getSeconds()
-    seconds = seconds < 10 ? `0${seconds}` : seconds // Agrega un cero a los segundos si es necesario
-
-    const formattedDatetime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
-    const formattedDate = `${year}-${month}-${day}`
-    console.log(formattedDate, formattedDatetime)
-    return { formattedDate, formattedDatetime }
   }
 
   const addToList = async e => {

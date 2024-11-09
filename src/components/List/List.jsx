@@ -148,7 +148,7 @@ const List = () => {
   }
 
   return (
-    <div className='w-full px-3 my-1  rounded-[30px] list flex flex-col gap-2'>
+    <div className='w-full px-3 my-1  rounded-[30px] list flex flex-col gap-2 fade-in'>
       <div className='flex items-center justify-center py-2 md:py-8 flex-wrap text-sm gap-2'>
         <button
           onClick={e => handleTypes(e.target.name)}
@@ -233,7 +233,7 @@ const List = () => {
           })
           return (
             <li
-              className='w-full py-3 grid grid-cols-[0.5fr_2.5fr_1fr_1.5fr] justify-items-center fade-in'
+              className='w-full py-3 grid grid-cols-[0.5fr_2.5fr_1fr_1.5fr] justify-items-center'
               key={id}
             >
               <div className='flex items-center rounded-full justify-center text-center'>

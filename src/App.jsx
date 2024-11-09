@@ -10,6 +10,7 @@ import ValutDetails from './components/ValutDetails/ValutDetails'
 import CreateValut from './components/CreateValut/CreateValut'
 import ShareGroup from './components/ShareGroup/ShareGroup'
 import CreateGroup from './components/CreateGroup/CreateGroup'
+import GroupOptions from './components/GroupOptions/GroupOptions'
 
 function App () {
   return (
@@ -17,14 +18,15 @@ function App () {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/signup' element={<Register />} />
-        <Route path='/inicio' element={<Home />} />
-        <Route path='/wallet' element={<Financial />} />
-        <Route path='/compartir' element={<ShareExpenses />} />
-        <Route path='/perfil' element={<Profile />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/list' element={<Financial />} />
+        <Route path='/share' element={<ShareExpenses />} />
+        <Route path='/profile' element={<Profile />} />
         <Route path='/valut/:id' element={<ValutDetails />} />
         <Route path='/createvalut' element={<CreateValut />} />
-        <Route path='/sharegroup/:id' element={<ShareGroup />} />
+        <Route path='/group/:id' element={<ShareGroup />} />
         <Route path='/creategroup' element={<CreateGroup />} />
+        <Route path='groupoptions/:id' element={<GroupOptions />} />
       </Routes>
     </Router>
   )

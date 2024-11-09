@@ -21,10 +21,8 @@ const diasSemana = [
 
 const ShareGroup = () => {
   const [navGroup, setNavGroup] = useState('transactions')
-  const [groupSett, setGroupSett] = useState(false)
   const [isResolve, setIsResolve] = useState(false)
-  const { groupDetails, share } = useStore()
-  const { groups } = share
+  const { groupDetails } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const [allTypes, setAllTypes] = useState()
   const [filter, setFilter] = useState('')
@@ -127,7 +125,7 @@ const ShareGroup = () => {
   }, [])
 
   function back () {
-    navigate(-1)
+    navigate('/share')
   }
 
   function handleNavGroup (e) {
@@ -135,7 +133,7 @@ const ShareGroup = () => {
   }
 
   function handleGroupSett () {
-    setGroupSett(!groupSett)
+    navigate(`/groupoptions/${groupDetails._id}`)
   }
 
   function handleResolve (id, fromUser, toUser, amount, currency) {
@@ -153,32 +151,6 @@ const ShareGroup = () => {
     setFilterDate(e.target.value)
   }
 
-  async function deleteGroup () {
-    try {
-      const url =
-        import.meta.env.VITE_URL + `/data/deletegroup/${groupDetails._id}`
-      const res = await window.fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      if (res.status === 200) {
-        useStore.setState({
-          share: {
-            ...share,
-            groups: groups?.filter(g => g._id !== groupDetails._id)
-          }
-        })
-        navigate('/compartir')
-      } else {
-        console.error('no se ha podido borrar el grupo')
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   function Loading ({ width, height }) {
     return (
       <div
@@ -188,392 +160,325 @@ const ShareGroup = () => {
   }
 
   return (
-    <Container className='flex-col py-10 gap-2'>
+    <>
       <AddShare isLoading={isLoading} />
       <ResolveDialog
         isResolve={isResolve}
         handleResolve={handleResolve}
         setIsResolve={setIsResolve}
       />
-      <dialog
-        open={groupSett}
-        className='w-[100vw] h-[100vh] z-50 top-0 left-0 right-0 bottom-0 fixed bg-neutral-900'
-      >
-        <button onClick={handleGroupSett} className='absolute top-10 right-5'>
-          <QuitIcon className='size-6' />
+      <Container className='flex-col py-10 gap-2 fade-in'>
+        <button onClick={back} className='absolute top-3 left-3'>
+          <HeadingIcon className='size-9' />
         </button>
-        <div className='p-5 py-10 w-full box-border mt-10'>
-          <h1>Ajustes del grupo</h1>
-          <form className='w-full mt-5 flex flex-col gap-3' action=''>
-            <label
-              htmlFor='group-name'
-              className='flex flex-col text-lg text-start gap-1'
-            >
-              Nombre
-              <input
-                type='text'
-                className='h-9 rounded-lg bg-neutral-800 px-2'
-                value={groupDetails.title}
-                id='group-name'
-              />
-            </label>
-            <label
-              htmlFor='group-description'
-              className='flex flex-col text-lg text-start gap-1'
-            >
-              Descripción
-              <textarea
-                type='text'
-                className='rounded-lg bg-neutral-800 px-2 h-24 resize-none'
-                // value={groupDetails.description}
-                id='group-description'
-                maxLength={150}
-                placeholder='Añade una descripción del grupo.'
-              />
-            </label>
-            <h2 className='text-xl font-medium mb-1'>
-              Permisos para participantes
-            </h2>
-            <label
-              className='flex flex-row w-full justify-between items-center text-lg'
-              htmlFor='check-resolve'
-            >
-              Los participantes pueden resolver
-              <input id='check-resolve' type='checkbox' className='size-5' />
-            </label>
-            <label
-              className='flex flex-row w-full justify-between items-center text-lg'
-              htmlFor='check-resolve'
-            >
-              Cambiar título del grupo
-              <input id='check-resolve' type='checkbox' className='size-5' />
-            </label>
-            <button
-              className='mt-5 bg-green-700 rounded-lg w-full py-2 box-border disabled:opacity-50'
-              type='submit'
-              disabled
-            >
-              Guardar
-            </button>
-          </form>
-          <div className='w-full mt-10'>
-            <h2 className='text-xl font-medium'>Mas opciones</h2>
-            <button
-              onClick={deleteGroup}
-              className='bg-red-400 w-full box-border mt-2 text-start'
-            >
-              <span className=''>¡Borrar grupo!</span>
-              <p className='text-red-100'>
-                Se eliminarán todos los datos del grupo de forma permanente.
-              </p>
-            </button>
-          </div>
-        </div>
-      </dialog>
-      <button onClick={back} className='absolute top-3 left-3'>
-        <HeadingIcon className='size-9' />
-      </button>
-      <button onClick={handleGroupSett} className='absolute top-4 right-3'>
-        <DotsIcon className='size-6' />
-      </button>
-      <span className='flex flex-col h-full w-full items-center fade-in'>
-        {isLoading ? (
-          <Loading height='h-[7vh]' width='w-36' />
-        ) : (
-          <>
-            <h1 className=''>{title}</h1>
-            <span>{currency}</span>
-          </>
-        )}
-      </span>
-      <div className='flex flex-col w-full px-5 box-border'>
-        <h2 className='text-lg font-medium text-start'>Deudas activas</h2>
-        <ul className='flex flex-col items-center justify-center divide-y divide-neutral-700 max-h-[30vh] min-h-[10vh] overflow-auto mt-1 fade-in'>
-          {!isLoading && !debtsEmpty ? (
-            <span className='mt-3'>Todas las deudas están pagadas</span>
-          ) : (
-            ''
-          )}
+        <button onClick={handleGroupSett} className='absolute top-4 right-3'>
+          <DotsIcon className='size-6' />
+        </button>
+        <span className='flex flex-col h-full w-full items-center fade-in'>
           {isLoading ? (
-            <Loading height='h-[10vh]' width='w-full' />
+            <Loading height='h-[7vh]' width='w-36' />
           ) : (
-            debts?.map(debt => {
-              const { fromUser, toUser, amount, status, _id: id } = debt
-              const {
-                name: fromUserName,
-                _id: fromUserId,
-                username: fromUserUsername
-              } = fromUser
-              const {
-                name: toUserName,
-                _id: toUserId,
-                username: toUserUsername
-              } = toUser
-              // if (debt.status === 'pending') {
-              return (
-                status === 'pending' && (
-                  <li
-                    key={id}
-                    className='grid grid-cols-[0.5fr_2.5fr_1fr] py-2 w-full justify-items-center items-center'
-                  >
-                    <div className='w-full flex justify-start'>
-                      <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
-                        {fromUserName?.slice(0, 1).toUpperCase()}
-                      </span>
-                    </div>
-                    <div className='flex flex-col items-start text-nowrap w-full truncate ps-2'>
-                      <span>
-                        {fromUserName}
-                        <span className='text-xs text-neutral-400'>
-                          {fromUserUsername?.slice(-5)}
+            <>
+              <h1 className=''>{title}</h1>
+              <span>{currency}</span>
+            </>
+          )}
+        </span>
+        <div className='flex flex-col w-full px-5 box-border'>
+          <h2 className='text-lg font-medium text-start'>Deudas activas</h2>
+          <ul className='flex flex-col items-center justify-center divide-y divide-neutral-700 max-h-[30vh] min-h-[10vh] overflow-auto mt-1 fade-in'>
+            {!isLoading && !debtsEmpty ? (
+              <span className='mt-3'>Todas las deudas están pagadas</span>
+            ) : (
+              ''
+            )}
+            {isLoading ? (
+              <Loading height='h-[10vh]' width='w-full' />
+            ) : (
+              debts?.map(debt => {
+                const { fromUser, toUser, amount, status, _id: id } = debt
+                const {
+                  name: fromUserName,
+                  _id: fromUserId,
+                  username: fromUserUsername
+                } = fromUser
+                const {
+                  name: toUserName,
+                  _id: toUserId,
+                  username: toUserUsername
+                } = toUser
+                // if (debt.status === 'pending') {
+                return (
+                  status === 'pending' && (
+                    <li
+                      key={id}
+                      className='grid grid-cols-[0.5fr_2.5fr_1fr] py-2 w-full justify-items-center items-center'
+                    >
+                      <div className='w-full flex justify-start'>
+                        <span className='bg-blue-500 size-10 flex items-center justify-center rounded-full text-xl font-medium'>
+                          {fromUserName?.slice(0, 1).toUpperCase()}
                         </span>
-                      </span>
-                      <span className='text-neutral-400 truncate w-full text-start'>
-                        Debe{' '}
-                        <span className='font-medium'>
-                          {amount}
-                          {currency?.slice(0, 2)}
-                        </span>{' '}
-                        a{' '}
-                        <span className='font-medium'>
-                          {toUserName}
-                          <span className='text-xs'>
-                            {toUserUsername?.slice(-5)}
+                      </div>
+                      <div className='flex flex-col items-start text-nowrap w-full truncate ps-2'>
+                        <span>
+                          {fromUserName}
+                          <span className='text-xs text-neutral-400'>
+                            {fromUserUsername?.slice(-5)}
                           </span>
                         </span>
-                      </span>
-                    </div>
-                    <span className='w-full text-center'>
-                      <button
-                        type='button'
-                        onClick={() =>
-                          handleResolve(id, fromUser, toUser, amount, currency)
-                        }
-                        className='bg-slate-600'
-                      >
-                        Resolver
-                      </button>
-                    </span>
-                  </li>
-                )
-              )
-            })
-          )}
-        </ul>
-      </div>
-      <div className='w-full p-2 flex box-border'>
-        <ul className='flex flex-row justify-around w-full divide-x divide-neutral-400'>
-          <li className='w-full'>
-            <button
-              name='transactions'
-              onClick={handleNavGroup}
-              className={
-                navGroup === 'transactions'
-                  ? 'font-medium w-full p-0 text-emerald-400'
-                  : 'w-full p-0'
-              }
-            >
-              Transacciones
-            </button>
-          </li>
-          <li className='w-full'>
-            <button
-              name='balances'
-              onClick={handleNavGroup}
-              className={
-                navGroup === 'balances'
-                  ? 'font-medium w-full p-0 text-emerald-400'
-                  : 'w-full p-0'
-              }
-            >
-              Saldos
-            </button>
-          </li>
-        </ul>
-      </div>
-      {navGroup === 'transactions' && (
-        <div className='flex flex-col w-full px-5 box-border'>
-          <span className='flex flex-row justify-between items-center'>
-            <div className='grid grid-cols-[1.5fr_1fr_1fr] w-full gap-2'>
-              <input
-                type='search'
-                name=''
-                id=''
-                placeholder='Buscar'
-                className='w-full rounded-lg border-neutral-600 border bg-neutral-800 py-1 p-0 m-0 px-2'
-                onChange={e => setSearch(e.target.value)}
-                value={search}
-              />
-              <select
-                className=' bg-neutral-800 rounded-lg border border-neutral-600 truncate p-0 py-1 px-1 w-full'
-                name='sort-group'
-                id='sort-group'
-                onChange={handleFilter}
-                value={filter}
-              >
-                <option value='' className=''>
-                  Tipo
-                </option>
-                <option value='expenses' className=''>
-                  📉Gastos
-                </option>
-                <option value='incomes' className=''>
-                  📈Ingresos
-                </option>
-                <option value='transfers' className=''>
-                  🧾 Transferencias
-                </option>
-              </select>
-              <select
-                className=' bg-neutral-800 rounded-lg border border-neutral-600 truncate p-0 py-1 w-full'
-                name='sort-group'
-                id='sort-group'
-                onChange={handleFilterDate}
-                value={filterDate}
-              >
-                <option value={SORT.dateUp}>
-                  ↑ Fecha creación, la más reciente primero
-                </option>
-                <option value={SORT.dateDown}>
-                  ↓ Fecha creación, la más antigua primero
-                </option>
-              </select>
-            </div>
-          </span>
-          <ul className='flex flex-col items-center divide-y divide-neutral-700 mt-3 fade-in'>
-            {isLoading ? (
-              <Loading width='w-full' height='h-[40vh]' />
-            ) : (
-              filteredData?.map(transaction => {
-                const {
-                  category = null,
-                  fromUser = null,
-                  toUser = null,
-                  type = '',
-                  amount,
-                  date,
-                  divide = [],
-                  members = [],
-                  title = '',
-                  _id: id
-                } = transaction
-                const fecha =
-                  diasSemana[new Date(date).getDay()].slice(0, 3) +
-                  ' ' +
-                  new Date(date).toLocaleDateString('es-Es', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: '2-digit'
-                  })
-                return (
-                  <li
-                    key={id}
-                    className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center'
-                  >
-                    <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
-                      {!category ? '↘️' : category.slice(0, 2)}
-                    </span>
-                    <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
-                      <span className='w-full truncate text-base'>
-                        {title || 'Transferencia'}
-                      </span>
-                      <span className='text-neutral-400 truncate w-full text-sm'>
-                        {type === 'income' ? (
-                          <>
-                            Recibido por{' '}
-                            <span className='font-medium'>
-                              {fromUser.name}
-                              <span className='text-xs'>
-                                {fromUser.username.slice(-5)}
-                              </span>
+                        <span className='text-neutral-400 truncate w-full text-start'>
+                          Debe{' '}
+                          <span className='font-medium'>
+                            {amount}
+                            {currency?.slice(0, 2)}
+                          </span>{' '}
+                          a{' '}
+                          <span className='font-medium'>
+                            {toUserName}
+                            <span className='text-xs'>
+                              {toUserUsername?.slice(-5)}
                             </span>
-                          </>
-                        ) : type === 'expense' ? (
-                          <>
-                            Pagado por{' '}
-                            <span className='font-medium'>
-                              {fromUser.name}
-                              <span className='text-xs'>
-                                {fromUser.username?.slice(-5)}
-                              </span>
-                            </span>
-                          </>
-                        ) : (
-                          !type && (
-                            <>
-                              De{' '}
-                              <span className='font-medium'>
-                                {fromUser.name}
-                                <span className='text-xs'>
-                                  {fromUser.username.slice(-5)}
-                                </span>
-                              </span>{' '}
-                              a{' '}
-                              <span className='font-medium'>
-                                {toUser.name}
-                                <span className='text-xs'>
-                                  {toUser.username.slice(-5)}
-                                </span>
-                              </span>
-                            </>
-                          )
-                        )}
+                          </span>
+                        </span>
+                      </div>
+                      <span className='w-full text-center'>
+                        <button
+                          type='button'
+                          onClick={() =>
+                            handleResolve(
+                              id,
+                              fromUser,
+                              toUser,
+                              amount,
+                              currency
+                            )
+                          }
+                          className='bg-slate-600'
+                        >
+                          Resolver
+                        </button>
                       </span>
-                    </div>
-                    <div className='w-full flex flex-col text-end justify-between truncate'>
-                      <span className='font-medium'>
-                        {amount?.toFixed(2)}
-                        {currency?.slice(0, 2)}
-                      </span>
-                      <span className='text-end text-neutral-400 truncate'>
-                        {fecha}
-                      </span>
-                    </div>
-                  </li>
+                    </li>
+                  )
                 )
               })
             )}
           </ul>
         </div>
-      )}
-      {navGroup === 'balances' && (
-        <div className='flex flex-col w-full px-5 box-border'>
-          <h2 className='text-lg text-start'>Balances</h2>
-          <ul className='flex flex-col divide-y divide-neutral-700'>
-            {balances?.map(balance => {
-              const { user, card, cash } = balance
-              const { name, _id: userId } = user
-              const total = card + cash
-              return (
-                <li
-                  key={crypto.randomUUID()}
-                  className='w-full py-2 grid grid-cols-[0.5fr_2fr_2fr] items-center pe-10 box-border'
-                >
-                  <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
-                    {name.slice(0, 1)}
-                  </span>
-                  <div className='w-full flex flex-col text-start items-start justify-center truncate ps-2'>
-                    <span className='w-full font-medium truncate'>
-                      {name}
-                      {userId === cookies.user._id && ' (tú)'}
-                    </span>
-                    <span className='text-neutral-400  truncate'>
-                      {groupDetails.boss === userId ? 'Jefe' : 'Participante'}
-                    </span>
-                  </div>
-                  <div className='w-full flex flex-col text-end justify-end h-full'>
-                    <span className='font-medium text-lg text-neutral-400'>
-                      {total}
-                      {currency.slice(0, 2)}
-                    </span>
-                  </div>
-                </li>
-              )
-            })}
+        <div className='w-full p-2 flex box-border'>
+          <ul className='flex flex-row justify-around w-full divide-x divide-neutral-400'>
+            <li className='w-full'>
+              <button
+                name='transactions'
+                onClick={handleNavGroup}
+                className={
+                  navGroup === 'transactions'
+                    ? 'font-medium w-full p-0 text-emerald-400'
+                    : 'w-full p-0'
+                }
+              >
+                Transacciones
+              </button>
+            </li>
+            <li className='w-full'>
+              <button
+                name='balances'
+                onClick={handleNavGroup}
+                className={
+                  navGroup === 'balances'
+                    ? 'font-medium w-full p-0 text-emerald-400'
+                    : 'w-full p-0'
+                }
+              >
+                Saldos
+              </button>
+            </li>
           </ul>
         </div>
-      )}
-    </Container>
+        {navGroup === 'transactions' && (
+          <div className='flex flex-col w-full px-5 box-border'>
+            <span className='flex flex-row justify-between items-center'>
+              <div className='grid grid-cols-[1.5fr_1fr_1fr] w-full gap-2'>
+                <input
+                  type='search'
+                  name=''
+                  id=''
+                  placeholder='Buscar'
+                  className='w-full rounded-lg border-neutral-600 border bg-neutral-800 py-1 p-0 m-0 px-2'
+                  onChange={e => setSearch(e.target.value)}
+                  value={search}
+                />
+                <select
+                  className=' bg-neutral-800 rounded-lg border border-neutral-600 truncate p-0 py-1 px-1 w-full'
+                  name='sort-group'
+                  id='sort-group'
+                  onChange={handleFilter}
+                  value={filter}
+                >
+                  <option value='' className=''>
+                    Tipo
+                  </option>
+                  <option value='expenses' className=''>
+                    📉Gastos
+                  </option>
+                  <option value='incomes' className=''>
+                    📈Ingresos
+                  </option>
+                  <option value='transfers' className=''>
+                    🧾 Transferencias
+                  </option>
+                </select>
+                <select
+                  className=' bg-neutral-800 rounded-lg border border-neutral-600 truncate p-0 py-1 w-full'
+                  name='sort-group'
+                  id='sort-group'
+                  onChange={handleFilterDate}
+                  value={filterDate}
+                >
+                  <option value={SORT.dateUp}>
+                    ↑ Fecha creación, la más reciente primero
+                  </option>
+                  <option value={SORT.dateDown}>
+                    ↓ Fecha creación, la más antigua primero
+                  </option>
+                </select>
+              </div>
+            </span>
+            <ul className='flex flex-col items-center divide-y divide-neutral-700 mt-3 fade-in'>
+              {isLoading ? (
+                <Loading width='w-full' height='h-[40vh]' />
+              ) : (
+                filteredData?.map(transaction => {
+                  const {
+                    category = null,
+                    fromUser = null,
+                    toUser = null,
+                    type = '',
+                    amount,
+                    date,
+                    divide = [],
+                    members = [],
+                    title = '',
+                    _id: id
+                  } = transaction
+                  const fecha =
+                    diasSemana[new Date(date).getDay()].slice(0, 3) +
+                    ' ' +
+                    new Date(date).toLocaleDateString('es-Es', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: '2-digit'
+                    })
+                  return (
+                    <li
+                      key={id}
+                      className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center'
+                    >
+                      <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
+                        {!category ? '↘️' : category.slice(0, 2)}
+                      </span>
+                      <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
+                        <span className='w-full truncate text-base'>
+                          {title || 'Transferencia'}
+                        </span>
+                        <span className='text-neutral-400 truncate w-full text-sm'>
+                          {type === 'income' ? (
+                            <>
+                              Recibido por{' '}
+                              <span className='font-medium'>
+                                {fromUser.name}
+                                <span className='text-xs'>
+                                  {fromUser.username.slice(-5)}
+                                </span>
+                              </span>
+                            </>
+                          ) : type === 'expense' ? (
+                            <>
+                              Pagado por{' '}
+                              <span className='font-medium'>
+                                {fromUser.name}
+                                <span className='text-xs'>
+                                  {fromUser.username?.slice(-5)}
+                                </span>
+                              </span>
+                            </>
+                          ) : (
+                            !type && (
+                              <>
+                                De{' '}
+                                <span className='font-medium'>
+                                  {fromUser.name}
+                                  <span className='text-xs'>
+                                    {fromUser.username.slice(-5)}
+                                  </span>
+                                </span>{' '}
+                                a{' '}
+                                <span className='font-medium'>
+                                  {toUser.name}
+                                  <span className='text-xs'>
+                                    {toUser.username.slice(-5)}
+                                  </span>
+                                </span>
+                              </>
+                            )
+                          )}
+                        </span>
+                      </div>
+                      <div className='w-full flex flex-col text-end justify-between truncate'>
+                        <span className='font-medium'>
+                          {amount?.toFixed(2)}
+                          {currency?.slice(0, 2)}
+                        </span>
+                        <span className='text-end text-neutral-400 truncate'>
+                          {fecha}
+                        </span>
+                      </div>
+                    </li>
+                  )
+                })
+              )}
+            </ul>
+          </div>
+        )}
+        {navGroup === 'balances' && (
+          <div className='flex flex-col w-full px-5 box-border'>
+            <h2 className='text-lg text-start'>Balances</h2>
+            <ul className='flex flex-col divide-y divide-neutral-700'>
+              {balances?.map(balance => {
+                const { user, card, cash, _id: id } = balance
+                const { name, _id: userId } = user
+                const total = card + cash
+                return (
+                  <li
+                    key={id}
+                    className='w-full py-2 grid grid-cols-[0.5fr_2fr_2fr] items-center pe-10 box-border'
+                  >
+                    <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
+                      {name.slice(0, 1)}
+                    </span>
+                    <div className='w-full flex flex-col text-start items-start justify-center truncate ps-2'>
+                      <span className='w-full font-medium truncate'>
+                        {name}
+                        {userId === cookies.user._id && ' (tú)'}
+                      </span>
+                      <span className='text-neutral-400  truncate'>
+                        {groupDetails.boss === userId ? 'Jefe' : 'Participante'}
+                      </span>
+                    </div>
+                    <div className='w-full flex flex-col text-end justify-end h-full'>
+                      <span className='font-medium text-lg text-neutral-400'>
+                        {total}
+                        {currency.slice(0, 2)}
+                      </span>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )}
+      </Container>
+    </>
   )
 }
 

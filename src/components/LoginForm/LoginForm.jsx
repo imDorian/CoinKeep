@@ -21,7 +21,7 @@ const LoginForm = ({ loading, setLoading }) => {
     try {
       const data = await verifyToken()
       if (data.status === 200) {
-        navigate('/inicio') // Si el token es válido, redirigir a inicio
+        navigate('/home') // Si el token es válido, redirigir a inicio
       } else {
         googleLogout()
         window.localStorage.setItem('userdata', { token: '', user: {} })
@@ -62,7 +62,7 @@ const LoginForm = ({ loading, setLoading }) => {
       if (response.status === 200) {
         window.localStorage.setItem('userdata', JSON.stringify(json))
         setLoading(false)
-        navigate('/inicio')
+        navigate('/home')
       } else {
         setErrorMessage('Credenciales incorrectas. Inténtalo de nuevo.')
         setLoading(false)

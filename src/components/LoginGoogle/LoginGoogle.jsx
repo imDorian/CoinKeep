@@ -18,7 +18,7 @@ const LoginGoogle = ({ className, title }) => {
         console.log(json)
         window.localStorage.setItem('userdata', JSON.stringify(json))
         setLoading(false)
-        navigate('/inicio')
+        navigate('/home')
       } else {
         console.error('Error')
         setLoading(false)

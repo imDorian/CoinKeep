@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useStore } from '../../stores/useStore'
 
-const ResolveDialog = ({ isResolve, handleResolve, setIsResolve }) => {
+const ResolveDialog = ({ isResolve, setIsResolve }) => {
   const { resolveDetails, groupDetails } = useStore()
   const { fromUser, toUser, amount, currency, id } = resolveDetails
+  const [loading, setLoading] = useState(false)
 
   async function resolveDebt () {
+    setLoading(true)
     try {
       const url =
         import.meta.env.VITE_URL + `/data/resolve/${groupDetails._id}/${id}`
@@ -26,15 +28,17 @@ const ResolveDialog = ({ isResolve, handleResolve, setIsResolve }) => {
           }
         })
         setIsResolve(false)
+        setLoading(false)
       }
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
   }
   return (
     <dialog
       open={isResolve}
-      className='bg-neutral-800 rounded-xl border-neutral-600 border shadow-md shadow-neutral-900 w-[70%] z-50'
+      className='fixed right-0 left-0 top-0 bottom-0 bg-neutral-800 rounded-xl border-neutral-600 border shadow-md shadow-neutral-900 w-[70%] z-50'
     >
       <div className='flex flex-col p-5 gap-1'>
         <div>
@@ -60,8 +64,9 @@ const ResolveDialog = ({ isResolve, handleResolve, setIsResolve }) => {
           <button
             onClick={resolveDebt}
             className='bg-emerald-600 text-neutral-200'
+            disabled={loading}
           >
-            Aceptar
+            {loading ? 'Cargando...' : 'Aceptar'}
           </button>
         </div>
       </div>

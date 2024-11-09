@@ -6,9 +6,9 @@ import { CATEGORIAS_INGRESOS } from '../../categories/INCOME_CATEGORIES'
 import { useStore } from '../../stores/useStore'
 import { useParams } from 'react-router-dom'
 
-const AddShare = ({ isLoading }) => {
-  const { groupDetails, share } = useStore()
-  const { members, currency, _id: groupId } = groupDetails
+const AddShare = () => {
+  const { groupDetails } = useStore()
+  const { members, currency } = groupDetails
   const { id } = useParams()
   const [navAdd, setNavAdd] = useState('expense')
   const [addTransaction, setAddTransaction] = useState(false)
@@ -233,8 +233,8 @@ const AddShare = ({ isLoading }) => {
       <button
         className={
           addTransaction
-            ? 'absolute top-5 right-3 transition-all duration-300 rounded-full p-0 shadow-lg shadow-neutral-950 opacity-100'
-            : 'absolute top-5 right-3 transition-all duration-500 rounded-full p-0 shadow-lg shadow-neutral-950 opacity-0 '
+            ? 'absolute top-5 right-3 transition-all duration-300 rounded-full p-0 opacity-100'
+            : 'absolute top-5 right-3 transition-all duration-500 rounded-full p-0 opacity-0 '
         }
         onClick={handleAddTransaction}
         // disabled={addTransaction}
@@ -543,12 +543,13 @@ const AddShare = ({ isLoading }) => {
           )}
           <button
             type='submit'
-            className='w-full py-2 bg-emerald-800 box-border mt-3 disabled:opacity-50'
-            disabled={isLoading}
+            className='w-full py-2 bg-emerald-800 box-border mt-3 disabled:opacity-70'
+            disabled={loading}
           >
-            {navAdd === 'expense' && 'Añadir Gasto'}
-            {navAdd === 'income' && 'Añadir Ingreso'}
-            {navAdd === 'transfer' && 'Transferir'}
+            {navAdd === 'expense' && !loading && 'Añadir Gasto'}
+            {navAdd === 'income' && !loading && 'Añadir Ingreso'}
+            {navAdd === 'transfer' && !loading && 'Transferir'}
+            {loading && 'Cargando...'}
           </button>
         </form>
       </div>

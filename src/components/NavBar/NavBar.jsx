@@ -18,48 +18,40 @@ const NavBar = () => {
   return (
     <div className='navbar fixed bottom-0 left-0 z-50 w-full '>
       <div className='grid h-full max-w-lg grid-cols-4 mx-auto font-medium items-start'>
-        <NavLink to='/inicio' className={isActive}>
+        <NavLink to='/home' className={isActive}>
           <button
             type='button'
-            className='inline-flex flex-col items-center justify-center px-5  hover:bg-gray-50 dark:hover:bg-gray-800 group'
+            className='inline-flex flex-col items-center justify-center px-5'
           >
             <HomeIcon className='size-6 ' />
-            <span className='text-xs group-hover:text-blue-600 dark:group-hover:text-blue-500'>
-              Home
-            </span>
+            <span className='text-xs'>Home</span>
           </button>
         </NavLink>
-        <NavLink to='/wallet' className={isActive}>
+        <NavLink to='/list' className={isActive}>
           <button
             type='button'
-            className='inline-flex flex-col items-center justify-center px-5  hover:bg-gray-50 dark:hover:bg-gray-800 group'
+            className='inline-flex flex-col items-center justify-center px-5'
           >
             <WalletIcon className='size-6' />
-            <span className='text-xs group-hover:text-blue-600 dark:group-hover:text-blue-500'>
-              Wallet
-            </span>
+            <span className='text-xs'>Wallet</span>
           </button>
         </NavLink>
-        <NavLink to='/compartir' className={isActive}>
+        <NavLink to='/share' className={isActive}>
           <button
             type='button'
-            className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'
+            className='inline-flex flex-col items-center justify-center px-'
           >
             <FriendsIcon className='size-6' />
-            <span className='text-xs group-hover:text-blue-600 dark:group-hover:text-blue-500'>
-              Compartir
-            </span>
+            <span className='text-xs'>Compartir</span>
           </button>
         </NavLink>
-        <NavLink to='/perfil' className={isActive}>
+        <NavLink to='/profile' className={isActive}>
           <button
             type='button'
-            className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'
+            className='inline-flex flex-col items-center justify-center px-'
           >
             <ProfileIcon className='size-6' />
-            <span className='text-xs group-hover:text-blue-600 dark:group-hover:text-blue-500'>
-              Profile
-            </span>
+            <span className='text-xs'>Profile</span>
           </button>
         </NavLink>
       </div>

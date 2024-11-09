@@ -12,6 +12,7 @@ const CreateGroup = () => {
   const { share } = useStore()
   const [currentPage, setCurrentPage] = useState(0)
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
     boss: cookies.user._id,
@@ -103,7 +104,7 @@ const CreateGroup = () => {
     }
   }
   function quitCreateGroup () {
-    navigate('/compartir')
+    navigate(-1)
   }
   function back () {
     setCurrentPage(currentPage - 1)
@@ -111,6 +112,7 @@ const CreateGroup = () => {
   async function createGroup (e) {
     e.preventDefault()
     try {
+      setLoading(true)
       const url = import.meta.env.VITE_URL + '/data/creategroup'
       const res = await window.fetch(url, {
         method: 'POST',
@@ -128,10 +130,12 @@ const CreateGroup = () => {
             groups: [...share.groups, json]
           }
         })
-        navigate('/compartir')
+        navigate(`/group/${json._id}`)
       }
     } catch (error) {
       console.error(error)
+    } finally {
+      setLoading(false)
     }
   }
   return (

@@ -22,7 +22,7 @@ const ShareExpenses = () => {
         currency
       }
     })
-    navigate(`/sharegroup/${id}`)
+    navigate(`/group/${id}`)
   }
 
   function openCreateGroup () {
