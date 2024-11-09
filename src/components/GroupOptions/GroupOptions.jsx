@@ -34,11 +34,11 @@ const GroupOptions = ({ handleGroupSett }) => {
   }
 
   return (
-    <div className='w-[100vw] h-[100vh] z-50 top-0 left-0 right-0 bottom-0 fixed bg-neutral-900 fade-in'>
+    <div className='w-[100vw] h-[100vh] bg-neutral-900 fade-in overflow-y-auto py-5'>
       <button onClick={() => navigate(-1)} className='absolute top-5 right-5'>
         <QuitIcon className='size-6' />
       </button>
-      <div className='p-5 py-10 w-full box-border mt-5'>
+      <div className='p-5 py-10 w-full box-border'>
         <h1>Ajustes del grupo</h1>
         <form className='w-full mt-5 flex flex-col gap-3' action=''>
           <label
