@@ -34,7 +34,7 @@ const ResolveDialog = ({ isResolve, handleResolve, setIsResolve }) => {
   return (
     <dialog
       open={isResolve}
-      className='bg-neutral-800 rounded-xl border-neutral-600 border shadow-md shadow-neutral-900 w-[70%]'
+      className='bg-neutral-800 rounded-xl border-neutral-600 border shadow-md shadow-neutral-900 w-[70%] z-50'
     >
       <div className='flex flex-col p-5 gap-1'>
         <div>
