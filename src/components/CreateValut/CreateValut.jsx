@@ -82,7 +82,7 @@ const CreateValut = () => {
   }
 
   return (
-    <div className='absolute top-0 w-full h-full bg-neutral-800 z-[99]'>
+    <div className='w-full h-full z-[99] fade-in'>
       {(currentPage === 1 || currentPage === 2) && (
         <button onClick={handleBackPage}>
           <HeadingIcon className='absolute top-5 left-10 size-9' />
@@ -161,7 +161,7 @@ const CreateValut = () => {
               <input
                 type='text'
                 placeholder='por ejemplo, Universidad'
-                className='rounded-lg px-3 py-2 w-full  bg-neutral-900'
+                className='rounded-lg px-3 py-2 w-full bg-neutral-900 h-10'
                 value={newValut.title}
                 onChange={handleInput}
                 name='title'
@@ -169,7 +169,7 @@ const CreateValut = () => {
                 required
               />
               <select
-                className='bg-neutral-900 py-2'
+                className='bg-neutral-900 py-2 px-3 h-10'
                 name='category'
                 id='category-valut'
                 value={newValut.category}
@@ -211,12 +211,7 @@ const CreateValut = () => {
               <select
                 name='currency'
                 id='currency-valut'
-                className=' bg-neutral-900 select-ios'
-                style={{
-                  width: '100%',
-                  paddingBlock: '8px',
-                  textAlign: 'center'
-                }}
+                className=' bg-neutral-900 px-3 py-2 h-10'
                 placeholder='por ejemplo, 4000€'
                 value={newValut.currency}
                 onChange={handleInput}
@@ -234,7 +229,7 @@ const CreateValut = () => {
                 pattern='[0-9,]*'
                 inputMode='decimal'
                 name='goal'
-                className='w-full rounded-lg py-2 px-3 text-center bg-neutral-900'
+                className='w-full rounded-lg py-2 px-3 text-center bg-neutral-900 h-10'
                 placeholder='por ejemplo, 4000€'
                 value={newValut.goal}
                 onChange={handleInput}
