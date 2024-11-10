@@ -81,9 +81,9 @@ const SwipeableListItem = ({
       className='w-full relative bg-[var(--bg-color)] overflow-hidden flex items-center h-16'
       key={id}
     >
-      <div className='w-full h-full flex flex-row items-center justify-center rounded-xl box-border py-1 px-1'>
+      <div className='w-full h-full flex flex-row items-center justify-center box-border py-1 px-1'>
         <span
-          className='h-full bg-blue-400 flex justify-start items-center rounded-l-lg box-border ps-5 transition-all duration-500 gap-2'
+          className='h-full bg-blue-400 flex justify-start items-center rounded-l-md box-border ps-5 transition-all duration-500 gap-2'
           style={{
             width: isSwiping && touchMoveX > 200 ? '100%' : '50%'
           }}
@@ -92,7 +92,7 @@ const SwipeableListItem = ({
           Editar
         </span>
         <span
-          className='h-full bg-red-400 flex items-center justify-end rounded-r-lg box-border pe-5 transition-all duration-500 gap-2'
+          className='h-full bg-red-400 flex items-center justify-end rounded-r-md box-border pe-5 transition-all duration-500 gap-2'
           style={{
             width: isSwiping && touchMoveX < -200 ? '100%' : '50%'
           }}
