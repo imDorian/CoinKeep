@@ -127,8 +127,13 @@ const List = () => {
 
   const filteredData = useMemo(() => {
     return onlyMonthSelected(
-      filteredTypes.filter(item =>
-        item.category.toLowerCase().includes(search.search.toLowerCase())
+      filteredTypes.filter(
+        item =>
+          item.category?.toLowerCase().includes(search.search.toLowerCase()) ||
+          item.description
+            ?.toLowerCase()
+            .includes(search.search.toLowerCase()) ||
+          item.method?.toLowerCase().includes(search.search.toLowerCase())
       )
     )
   }, [filteredTypes, search.search, monthSelected])
