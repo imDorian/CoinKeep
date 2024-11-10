@@ -49,8 +49,6 @@ const SwipeableListItem = ({
       }
       setTouchMoveX(touch)
     }
-    // console.log(touchStartX)
-    // if (e.tuches[0].clientX)
   }
 
   function timeOut () {
@@ -63,15 +61,15 @@ const SwipeableListItem = ({
   function handleTouchEnd () {
     if (!isTimeOutActive) {
       setIsSwiping(false)
-      if (touchMoveX < -150) {
+      if (touchMoveX < -100) {
         setIsTimeOutActive(true)
         setTouchMoveX(-150)
         timeOut()
-      } else if (touchMoveX > 150) {
+      } else if (touchMoveX > 100) {
         setIsTimeOutActive(true)
         setTouchMoveX(150)
         timeOut()
-      } else if (touchMoveX < 150 || touchMoveX > -150) {
+      } else if (touchMoveX < 100 || touchMoveX > -100) {
         setTouchMoveX(0)
       }
     }

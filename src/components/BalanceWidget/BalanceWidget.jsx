@@ -72,7 +72,7 @@ const BalanceWidget = () => {
     >
       {!isEdit && (
         <DotLottieReact
-          className='absolute top-0 right-[30%] size-[120px] opacity-65'
+          className='absolute top-0 right-[30%] size-[120px] opacity-65 fade-in'
           src='/LottieAnimation/Balance.lottie'
           autoplay='true'
           // playOnHover='true'
@@ -90,7 +90,7 @@ const BalanceWidget = () => {
       <div
         className={
           !isEdit
-            ? 'flex flex-col'
+            ? 'flex flex-col fade-in'
             : 'grid grid-cols-3 items-center justify-items-center w-[70%]'
         }
       >
