@@ -262,7 +262,7 @@ const Input = ({ className, setIsExpanded }) => {
             onChange={e =>
               setNewData({
                 ...newData,
-                description: e.target.value.toLocaleUpperCase()
+                description: e.target.value
               })
             }
             value={newData.description}
@@ -271,6 +271,7 @@ const Input = ({ className, setIsExpanded }) => {
           />
           <input
             style={{ border: 'none' }}
+            className='w-full'
             type='date'
             id='selected-date'
             value={date}

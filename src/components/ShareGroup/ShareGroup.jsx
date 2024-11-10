@@ -226,7 +226,7 @@ const ShareGroup = () => {
                             {fromUserUsername?.slice(-5)}
                           </span>
                         </span>
-                        <span className='text-neutral-400 truncate w-full text-start'>
+                        <span className='text-neutral-400 truncate w-full text-start text-sm'>
                           Debe{' '}
                           <span className='font-medium'>
                             {amount}
@@ -429,7 +429,7 @@ const ShareGroup = () => {
                           {amount?.toFixed(2)}
                           {currency?.slice(0, 2)}
                         </span>
-                        <span className='text-end text-neutral-400 truncate'>
+                        <span className='text-end text-neutral-400 truncate text-sm'>
                           {fecha}
                         </span>
                       </div>
