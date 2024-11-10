@@ -91,7 +91,7 @@ const ValutDetails = () => {
         <div>
           {model === MODELS.saving ? (
             <DotLottieReact
-              className='size-[90px] absolute top-28 right-5 opacity-65'
+              className='size-[90px] absolute top-28 right-5 '
               autoplay='true'
               //   segment={}
               src='/LottieAnimation/PigSaves.lottie'
@@ -100,7 +100,7 @@ const ValutDetails = () => {
             />
           ) : model === MODELS.investment ? (
             <DotLottieReact
-              className='size-[110px] absolute top-24 right-1 opacity-55'
+              className='size-[110px] absolute top-24 right-1'
               autoplay='true'
               src='/LottieAnimation/InvestMoney.lottie'
               //   playOnHover='true'
