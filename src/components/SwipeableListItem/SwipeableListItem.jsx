@@ -81,14 +81,14 @@ const SwipeableListItem = ({
       className='w-full relative bg-[var(--bg-color)] overflow-hidden flex items-center h-16'
       key={id}
     >
-      <div className='w-full h-full flex flex-row items-center justify-center rounded-xl box-border py-1 px-1 text-lg'>
+      <div className='w-full h-full flex flex-row items-center justify-center rounded-xl box-border py-1 px-1'>
         <span
           className='h-full bg-blue-400 flex justify-start items-center rounded-l-lg box-border ps-5 transition-all duration-500 gap-2'
           style={{
             width: isSwiping && touchMoveX > 200 ? '100%' : '50%'
           }}
         >
-          <EditIcon className='size-6' />
+          <EditIcon className='size-5' />
           Editar
         </span>
         <span
@@ -98,7 +98,7 @@ const SwipeableListItem = ({
           }}
         >
           Borrar
-          <TrashIcon className='size-6' />
+          <TrashIcon className='size-5' />
         </span>
       </div>
       <div
