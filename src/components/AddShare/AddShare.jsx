@@ -482,7 +482,7 @@ const AddShare = () => {
                           value={user}
                           checked={checked}
                           onChange={e => handleDivide(user, e)}
-                          disabled={user === cookies.user._id}
+                          // disabled={user === cookies.user._id}
                           //   value={}
                         />
                         <span className='text-start w-full'>
