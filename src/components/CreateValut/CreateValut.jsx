@@ -71,7 +71,7 @@ const CreateValut = () => {
       const json = await addNewValut(cookies.user.data, newValut)
       console.log(json)
       useStore.setState({
-        valut: [...valut, newValut]
+        valut: [...valut, json]
       })
       setLoading(false)
       navigate(-1)

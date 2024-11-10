@@ -4,6 +4,7 @@ import { useStore } from '../../stores/useStore'
 import { useMemo, useState } from 'react'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
+import SwipeableListItem from '../SwipeableListItem/SwipeableListItem'
 
 const MONTHS = [
   'Enero',
@@ -47,6 +48,7 @@ const List = () => {
     search: '',
     element: []
   })
+
   function handleSearch (e) {
     const newSearch = e.target.value
     setSearch({
@@ -131,21 +133,9 @@ const List = () => {
     )
   }, [filteredTypes, search.search, monthSelected])
 
-  function traductorModel (e) {
-    if (e === 'income') return 'Ingreso'
-    if (e === 'expense') return 'Gasto'
-    if (e === 'saving') return 'Ahorro'
-    if (e === 'investment') return 'Inversión'
-  }
-
   const months = useMemo(() => {
     return monthSelect(filteredTypes)
   }, [filteredTypes])
-
-  function isDecimal (numero) {
-    if (!Number.isInteger(numero)) return Number(numero).toFixed(2)
-    return Number(numero)
-  }
 
   return (
     <div className='w-full px-3 my-1  rounded-[30px] list flex flex-col gap-2 fade-in'>
@@ -232,42 +222,17 @@ const List = () => {
             year: '2-digit'
           })
           return (
-            <li
-              className='w-full py-3 grid grid-cols-[0.5fr_2.5fr_1fr_1.5fr] justify-items-center'
+            <SwipeableListItem
               key={id}
-            >
-              <div className='flex items-center rounded-full justify-center text-center'>
-                <span className='text-xl bg-neutral-700 size-11 flex items-center justify-center rounded-full'>
-                  {category.slice(0, 2)}
-                </span>
-              </div>
-              <div className='w-full flex flex-col text-start items-start truncate ps-3'>
-                <span className='w-full truncate'>{category.slice(2)}</span>
-                <span className='text-neutral-400 text-sm truncate'>
-                  {description}
-                </span>
-              </div>
-              <div className='flex flex-col items-start w-full text-start'>
-                <span className='w-full'>{traductorModel(model)}</span>
-                <span className='text-neutral-400'>
-                  {method === Method.card ? (
-                    <CreditCardIcon className='size-5' />
-                  ) : (
-                    <CashIcon className='size-5' />
-                  )}
-                </span>
-              </div>
-              <div className='w-full flex flex-col text-end justify-between truncate'>
-                <span className={model !== 'income' ? 'text-red-300' : ''}>
-                  {model !== 'income' && '-'}
-                  {isDecimal(quantity)}
-                  {currency}
-                </span>
-                <span className='text-end text-neutral-400 text-sm truncate'>
-                  {formatedData}
-                </span>
-              </div>
-            </li>
+              formatedData={formatedData}
+              id={id}
+              model={model}
+              method={method}
+              category={category}
+              currency={currency}
+              quantity={quantity}
+              description={description}
+            />
           )
         })}
         {filteredData.length === 0 && (
