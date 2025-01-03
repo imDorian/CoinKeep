@@ -17,7 +17,7 @@ const DetailsTransaction = ({
 }) => {
   return (
     <Container>
-      <h1>{title || description}</h1>
+      <h1>{title || description || 'Detalles'}</h1>
     </Container>
   )
 }

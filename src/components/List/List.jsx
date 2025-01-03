@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import SwipeableListItem from '../SwipeableListItem/SwipeableListItem'
+import { useNavigate } from 'react-router-dom'
 
 const MONTHS = [
   'Enero',
@@ -39,6 +40,7 @@ export const SORT = {
 }
 
 const List = () => {
+  const navigate = useNavigate()
   const { income, expense } = useStore()
   const [typeSelected, setTypeSelected] = useState('')
   const [sortList, setSortList] = useState(SORT.dateUp)

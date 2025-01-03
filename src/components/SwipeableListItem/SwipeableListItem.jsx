@@ -4,6 +4,7 @@ import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import TrashIcon from '../../icons/TrashIcon'
 import EditIcon from '../../icons/EditIcon'
+import { useNavigate } from 'react-router-dom'
 
 function isDecimal (numero) {
   if (!Number.isInteger(numero)) return Number(numero).toFixed(2)
@@ -30,6 +31,7 @@ const SwipeableListItem = ({
   const [touchMoveX, setTouchMoveX] = useState('')
   const [isTimeOutActive, setIsTimeOutActive] = useState(false)
   const [isSwiping, setIsSwiping] = useState(false)
+  const navigate = useNavigate()
 
   function handleTouchStart (e) {
     const touch = e.touches[0].clientX
@@ -74,6 +76,10 @@ const SwipeableListItem = ({
       }
     }
   }
+
+  function openDetails () {
+    navigate(`/transaction/${id}`)
+  }
   return (
     <li
       className='w-full relative bg-[var(--bg-color)] overflow-hidden flex items-center h-16'
@@ -108,6 +114,7 @@ const SwipeableListItem = ({
         onTouchStart={e => handleTouchStart(e)}
         onTouchMove={e => handleTouchMove(e)}
         onTouchEnd={e => handleTouchEnd(e)}
+        onClick={openDetails}
       >
         <div className='flex items-center rounded-full justify-center text-center'>
           <span className='text-xl bg-neutral-700 size-11 flex items-center justify-center rounded-full'>
