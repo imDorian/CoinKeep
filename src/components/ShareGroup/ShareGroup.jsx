@@ -8,6 +8,7 @@ import { useStore } from '../../stores/useStore'
 import { SORT } from '../List/List'
 import AddShare from '../AddShare/AddShare'
 import ResolveDialog from '../ResolveDialog/ResolveDialog'
+import ItemGroup from '../ItemGroup/ItemGroup'
 
 const diasSemana = [
   'domingo',
@@ -29,7 +30,7 @@ const ShareGroup = () => {
   const [filterDate, setFilterDate] = useState(SORT.dateUp)
   const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [isDetails, setIsDetails] = useState(true)
+  const [isDetails, setIsDetails] = useState(false)
   const {
     title,
     balances,
@@ -160,6 +161,10 @@ const ShareGroup = () => {
     )
   }
 
+  function handleDetails () {
+    setIsDetails(!isDetails)
+  }
+
   return (
     <>
       <AddShare isLoading={isLoading} />
@@ -230,7 +235,7 @@ const ShareGroup = () => {
                         <span className='text-neutral-400 truncate w-full text-start text-sm'>
                           Debe{' '}
                           <span className='font-medium'>
-                            {amount.toFixed(2)}
+                            {amount}
                             {currency?.slice(0, 2)}
                           </span>{' '}
                           a{' '}
@@ -371,92 +376,20 @@ const ShareGroup = () => {
                       year: '2-digit'
                     })
                   return (
-                    <li
+                    <ItemGroup
                       key={id}
-                      style={{
-                        height: isDetails ? 'auto' : '3rem',
-                        alignItems: 'flex-start'
-                      }}
-                    >
-                      <div className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center transition-all duration-300'>
-                        <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
-                          {!category ? '↘️' : category.slice(0, 2)}
-                        </span>
-                        <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
-                          <span className='w-full truncate text-base'>
-                            {title || 'Transferencia'}
-                          </span>
-                          <span className='text-neutral-400 truncate w-full text-sm'>
-                            {type === 'income' ? (
-                              <>
-                                Recibido por{' '}
-                                <span className='font-medium'>
-                                  {fromUser.name}
-                                  <span className='text-xs'>
-                                    {fromUser.username.slice(-5)}
-                                  </span>
-                                </span>
-                              </>
-                            ) : type === 'expense' ? (
-                              <>
-                                Pagado por{' '}
-                                <span className='font-medium'>
-                                  {fromUser.name}
-                                  <span className='text-xs'>
-                                    {fromUser.username?.slice(-5)}
-                                  </span>
-                                </span>
-                              </>
-                            ) : (
-                              !type && (
-                                <>
-                                  De{' '}
-                                  <span className='font-medium'>
-                                    {fromUser.name}
-                                    <span className='text-xs'>
-                                      {fromUser.username.slice(-5)}
-                                    </span>
-                                  </span>{' '}
-                                  a{' '}
-                                  <span className='font-medium'>
-                                    {toUser.name}
-                                    <span className='text-xs'>
-                                      {toUser.username.slice(-5)}
-                                    </span>
-                                  </span>
-                                </>
-                              )
-                            )}
-                          </span>
-                        </div>
-                        <div className='w-full flex flex-col text-end justify-between truncate'>
-                          <span className='font-medium'>
-                            {amount?.toFixed(2)}
-                            {currency?.slice(0, 2)}
-                          </span>
-                          <span className='text-end text-neutral-400 truncate text-sm'>
-                            {fecha}
-                          </span>
-                        </div>
-                      </div>
-                      <ul className='w-full flex flex-col divide-y divide-neutral-700 p-6 box-border'>
-                        {divide.map(d => {
-                          const { user, amount, name, settled, _id: id } = d
-                          return (
-                            <li
-                              key={id}
-                              className='grid grid-cols-2 w-full my-1 p-0'
-                            >
-                              <span className='font-medium'>{name}</span>
-                              <span className='text-neutral-400'>
-                                {amount?.toFixed(2)}
-                                {currency?.slice(0, 2)}
-                              </span>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </li>
+                      id={id}
+                      divide={divide}
+                      title={title}
+                      toUser={toUser}
+                      fromUser={fromUser}
+                      category={category}
+                      amount={amount}
+                      members={members}
+                      type={type}
+                      currency={currency}
+                      fecha={fecha}
+                    />
                   )
                 })
               )}
