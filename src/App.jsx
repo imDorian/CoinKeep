@@ -11,6 +11,7 @@ import CreateValut from './components/CreateValut/CreateValut'
 import ShareGroup from './components/ShareGroup/ShareGroup'
 import CreateGroup from './components/CreateGroup/CreateGroup'
 import GroupOptions from './components/GroupOptions/GroupOptions'
+import DetailsTransaction from './components/DetailsTransaction/DetailsTransaction'
 
 function App () {
   return (
@@ -27,6 +28,7 @@ function App () {
         <Route path='/group/:id' element={<ShareGroup />} />
         <Route path='/creategroup' element={<CreateGroup />} />
         <Route path='groupoptions/:id' element={<GroupOptions />} />
+        <Route path='transaction/:id' element={<DetailsTransaction />} />
       </Routes>
     </Router>
   )

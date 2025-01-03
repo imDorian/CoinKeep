@@ -29,6 +29,7 @@ const ShareGroup = () => {
   const [filterDate, setFilterDate] = useState(SORT.dateUp)
   const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isDetails, setIsDetails] = useState(true)
   const {
     title,
     balances,
@@ -372,67 +373,89 @@ const ShareGroup = () => {
                   return (
                     <li
                       key={id}
-                      className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center'
+                      style={{
+                        height: isDetails ? 'auto' : '3rem',
+                        alignItems: 'flex-start'
+                      }}
                     >
-                      <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
-                        {!category ? '↘️' : category.slice(0, 2)}
-                      </span>
-                      <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
-                        <span className='w-full truncate text-base'>
-                          {title || 'Transferencia'}
+                      <div className='w-full py-3 grid grid-cols-[0.5fr_4fr_2fr] items-center transition-all duration-300'>
+                        <span className='text-xl bg-neutral-700 size-10 flex items-center justify-center rounded-full'>
+                          {!category ? '↘️' : category.slice(0, 2)}
                         </span>
-                        <span className='text-neutral-400 truncate w-full text-sm'>
-                          {type === 'income' ? (
-                            <>
-                              Recibido por{' '}
-                              <span className='font-medium'>
-                                {fromUser.name}
-                                <span className='text-xs'>
-                                  {fromUser.username.slice(-5)}
-                                </span>
-                              </span>
-                            </>
-                          ) : type === 'expense' ? (
-                            <>
-                              Pagado por{' '}
-                              <span className='font-medium'>
-                                {fromUser.name}
-                                <span className='text-xs'>
-                                  {fromUser.username?.slice(-5)}
-                                </span>
-                              </span>
-                            </>
-                          ) : (
-                            !type && (
+                        <div className='w-full flex flex-col text-start items-start justify-between truncate ps-2'>
+                          <span className='w-full truncate text-base'>
+                            {title || 'Transferencia'}
+                          </span>
+                          <span className='text-neutral-400 truncate w-full text-sm'>
+                            {type === 'income' ? (
                               <>
-                                De{' '}
+                                Recibido por{' '}
                                 <span className='font-medium'>
                                   {fromUser.name}
                                   <span className='text-xs'>
                                     {fromUser.username.slice(-5)}
                                   </span>
-                                </span>{' '}
-                                a{' '}
+                                </span>
+                              </>
+                            ) : type === 'expense' ? (
+                              <>
+                                Pagado por{' '}
                                 <span className='font-medium'>
-                                  {toUser.name}
+                                  {fromUser.name}
                                   <span className='text-xs'>
-                                    {toUser.username.slice(-5)}
+                                    {fromUser.username?.slice(-5)}
                                   </span>
                                 </span>
                               </>
-                            )
-                          )}
-                        </span>
+                            ) : (
+                              !type && (
+                                <>
+                                  De{' '}
+                                  <span className='font-medium'>
+                                    {fromUser.name}
+                                    <span className='text-xs'>
+                                      {fromUser.username.slice(-5)}
+                                    </span>
+                                  </span>{' '}
+                                  a{' '}
+                                  <span className='font-medium'>
+                                    {toUser.name}
+                                    <span className='text-xs'>
+                                      {toUser.username.slice(-5)}
+                                    </span>
+                                  </span>
+                                </>
+                              )
+                            )}
+                          </span>
+                        </div>
+                        <div className='w-full flex flex-col text-end justify-between truncate'>
+                          <span className='font-medium'>
+                            {amount?.toFixed(2)}
+                            {currency?.slice(0, 2)}
+                          </span>
+                          <span className='text-end text-neutral-400 truncate text-sm'>
+                            {fecha}
+                          </span>
+                        </div>
                       </div>
-                      <div className='w-full flex flex-col text-end justify-between truncate'>
-                        <span className='font-medium'>
-                          {amount?.toFixed(2)}
-                          {currency?.slice(0, 2)}
-                        </span>
-                        <span className='text-end text-neutral-400 truncate text-sm'>
-                          {fecha}
-                        </span>
-                      </div>
+                      <ul className='w-full flex flex-col divide-y divide-neutral-700 p-6 box-border'>
+                        {divide.map(d => {
+                          const { user, amount, name, settled, _id: id } = d
+                          return (
+                            <li
+                              key={id}
+                              className='grid grid-cols-2 w-full my-1 p-0'
+                            >
+                              <span className='font-medium'>{name}</span>
+                              <span className='text-neutral-400'>
+                                {amount?.toFixed(2)}
+                                {currency?.slice(0, 2)}
+                              </span>
+                            </li>
+                          )
+                        })}
+                      </ul>
                     </li>
                   )
                 })
