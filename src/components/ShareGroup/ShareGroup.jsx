@@ -230,7 +230,7 @@ const ShareGroup = () => {
                         <span className='text-neutral-400 truncate w-full text-start text-sm'>
                           Debe{' '}
                           <span className='font-medium'>
-                            {amount}
+                            {amount.toFixed(2)}
                             {currency?.slice(0, 2)}
                           </span>{' '}
                           a{' '}
