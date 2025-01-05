@@ -34,12 +34,12 @@ const ShareGroup = () => {
   const {
     title,
     balances,
-    members,
     currency,
     debts,
     incomes,
     expenses,
-    transfers
+    transfers,
+    description
   } = groupDetails
   const { id: idParams } = useParams()
   const navigate = useNavigate()
@@ -180,13 +180,19 @@ const ShareGroup = () => {
         <button onClick={handleGroupSett} className='absolute top-4 right-3'>
           <DotsIcon className='size-6' />
         </button>
-        <span className='flex flex-col h-full w-full items-center fade-in'>
+        <span className='flex flex-col h-full w-full items-center fade-in mt-3'>
           {isLoading ? (
             <Loading height='h-[7vh]' width='w-36' />
           ) : (
             <>
-              <h1 className=''>{title}</h1>
-              <span>{currency}</span>
+              <h1 className=''>
+                {title} - {currency.slice(0, 2)}
+              </h1>
+              {description && (
+                <p className='m-4 p-2 flex box-border text-center text-neutral-300 bg-slate-600 rounded-lg opacity-90'>
+                  {description}
+                </p>
+              )}
             </>
           )}
         </span>
