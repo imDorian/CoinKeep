@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import './List.css'
 import { useStore } from '../../stores/useStore'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import CreditCardIcon from '../../icons/CreditCardIcon'
 import CashIcon from '../../icons/CashIcon'
 import SwipeableListItem from '../SwipeableListItem/SwipeableListItem'
 import { useNavigate } from 'react-router-dom'
+import { putMethodSchema } from '../../functions/putMethodSchema'
 
 const MONTHS = [
   'Enero',
@@ -22,8 +23,8 @@ const MONTHS = [
   'Diciembre'
 ]
 
-const TIPOS = ['Ingresos', 'Gastos']
-const TYPES = ['income', 'expense']
+const TIPOS = ['Gastos', 'Ingresos']
+const TYPES = ['expense', 'income']
 const Types = {
   income: 'income',
   expense: 'expense'
@@ -41,7 +42,7 @@ export const SORT = {
 
 const List = () => {
   const navigate = useNavigate()
-  const { income, expense } = useStore()
+  const { income, expense, deleteListItem, currency, balance } = useStore()
   const [typeSelected, setTypeSelected] = useState('')
   const [sortList, setSortList] = useState(SORT.dateUp)
   const thisMonth = new Date().getMonth()
@@ -50,6 +51,8 @@ const List = () => {
     search: '',
     element: []
   })
+  const [isModalDelete, setIsModalDelete] = useState(false)
+  const [isLoadingDeleteItem, setIsLoadingDeleteItem] = useState(false)
 
   function handleSearch (e) {
     const newSearch = e.target.value
@@ -144,110 +147,244 @@ const List = () => {
     return monthSelect(filteredTypes)
   }, [filteredTypes])
 
-  return (
-    <div className='w-full px-3 my-1  rounded-[30px] list flex flex-col gap-2 fade-in'>
-      <div className='flex items-center justify-center py-2 md:py-8 flex-wrap text-sm gap-2'>
-        <button
-          onClick={e => handleTypes(e.target.name)}
-          type='button'
-          className={
-            typeSelected === ''
-              ? 'text-blue-500 border-blue-500 list-types transition-all duration-300'
-              : 'border-neutral-500 list-types transition-all duration-300'
-          }
+  const updateBalance = async (id, data, cat) => {
+    putMethodSchema(id, data, cat)
+  }
+
+  useEffect(() => {
+    if (balance._id) {
+      updateBalance(balance._id, balance, 'balance')
+    }
+  }, [balance])
+
+  const ModalDelete = () => {
+    return (
+      isModalDelete && (
+        <dialog
+          open={isModalDelete}
+          className='bg-neutral-800 rounded-lg fixed -top-20 right-0 left-0 bottom-0 z-50 shadow-lg border border-neutral-700 mx-3'
         >
-          Todos los tipos
-        </button>
-        {TIPOS?.map((item, i) => (
+          <div className='m-2 p-1 flex flex-col gap-4 py-3'>
+            <h2>¿Estás seguro que deseas eliminar esta transacción?</h2>
+            <div className='grid grid-cols-3 grid-rows-2 bg-slate-600 rounded-lg'>
+              <span className='text-slate-300 text-nowrap'>
+                {deleteListItem.category}
+              </span>
+              <span className='text-slate-300'>{deleteListItem.model}</span>
+              <span className='text-slate-300'>
+                {deleteListItem.quantity}
+                {currency?.slice(0, 2)}
+              </span>
+              <span className='text-slate-300'>
+                {deleteListItem.description}
+              </span>
+              <span className='text-slate-300'>{deleteListItem.method}</span>
+              <span className='text-slate-300'>
+                {deleteListItem.formatedData}
+              </span>
+            </div>
+            <div className='flex gap-10 justify-center'>
+              <button className='bg-neutral-700' onClick={handleModalDelete}>
+                Cancelar
+              </button>
+              <button
+                disabled={isLoadingDeleteItem}
+                onClick={deleteItem}
+                className='text-red-500'
+              >
+                {isLoadingDeleteItem ? 'Borrando...' : 'Sí, estoy seguro.'}
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )
+    )
+  }
+
+  function handleModalDelete (
+    id,
+    description,
+    category,
+    model,
+    method,
+    currency,
+    quantity,
+    formatedData
+  ) {
+    useStore.setState({
+      deleteListItem: {
+        id,
+        description,
+        category,
+        model,
+        method,
+        currency,
+        quantity,
+        formatedData
+      }
+    })
+    setIsModalDelete(!isModalDelete)
+  }
+
+  async function deleteItem () {
+    console.log('borrar')
+    setIsLoadingDeleteItem(true)
+    try {
+      const url =
+        import.meta.env.VITE_URL + `/data/deletelistitem/${deleteListItem.id}`
+      const res = await window.fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(res)
+      if (res.status === 200) {
+        const json = await res.json()
+        console.log(json)
+        setIsModalDelete(!isModalDelete)
+        useStore.setState(prevState => ({
+          [json.type]: prevState[json.type].filter(
+            item => item._id !== json._id
+          ),
+          balance: {
+            ...balance,
+            card:
+              deleteListItem.method === 'card' && json.type === 'income'
+                ? prevState.balance.card - deleteListItem.quantity
+                : deleteListItem.method === 'card' && json.type === 'expense'
+                ? prevState.balance.card + deleteListItem.quantity
+                : prevState.balance.card,
+            cash:
+              deleteListItem.method === 'cash' && json.type === 'income'
+                ? prevState.balance.cash - deleteListItem.quantity
+                : deleteListItem.method === 'cash' && json.type === 'expense'
+                ? prevState.balance.cash + deleteListItem.quantity
+                : prevState.balance.cash
+          }
+        }))
+      } else {
+        console.log('error')
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoadingDeleteItem(false)
+    }
+  }
+
+  return (
+    <div className='w-full h-full flex relative'>
+      <ModalDelete />
+      <div className='w-full px-3 my-1  rounded-[30px] list flex flex-col gap-2 fade-in'>
+        <div className='flex items-center justify-center py-2 md:py-8 flex-wrap text-sm gap-2'>
           <button
             onClick={e => handleTypes(e.target.name)}
-            name={TYPES[i]}
-            key={i}
             type='button'
             className={
-              typeSelected === TYPES[i]
+              typeSelected === ''
                 ? 'text-blue-500 border-blue-500 list-types transition-all duration-300'
                 : 'border-neutral-500 list-types transition-all duration-300'
             }
           >
-            {item}
+            Todos los tipos
           </button>
-        ))}
-      </div>
-      <span className='grid grid-cols-[1.5fr_1fr_1fr] gap-2 justify-items-center items-stretch w-full'>
-        <input
-          onChange={handleSearch}
-          value={search.search}
-          className='rounded-lg bg-neutral-800 border border-neutral-600 text-start px-1 w-full'
-          placeholder='ej: Alimentación'
-          type='search'
-          name='search'
-          id='search'
-        />
-        <select
-          value={monthSelected}
-          onChange={handleMonth}
-          className='truncate w-full rounded-lg bg-neutral-800 border border-neutral-600'
-          name=''
-        >
-          {months?.map(month => {
+          {TIPOS?.map((item, i) => (
+            <button
+              onClick={e => handleTypes(e.target.name)}
+              name={TYPES[i]}
+              key={i}
+              type='button'
+              className={
+                typeSelected === TYPES[i]
+                  ? 'text-blue-500 border-blue-500 list-types transition-all duration-300'
+                  : 'border-neutral-500 list-types transition-all duration-300'
+              }
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        <span className='grid grid-cols-[1.5fr_1fr_1fr] gap-2 justify-items-center items-stretch w-full'>
+          <input
+            onChange={handleSearch}
+            value={search.search}
+            className='rounded-lg bg-neutral-800 border border-neutral-600 text-start px-1 w-full'
+            placeholder='ej: Alimentación'
+            type='search'
+            name='search'
+            id='search'
+          />
+          <select
+            value={monthSelected}
+            onChange={handleMonth}
+            className='truncate w-full rounded-lg bg-neutral-800 border border-neutral-600'
+            name=''
+          >
+            {months?.map(month => {
+              return (
+                <option key={crypto.randomUUID()} value={month}>
+                  {month}
+                </option>
+              )
+            })}
+          </select>
+          <select
+            name='sort'
+            id='sort'
+            value={sortList}
+            onChange={handleSort}
+            className='rounded-lg py-1 bg-neutral-800 border border-neutral-600 w-full truncate'
+          >
+            <option value={SORT.dateUp}>
+              ↑ Fecha, la más reciente primero
+            </option>
+            <option value={SORT.dateDown}>
+              ↓ Fecha, la más antigua primero
+            </option>
+            <option value={SORT.quantUp}>↑ Monto, el más alto primero</option>
+            <option value={SORT.quantDown}>↓ Monto, el más bajo primero</option>
+          </select>
+        </span>
+        <ul className='flex flex-col px-1 divide-y-[1px] divide-neutral-700 mb-3 mt-1'>
+          {filteredData?.map((item, index) => {
+            const {
+              category,
+              currency,
+              quantity,
+              date,
+              method,
+              _id: id,
+              description,
+              model
+            } = item
+            const formatedData = new Date(date).toLocaleDateString('es-Es', {
+              day: 'numeric',
+              month: 'short',
+              year: '2-digit'
+            })
             return (
-              <option key={crypto.randomUUID()} value={month}>
-                {month}
-              </option>
+              <SwipeableListItem
+                key={id}
+                formatedData={formatedData}
+                id={id}
+                model={model}
+                method={method}
+                category={category}
+                currency={currency}
+                quantity={quantity}
+                description={description}
+                handleModalDelete={handleModalDelete}
+              />
             )
           })}
-        </select>
-        <select
-          name='sort'
-          id='sort'
-          value={sortList}
-          onChange={handleSort}
-          className='rounded-lg py-1 bg-neutral-800 border border-neutral-600 w-full truncate'
-        >
-          <option value={SORT.dateUp}>↑ Fecha, la más reciente primero</option>
-          <option value={SORT.dateDown}>↓ Fecha, la más antigua primero</option>
-          <option value={SORT.quantUp}>↑ Monto, el más alto primero</option>
-          <option value={SORT.quantDown}>↓ Monto, el más bajo primero</option>
-        </select>
-      </span>
-      <ul className='flex flex-col px-1 divide-y-[1px] divide-neutral-700 mb-3 mt-1'>
-        {filteredData?.map((item, index) => {
-          const {
-            category,
-            currency,
-            quantity,
-            date,
-            method,
-            _id: id,
-            description,
-            model
-          } = item
-          const formatedData = new Date(date).toLocaleDateString('es-Es', {
-            day: 'numeric',
-            month: 'short',
-            year: '2-digit'
-          })
-          return (
-            <SwipeableListItem
-              key={id}
-              formatedData={formatedData}
-              id={id}
-              model={model}
-              method={method}
-              category={category}
-              currency={currency}
-              quantity={quantity}
-              description={description}
-            />
-          )
-        })}
-        {filteredData.length === 0 && (
-          <span className='text-center p-8 text-neutral-300'>
-            Todavía no hay transacciones, añade para empezar.
-          </span>
-        )}
-      </ul>
+          {filteredData.length === 0 && (
+            <span className='text-center p-8 text-neutral-300'>
+              Todavía no hay transacciones, añade para empezar.
+            </span>
+          )}
+        </ul>
+      </div>
     </div>
   )
 }

@@ -20,6 +20,7 @@ export const useStore = create(set => ({
   dateSelected: new Date(),
   isModalDelete: false,
   isCreateValut: false,
+  deleteListItem: {},
   // isLoading: false,
 
   fetchLogin: async formData => {

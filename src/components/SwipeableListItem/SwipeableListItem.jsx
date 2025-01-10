@@ -25,7 +25,8 @@ const SwipeableListItem = ({
   method,
   currency,
   quantity,
-  formatedData
+  formatedData,
+  handleModalDelete
 }) => {
   const [touchStartX, setTouchStartX] = useState('')
   const [touchMoveX, setTouchMoveX] = useState('')
@@ -77,9 +78,14 @@ const SwipeableListItem = ({
     }
   }
 
-  function openDetails () {
-    navigate(`/transaction/${id}`)
+  // function openDetails () {
+  //   navigate(`/transaction/${id}`)
+  // }
+
+  function editItem () {
+    console.log('editar')
   }
+
   return (
     <li
       className='w-full relative bg-[var(--bg-color)] overflow-hidden flex items-center h-16'
@@ -88,6 +94,7 @@ const SwipeableListItem = ({
       <div className='w-full h-full flex flex-row items-center justify-center box-border py-1 px-1'>
         <button
           className='h-full bg-slate-400 flex justify-start items-center rounded-l-lg rounded-r-none box-border ps-5 transition-all duration-500 gap-2'
+          onClick={editItem}
           style={{
             width: isSwiping && touchMoveX > 200 ? '100%' : '50%'
           }}
@@ -97,6 +104,18 @@ const SwipeableListItem = ({
         </button>
         <button
           className='h-full bg-red-400 flex items-center justify-end rounded-r-lg rounded-l-none box-border pe-5 transition-all duration-500 gap-2'
+          onClick={() =>
+            handleModalDelete(
+              id,
+              description,
+              category,
+              model,
+              method,
+              currency,
+              quantity,
+              formatedData
+            )
+          }
           style={{
             width: isSwiping && touchMoveX < -200 ? '100%' : '50%'
           }}
@@ -114,7 +133,7 @@ const SwipeableListItem = ({
         onTouchStart={e => handleTouchStart(e)}
         onTouchMove={e => handleTouchMove(e)}
         onTouchEnd={e => handleTouchEnd(e)}
-        onClick={openDetails}
+        // onClick={openDetails}
       >
         <div className='flex items-center rounded-full justify-center text-center'>
           <span className='text-xl bg-neutral-700 size-11 flex items-center justify-center rounded-full'>

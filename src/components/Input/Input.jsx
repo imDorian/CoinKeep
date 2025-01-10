@@ -33,7 +33,7 @@ export function formateDate (e) {
   return { formattedDate, formattedDatetime }
 }
 const Input = ({ className, setIsExpanded }) => {
-  const [typeSelected, setTypeSelected] = useState('income')
+  const [typeSelected, setTypeSelected] = useState('expense')
   const { balance, currency } = useStore()
   const cookies = JSON.parse(window.localStorage.getItem('userdata'))
   const [loading, setLoading] = useState(false)
@@ -53,7 +53,7 @@ const Input = ({ className, setIsExpanded }) => {
     expense: 'expense'
   }
   const [newData, setNewData] = useState({
-    category: CATEGORIAS_INGRESOS[0],
+    category: CATEGORIAS_GASTOS[0],
     type: TIPOS_INGRESOS[0],
     quantity: '',
     currency,
@@ -207,16 +207,6 @@ const Input = ({ className, setIsExpanded }) => {
       <nav id='handle-type'>
         <a
           className={
-            typeSelected === 'income'
-              ? 'active cursor-pointer'
-              : 'cursor-pointer'
-          }
-          onClick={() => handleType(categories.income)}
-        >
-          Ingresos
-        </a>
-        <a
-          className={
             typeSelected === 'expense'
               ? 'active cursor-pointer'
               : 'cursor-pointer'
@@ -224,6 +214,16 @@ const Input = ({ className, setIsExpanded }) => {
           onClick={() => handleType(categories.expense)}
         >
           Gastos
+        </a>
+        <a
+          className={
+            typeSelected === 'income'
+              ? 'active cursor-pointer'
+              : 'cursor-pointer'
+          }
+          onClick={() => handleType(categories.income)}
+        >
+          Ingresos
         </a>
       </nav>
       <form className='input-form'>
