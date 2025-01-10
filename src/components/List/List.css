@@ -8,5 +8,5 @@
 
 .list {
   opacity: 90%;
-  height: 100vh;
+  /* height: max-content; */
 }

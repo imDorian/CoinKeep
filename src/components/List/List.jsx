@@ -276,7 +276,7 @@ const List = () => {
   return (
     <div className='w-full h-full flex relative'>
       <ModalDelete />
-      <div className='w-full px-3 my-1  rounded-[30px] list flex flex-col gap-2 fade-in'>
+      <div className='w-full h-full px-3 my-1 rounded-[30px] list flex flex-col gap-2 fade-in'>
         <div className='flex items-center justify-center py-2 md:py-8 flex-wrap text-sm gap-2'>
           <button
             onClick={e => handleTypes(e.target.name)}
