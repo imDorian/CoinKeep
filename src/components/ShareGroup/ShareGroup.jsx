@@ -186,7 +186,7 @@ const ShareGroup = () => {
           ) : (
             <>
               <h1 className=''>
-                {title} - {currency.slice(0, 2)}
+                {title} - {currency?.slice(0, 2)}
               </h1>
               {description && (
                 <p className='m-4 p-2 flex box-border text-center text-neutral-300 bg-slate-600 rounded-lg opacity-90'>
