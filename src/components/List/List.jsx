@@ -164,9 +164,9 @@ const List = () => {
           open={isModalDelete}
           className='bg-neutral-800 rounded-lg fixed -top-20 right-0 left-0 bottom-0 z-50 shadow-lg border border-neutral-700 mx-3'
         >
-          <div className='m-2 p-1 flex flex-col gap-4 py-3'>
+          <div className='flex flex-col gap-5 py-4 px-4'>
             <h2>¿Estás seguro que deseas eliminar esta transacción?</h2>
-            <div className='grid grid-cols-3 grid-rows-2 bg-slate-600 rounded-lg'>
+            <div className='grid grid-cols-3 grid-rows-2 bg-neutral-700 rounded-lg'>
               <span className='text-slate-300 text-nowrap'>
                 {deleteListItem.category}
               </span>
