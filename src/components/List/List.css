@@ -1,13 +1,12 @@
-.list div button {
-    background-color: rgb(69, 69, 69);
-    border-radius: 30px;
-    text-align: center;
-    font-weight: 400;
-    padding-inline: 18px;
-   
+.list-types {
+  background-color: rgb(69, 69, 69);
+  border-radius: 30px;
+  text-align: center;
+  font-weight: 400;
+  padding-inline: 18px;
 }
 
 .list {
-    opacity: 90%;
-    height: max-content;
+  opacity: 90%;
+  height: max-content;
 }

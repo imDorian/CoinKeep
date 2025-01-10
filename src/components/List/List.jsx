@@ -152,8 +152,8 @@ const List = () => {
           type='button'
           className={
             typeSelected === ''
-              ? 'text-blue-500 border-blue-500'
-              : 'border-neutral-500'
+              ? 'text-blue-500 border-blue-500 list-types transition-all duration-300'
+              : 'border-neutral-500 list-types transition-all duration-300'
           }
         >
           Todos los tipos
@@ -162,12 +162,12 @@ const List = () => {
           <button
             onClick={e => handleTypes(e.target.name)}
             name={TYPES[i]}
-            key={crypto.randomUUID()}
+            key={i}
             type='button'
             className={
               typeSelected === TYPES[i]
-                ? 'text-blue-500 border-blue-500'
-                : 'border-neutral-500'
+                ? 'text-blue-500 border-blue-500 list-types transition-all duration-300'
+                : 'border-neutral-500 list-types transition-all duration-300'
             }
           >
             {item}
